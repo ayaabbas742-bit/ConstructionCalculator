@@ -1,0 +1,6 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent" android:layout_height="match_parent" android:gravity="center" android:background="#FFFFFF" android:padding="16dp">
+    <ImageView android:id="@+id/imgDesignDetail" android:layout_width="match_parent" android:layout_height="match_parent" android:scaleType="fitCenter" android:contentDescription="Design Image"/>
+</LinearLayout>

@@ -1,0 +1,10 @@
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="greenHeader">#2E7D32</color>
+    <color name="earth_beige">#F4EDE4</color>
+    <color name="earth_sand">#EFDBB8</color>
+    <color name="earth_brown">#8B6F47</color>
+    <color name="earth_clay">#C97B63</color>
+    <color name="earth_green">#8A9A5B</color>
+</resources>

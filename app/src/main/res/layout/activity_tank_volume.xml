@@ -1,0 +1,34 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:card_view="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent" android:layout_height="match_parent" android:background="#E0F7FA" android:padding="16dp">
+    <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content">
+        <!--  العنوان  -->
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Tank Calculator" android:textSize="30sp" android:textStyle="bold" android:textAlignment="center" android:textColor="#00695C" android:paddingBottom="24dp"/>
+        <!--  Vertical Cylinder  -->
+        <androidx.cardview.widget.CardView android:id="@+id/card_vertical_cylinder" android:layout_width="match_parent" android:layout_height="220dp" android:layout_marginBottom="20dp" card_view:cardCornerRadius="20dp" card_view:cardElevation="8dp">
+            <LinearLayout android:orientation="vertical" android:gravity="center" android:layout_width="match_parent" android:layout_height="match_parent">
+                <ImageView android:layout_width="140dp" android:layout_height="140dp" android:src="@drawable/ic_vertical_cylinder"/>
+                <TextView android:text="Vertical Cylinder" android:textSize="20sp" android:textStyle="bold" android:layout_marginTop="10dp" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+        <!--  Horizontal Cylinder  -->
+        <androidx.cardview.widget.CardView android:id="@+id/card_horizontal_cylinder" android:layout_width="match_parent" android:layout_height="220dp" android:layout_marginBottom="20dp" card_view:cardCornerRadius="20dp" card_view:cardElevation="8dp">
+            <LinearLayout android:orientation="vertical" android:gravity="center" android:layout_width="match_parent" android:layout_height="match_parent">
+                <ImageView android:layout_width="140dp" android:layout_height="140dp" android:src="@drawable/ic_horizontal_cylinder"/>
+                <TextView android:text="Horizontal Cylinder" android:textSize="20sp" android:textStyle="bold" android:layout_marginTop="10dp" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+        <!--  Rectangular Prism  -->
+        <androidx.cardview.widget.CardView android:id="@+id/card_rectangular" android:layout_width="match_parent" android:layout_height="220dp" android:layout_marginBottom="20dp" card_view:cardCornerRadius="20dp" card_view:cardElevation="8dp">
+            <LinearLayout android:orientation="vertical" android:gravity="center" android:layout_width="match_parent" android:layout_height="match_parent">
+                <ImageView android:layout_width="140dp" android:layout_height="140dp" android:src="@drawable/ic_rectangular_prism"/>
+                <TextView android:text="Rectangular Prism" android:textSize="20sp" android:textStyle="bold" android:layout_marginTop="10dp" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+        <!--  Cube  -->
+        <androidx.cardview.widget.CardView android:id="@+id/card_cube" android:layout_width="match_parent" android:layout_height="220dp" card_view:cardCornerRadius="20dp" card_view:cardElevation="8dp">
+            <LinearLayout android:orientation="vertical" android:gravity="center" android:layout_width="match_parent" android:layout_height="match_parent">
+                <ImageView android:layout_width="140dp" android:layout_height="140dp" android:src="@drawable/ic_cube"/>
+                <TextView android:text="Cube" android:textSize="20sp" android:textStyle="bold" android:layout_marginTop="10dp" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+</ScrollView>

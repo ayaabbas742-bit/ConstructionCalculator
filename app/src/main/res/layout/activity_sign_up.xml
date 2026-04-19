@@ -1,0 +1,100 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F2F2F2">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <!-- First Name -->
+        <TextView
+            android:text="First Name"
+            android:textStyle="bold"
+            android:textColor="#000"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <EditText
+            android:id="@+id/firstName"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:hint="Enter first name"
+            android:layout_marginBottom="10dp"/>
+
+        <!-- Last Name -->
+        <TextView
+            android:text="Last Name"
+            android:textStyle="bold"
+            android:textColor="#000"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <EditText
+            android:id="@+id/lastName"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:hint="Enter last name"
+            android:layout_marginBottom="10dp"/>
+
+        <!-- Email -->
+        <TextView
+            android:text="Email"
+            android:textStyle="bold"
+            android:textColor="#000"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <EditText
+            android:id="@+id/email"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:hint="example@gmail.com"
+            android:inputType="textEmailAddress"
+            android:layout_marginBottom="10dp"/>
+
+        <!-- Password -->
+        <TextView
+            android:text="Password"
+            android:textStyle="bold"
+            android:textColor="#000"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:hint="Enter password"
+            android:inputType="textPassword"
+            android:layout_marginBottom="10dp"/>
+
+        <!-- Confirm Password -->
+        <TextView
+            android:text="Confirm Password"
+            android:textStyle="bold"
+            android:textColor="#000"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <EditText
+            android:id="@+id/confirmPassword"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:hint="Confirm password"
+            android:inputType="textPassword"
+            android:layout_marginBottom="15dp"/>
+
+        <!-- Button -->
+        <Button
+            android:id="@+id/signupBtn"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="CREATE ACCOUNT"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#19A7A6"/>
+    </LinearLayout>
+
+</ScrollView>
