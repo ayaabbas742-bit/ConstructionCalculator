@@ -20,10 +20,8 @@ class ShapeAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_shape, parent, false)
-
         return ViewHolder(view)
     }
 
@@ -38,25 +36,17 @@ class ShapeAdapter(
 
         holder.itemView.setOnClickListener {
 
-            when (shape.name) {
+            val intent = when (shape.name) {
 
-                "Trapezoid" ->
-                    context.startActivity(
-                        Intent(context, TrapezoidAreaActivity::class.java)
-                    )
-                "Square" ->
-                    context.startActivity(
-                        Intent(context, SquareAreaActivity::class.java)
-                    )
-                "Rectangle" ->
-                    context.startActivity(
-                        Intent(context, RectangleAreaActivity::class.java)
-                    )
-                "Triangle" ->
-                    context.startActivity(
-                        Intent(context, TriangleAreaActivity::class.java)
-                    )
+                "Trapezoid" -> Intent(context, TrapezoidAreaActivity::class.java)
+                "Square" -> Intent(context, SquareAreaActivity::class.java)
+                "Rectangle" -> Intent(context, RectangleAreaActivity::class.java)
+                "Triangle" -> Intent(context, TriangleAreaActivity::class.java)
+
+                else -> null
             }
+
+            intent?.let { context.startActivity(it) }
         }
     }
 }

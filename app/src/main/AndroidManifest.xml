@@ -39,6 +39,9 @@
             android:name=".FloorPlanActivity"
             android:exported="false" />
         <activity
+            android:name=".TankCalculatorActivity"
+            android:exported="false" />
+        <activity
             android:name=".RectangleAreaActivity"
             android:exported="false" />
         <activity
