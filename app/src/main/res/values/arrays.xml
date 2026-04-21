@@ -1,0 +1,22 @@
+<resources>
+
+<string-array name="brick_types">
+    <item>Standard Brick</item>
+    <item>Hollow Brick</item>
+    <item>Masonry Block</item>
+</string-array>
+
+<string-array name="thickness_types">
+    <item>10 cm</item>
+    <item>15 cm</item>
+    <item>20 cm</item>
+</string-array>
+
+<string-array name="mortar_types">
+    <item>1:3</item>
+    <item>1:4</item>
+    <item>1:5</item>
+    <item>1:6</item>
+</string-array>
+
+</resources>

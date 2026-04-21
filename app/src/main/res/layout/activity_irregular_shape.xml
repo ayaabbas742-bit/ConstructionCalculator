@@ -1,0 +1,132 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+
+    <LinearLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <!-- TITLE -->
+        <TextView
+            android:id="@+id/txtTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Irregular Shape Calculator"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="20dp"/>
+
+        <!-- DRAW AREA -->
+        <com.example.constructioncalculator.IrregularShapeView
+            android:id="@+id/shapeView"
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            android:layout_marginBottom="15dp"
+            android:background="#EEE"/>
+
+        <!-- POINTS -->
+        <TextView android:text="Point 1 (X,Y)" android:textSize="18sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <LinearLayout android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/p1x"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="48dp"
+                android:hint="X1"
+                android:inputType="numberDecimal"
+                android:background="@drawable/edit_text_background"/>
+
+            <EditText
+                android:id="@+id/p1y"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="48dp"
+                android:hint="Y1"
+                android:inputType="numberDecimal"
+                android:background="@drawable/edit_text_background"/>
+        </LinearLayout>
+
+        <TextView android:text="Point 2" android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+        <LinearLayout android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText android:id="@+id/p2x" android:layout_width="0dp"
+                android:layout_weight="1" android:layout_height="48dp"
+                android:hint="X2" android:inputType="numberDecimal"
+                android:background="@drawable/edit_text_background"/>
+
+            <EditText android:id="@+id/p2y" android:layout_width="0dp"
+                android:layout_weight="1" android:layout_height="48dp"
+                android:hint="Y2" android:inputType="numberDecimal"
+                android:background="@drawable/edit_text_background"/>
+        </LinearLayout>
+
+        <TextView android:text="Point 3" android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <LinearLayout android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText android:id="@+id/p3x" android:layout_width="0dp"
+                android:layout_weight="1" android:layout_height="48dp"
+                android:hint="X3" android:inputType="numberDecimal"
+                android:background="@drawable/edit_text_background"/>
+
+            <EditText android:id="@+id/p3y" android:layout_width="0dp"
+                android:layout_weight="1" android:layout_height="48dp"
+                android:hint="Y3" android:inputType="numberDecimal"
+                android:background="@drawable/edit_text_background"/>
+        </LinearLayout>
+
+        <TextView android:text="Point 4" android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <LinearLayout android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText android:id="@+id/p4x" android:layout_width="0dp"
+                android:layout_weight="1" android:layout_height="48dp"
+                android:hint="X4" android:inputType="numberDecimal"
+                android:background="@drawable/edit_text_background"/>
+            <EditText android:id="@+id/p4y" android:layout_width="0dp"
+                android:layout_weight="1" android:layout_height="48dp"
+                android:hint="Y4" android:inputType="numberDecimal"
+                android:background="@drawable/edit_text_background"/>
+        </LinearLayout>
+
+        <!-- BUTTON -->
+        <Button
+            android:id="@+id/btnCalculate"
+            android:layout_width="160dp"
+            android:layout_height="48dp"
+            android:text="Calculate"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="15dp"
+            android:backgroundTint="#000000"
+            android:textColor="@android:color/white"/>
+
+        <!-- RESULT -->
+        <TextView
+            android:id="@+id/txtArea"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/edit_text_background"
+            android:padding="10dp"
+            android:text="Area = "
+            android:textSize="18sp"/>
+
+    </LinearLayout>
+</ScrollView>

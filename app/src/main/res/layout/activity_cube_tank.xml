@@ -1,0 +1,94 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:background="#F5F7FA">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="18dp">
+
+    <TextView
+        android:text="Cube Tank Calculator"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="#0D47A1"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <!-- IMAGE -->
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:src="@drawable/ic_cube"
+        android:scaleType="centerInside"/>
+
+    <!-- TYPE -->
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:id="@+id/radioFull"
+            android:text="Full Tank"
+            android:checked="true"/>
+
+        <RadioButton
+            android:id="@+id/radioPartial"
+            android:text="Partial Tank"/>
+    </RadioGroup>
+
+    <!-- FILL % -->
+    <EditText
+        android:id="@+id/editFill"
+        android:hint="Fill % (only if partial)"
+        android:inputType="numberDecimal"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"/>
+
+    <!-- INPUTS -->
+    <EditText
+        android:id="@+id/editLength"
+        android:hint="Length (m)"
+        android:inputType="numberDecimal"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"/>
+
+    <EditText
+        android:id="@+id/editWidth"
+        android:hint="Width (m)"
+        android:inputType="numberDecimal"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"/>
+
+    <EditText
+        android:id="@+id/editHeight"
+        android:hint="Height (m)"
+        android:inputType="numberDecimal"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"/>
+
+    <!-- BUTTON -->
+    <Button
+        android:id="@+id/btnCalculate"
+        android:text="CALCULATE"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:backgroundTint="#0D47A1"
+        android:textColor="@android:color/white"/>
+
+    <!-- RESULT -->
+    <TextView
+        android:id="@+id/txtResult"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:background="#E3F2FD"
+        android:textSize="16sp"
+        android:text="Result"/>
+</LinearLayout>
+</ScrollView>

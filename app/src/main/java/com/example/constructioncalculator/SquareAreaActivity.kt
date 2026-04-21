@@ -1,20 +1,36 @@
 package com.example.constructioncalculator
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
+import android.widget.Button
+import android.widget.EditText
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 
 class SquareAreaActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.activity_square_area)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+
+        val editSide = findViewById<EditText>(R.id.editSide)
+        val btnCalculate = findViewById<Button>(R.id.btnCalculate)
+        val txtArea = findViewById<TextView>(R.id.txtArea)
+        val txtPerimeter = findViewById<TextView>(R.id.txtPerimeter)
+
+        btnCalculate.setOnClickListener {
+            val sideText = editSide.text.toString()
+            if (sideText.isNotEmpty()) {
+                try {
+                    val side = sideText.toDouble()
+                    txtArea.text = "Area = %.2f m²".format(side * side)
+                    txtPerimeter.text = "Perimeter = %.2f m".format(4 * side)
+                } catch (e: NumberFormatException) {
+                    Toast.makeText(this, "Enter a valid number", Toast.LENGTH_SHORT).show()
+                }
+            } else {
+                Toast.makeText(this, "Please enter side length", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }

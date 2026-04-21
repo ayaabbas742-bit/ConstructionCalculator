@@ -1,10 +1,193 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PlasterActivity">
+    android:background="#EEF8FA">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <!-- TITLE -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Plaster Calculator PRO"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textColor="#111827"
+            android:padding="10dp"/>
+
+        <!-- IMAGE -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="220dp"
+            android:layout_height="180dp"
+            android:layout_gravity="center"
+            app:cardCornerRadius="25dp"
+            app:cardElevation="10dp">
+
+            <ImageView
+                android:id="@+id/imgPlaster"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/plaster"
+                android:scaleType="centerCrop"/>
+        </com.google.android.material.card.MaterialCardView>
+        <!-- INPUT CARD -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="8dp"
+            app:cardBackgroundColor="#D4F1F4">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <!-- WALL -->
+                <EditText
+                    android:id="@+id/etLength"
+                    android:hint="Wall Length (m)"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"/>
+
+                <EditText
+                    android:id="@+id/etHeight"
+                    android:hint="Wall Height (m)"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"/>
+
+                <!-- 🚪 DOOR -->
+                <EditText
+                    android:id="@+id/etDoorL"
+                    android:hint="Door Length (m)"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"/>
+
+                <EditText
+                    android:id="@+id/etDoorW"
+                    android:hint="Door Width (m)"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"/>
+
+                <!-- 🪟 WINDOW -->
+                <EditText
+                    android:id="@+id/etWindowL"
+                    android:hint="Window Length (m)"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"/>
+
+                <EditText
+                    android:id="@+id/etWindowW"
+                    android:hint="Window Width (m)"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"/>
+
+                <!-- ADD -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnAddWall"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:text="ADD WALL"
+                    android:backgroundTint="#455A64"/>
+                <!-- DELETE -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnDeleteWall"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:text="DELETE LAST WALL"
+                    android:backgroundTint="#3D3E3E"/>
+
+                <!-- RESET -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnReset"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:text="RESET"
+                    android:backgroundTint="#263238"/>
+
+                <!-- WALLS -->
+                <TextView
+                    android:id="@+id/tvWalls"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Walls: none"
+                    android:textSize="16sp"
+                    android:padding="10dp"
+                    android:textColor="#111827"/>
+
+                <!-- THICKNESS -->
+                <TextView
+                    android:text="Thickness (mm)"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <Spinner
+                    android:id="@+id/spinnerThickness"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"/>
+
+                <!-- MORTAR -->
+                <TextView
+                    android:text="Mortar Ratio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <Spinner
+                    android:id="@+id/spinnerMortar"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"/>
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- CALCULATE -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCalcPlaster"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:text="CALCULATE"
+            android:layout_marginTop="15dp"
+            android:backgroundTint="#077F8E"/>
+
+        <!-- RESULTS -->
+        <TextView
+            android:id="@+id/tvArea"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/tvVolume"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/tvCement"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/tvSand"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textStyle="bold"/>
+
+    </LinearLayout>
+
+</ScrollView>

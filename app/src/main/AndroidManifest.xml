@@ -12,6 +12,30 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ConstructionCalculator">
         <activity
+            android:name=".CubeTankActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RectangularTankActivity"
+            android:exported="false" />
+        <activity
+            android:name=".HorizontalCylinderActivity"
+            android:exported="false" />
+        <activity
+            android:name=".VerticalCylinderActivity"
+            android:exported="false" />
+        <activity
+            android:name=".IrregularShapeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LShapeAreaActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PentagonActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ParallelogramActivity"
+            android:exported="false" />
+        <activity
             android:name=".TankVolumeActivity"
             android:exported="false" />
         <activity

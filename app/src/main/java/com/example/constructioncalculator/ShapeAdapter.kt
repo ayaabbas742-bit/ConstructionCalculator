@@ -42,6 +42,10 @@ class ShapeAdapter(
                 "Square" -> Intent(context, SquareAreaActivity::class.java)
                 "Rectangle" -> Intent(context, RectangleAreaActivity::class.java)
                 "Triangle" -> Intent(context, TriangleAreaActivity::class.java)
+                "Parallelogram" -> Intent(context, ParallelogramActivity::class.java)
+                "Pentagon" -> Intent(context, PentagonActivity::class.java)
+                "L-Shape" -> Intent(context, LShapeAreaActivity::class.java)
+                "Irregular Shape" -> Intent(context, IrregularShapeActivity::class.java)
 
                 else -> null
             }

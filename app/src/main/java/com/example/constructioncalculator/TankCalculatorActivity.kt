@@ -16,24 +16,24 @@ class TankCalculatorActivity : AppCompatActivity() {
         val rectangular = findViewById<CardView>(R.id.card_rectangular)
         val cube = findViewById<CardView>(R.id.card_cube)
 
+        // ✔ Vertical Cylinder
         verticalCylinder.setOnClickListener {
-            val intent = Intent(this, TankVolumeActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, VerticalCylinderActivity::class.java))
         }
 
+        // ✔ Horizontal Cylinder
         horizontalCylinder.setOnClickListener {
-            val intent = Intent(this, TankVolumeActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, HorizontalCylinderActivity::class.java))
         }
 
+        // ✔ Rectangular Prism
         rectangular.setOnClickListener {
-            val intent = Intent(this, TankVolumeActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, RectangularTankActivity::class.java))
         }
 
+        // ✔ Cube
         cube.setOnClickListener {
-            val intent = Intent(this, TankVolumeActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, CubeTankActivity::class.java))
         }
     }
 }

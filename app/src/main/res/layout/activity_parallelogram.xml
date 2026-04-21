@@ -1,0 +1,86 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:background="@android:color/white">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Parallelogram Calculator"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="20dp"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        android:layout_marginBottom="20dp">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/parallelogram"
+            android:scaleType="centerInside"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#33D2B48C"/>
+    </FrameLayout>
+
+    <TextView android:text="Base" android:textSize="18sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <EditText
+        android:id="@+id/editBase"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:hint="Enter base"
+        android:inputType="numberDecimal"
+        android:background="@drawable/edit_text_background"/>
+
+    <TextView android:text="Height" android:textSize="18sp" android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <EditText
+        android:id="@+id/editHeight"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:hint="Enter height"
+        android:inputType="numberDecimal"
+        android:background="@drawable/edit_text_background"/>
+
+    <Button
+        android:id="@+id/btnCalculate"
+        android:layout_width="150dp"
+        android:layout_height="48dp"
+        android:text="Calculate"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="15dp"
+        android:backgroundTint="#000000"
+        android:textColor="@android:color/white"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@android:color/black"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"/>
+
+    <TextView
+        android:id="@+id/txtArea"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@drawable/edit_text_background"
+        android:text="Area = "
+        android:padding="10dp"
+        android:textSize="18sp"/>
+</LinearLayout>
+</ScrollView>

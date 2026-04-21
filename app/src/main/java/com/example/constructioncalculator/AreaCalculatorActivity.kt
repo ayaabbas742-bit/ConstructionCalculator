@@ -23,6 +23,11 @@ class AreaCalculatorActivity : AppCompatActivity() {
         list.add(Shape("Square", R.drawable.square))
         list.add(Shape("Rectangle", R.drawable.rectangle))
         list.add(Shape("Triangle", R.drawable.triangle))
+        // الأشكال الجديدة 👇
+        list.add(Shape("Parallelogram", R.drawable.parallelogram))
+        list.add(Shape("Pentagon", R.drawable.pentagon))
+        list.add(Shape("L-Shape", R.drawable.lshape))
+        list.add(Shape("Irregular Shape", R.drawable.irregular))
 
         adapter = ShapeAdapter(this, list)
 
