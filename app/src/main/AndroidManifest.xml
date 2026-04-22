@@ -102,7 +102,7 @@
             android:name=".BrickActivity"
             android:exported="false" />
         <activity
-            android:name=".SteelActivity"
+            android:name=".TilesActivity"
             android:exported="false" />
         <activity
             android:name=".PlasterActivity"

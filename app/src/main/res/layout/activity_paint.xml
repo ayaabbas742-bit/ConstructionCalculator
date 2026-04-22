@@ -1,10 +1,244 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PaintActivity">
+    android:background="#EEF8FA">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="18dp">
+
+        <!-- TITLE -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="🎨 Paint Calculator PRO"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:padding="16dp"/>
+
+        <!-- IMAGE CARD -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="220dp"
+            android:layout_height="180dp"
+            android:layout_gravity="center"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="10dp">
+
+            <ImageView
+                android:id="@+id/imgPaint"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/paint_acrylic"
+                android:scaleType="centerCrop"/>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- MODE MESSAGE -->
+        <TextView
+            android:id="@+id/tvModeMsg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="🧠 Choose Single or Dual Paint"
+            android:padding="10dp"
+            android:textStyle="bold"/>
+
+        <!-- TYPE -->
+        <Spinner
+            android:id="@+id/spPaintType"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"/>
+
+        <!-- MODE -->
+        <RadioGroup
+            android:id="@+id/rgPaintMode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rbSingle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Single"
+                android:checked="true"/>
+
+            <RadioButton
+                android:id="@+id/rbDual"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Dual"/>
+        </RadioGroup>
+
+        <Spinner
+            android:id="@+id/spPaintType2"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"/>
+
+        <!-- % -->
+        <EditText
+            android:id="@+id/etPercent1"
+            android:hint="Paint 1 %"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"/>
+
+        <EditText
+            android:id="@+id/etPercent2"
+            android:hint="Paint 2 %"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"/>
+        <!-- 🧱 WALL -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="🧱 Wall Dimensions"
+            android:textStyle="bold"
+            android:textColor="#334155"
+            android:paddingTop="8dp"
+            android:paddingBottom="4dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/etLength"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:hint="Length (m)"
+                android:layout_height="50dp"/>
+
+            <EditText
+                android:id="@+id/etHeight"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:hint="Height (m)"
+                android:layout_height="50dp"/>
+        </LinearLayout>
+
+        ---
+
+        <!-- 🚪 DOOR -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="🚪 Door Dimensions"
+            android:textStyle="bold"
+            android:textColor="#334155"
+            android:paddingTop="10dp"
+            android:paddingBottom="4dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/etDoorL"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:hint="Length (m)"
+                android:layout_height="50dp"/>
+
+            <EditText
+                android:id="@+id/etDoorW"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:hint="Width (m)"
+                android:layout_height="50dp"/>
+        </LinearLayout>
+
+        ---
+
+        <!-- 🪟 WINDOW -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="🪟 Window Dimensions"
+            android:textStyle="bold"
+            android:textColor="#334155"
+            android:paddingTop="10dp"
+            android:paddingBottom="4dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/etWindowL"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:hint="Length (m)"
+                android:layout_height="50dp"/>
+
+            <EditText
+                android:id="@+id/etWindowW"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:hint="Width (m)"
+                android:layout_height="50dp"/>
+        </LinearLayout>
+
+        <!-- BUTTONS -->
+        <Button
+            android:id="@+id/btnAddWall"
+            android:text="ADD WALL"
+            android:backgroundTint="#6F6868"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"/>
+
+        <Button
+            android:id="@+id/btnDeleteWall"
+            android:text="DELETE LAST WALL"
+            android:backgroundTint="#959595"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"/>
+
+        <Button
+            android:id="@+id/btnReset"
+            android:text="RESET"
+            android:backgroundTint="#B4B3B3"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"/>
+
+        <!-- WALL LIST -->
+        <TextView
+            android:id="@+id/tvWalls"
+            android:text="Walls: none"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"/>
+
+        <!-- CALC -->
+        <Button
+            android:id="@+id/btnCalc"
+            android:text="CALCULATE"
+            android:backgroundTint="#9BB5B8"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"/>
+
+        <!-- RESULT CARD -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="10dp"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:id="@+id/tvResult"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Result"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:padding="16dp"/>
+        </com.google.android.material.card.MaterialCardView>
+
+    </LinearLayout>
+</ScrollView>

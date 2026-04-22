@@ -13,6 +13,12 @@ class DesignDetailActivity : AppCompatActivity() {
 
     private var scaleFactor = 1f
 
+    // 🔥 position for drag
+    private var dX = 0f
+    private var dY = 0f
+    private var lastX = 0f
+    private var lastY = 0f
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_design_detail)
@@ -26,18 +32,14 @@ class DesignDetailActivity : AppCompatActivity() {
             finish()
         }
 
-        // 🔥 Zoom فقط (بدون تحريك)
+        // 🔥 ZOOM
         scaleDetector = ScaleGestureDetector(this,
             object : ScaleGestureDetector.SimpleOnScaleGestureListener() {
-
                 override fun onScale(detector: ScaleGestureDetector): Boolean {
 
                     scaleFactor *= detector.scaleFactor
+                    scaleFactor = scaleFactor.coerceIn(0.5f, 5f)
 
-                    // حدود التكبير والتصغير
-                    scaleFactor = scaleFactor.coerceIn(0.5f, 4f)
-
-                    // تطبيق الزوم فقط
                     img.scaleX = scaleFactor
                     img.scaleY = scaleFactor
 
@@ -45,8 +47,27 @@ class DesignDetailActivity : AppCompatActivity() {
                 }
             })
 
+        // 🔥 TOUCH (Zoom + Drag)
         img.setOnTouchListener { _, event ->
+
             scaleDetector.onTouchEvent(event)
+
+            when (event.actionMasked) {
+
+                MotionEvent.ACTION_DOWN -> {
+                    lastX = event.rawX - dX
+                    lastY = event.rawY - dY
+                }
+
+                MotionEvent.ACTION_MOVE -> {
+                    dX = event.rawX - lastX
+                    dY = event.rawY - lastY
+
+                    img.translationX = dX
+                    img.translationY = dY
+                }
+            }
+
             true
         }
     }

@@ -5,6 +5,7 @@ import android.graphics.*
 import android.util.AttributeSet
 import android.view.View
 import kotlin.math.max
+import kotlin.math.min
 
 class IrregularShapeView @JvmOverloads constructor(
     context: Context,
@@ -33,25 +34,45 @@ class IrregularShapeView @JvmOverloads constructor(
 
         path.reset()
 
-        val scale = calculateScale()
+        // 🔥 حساب الحدود
+        val minX = points.minOf { it.first }
+        val maxX = points.maxOf { it.first }
+        val minY = points.minOf { it.second }
+        val maxY = points.maxOf { it.second }
 
-        path.moveTo(points[0].first * scale, points[0].second * scale)
+        val widthRange = maxX - minX
+        val heightRange = maxY - minY
+
+        if (widthRange == 0f || heightRange == 0f) return
+
+        // 🔥 Padding داخل الشاشة
+        val padding = 40f
+
+        val scaleX = (width - padding * 2) / widthRange
+        val scaleY = (height - padding * 2) / heightRange
+        val scale = min(scaleX, scaleY)
+
+        // 🔥 تمركز الشكل في الوسط
+        val offsetX = (width - widthRange * scale) / 2
+        val offsetY = (height - heightRange * scale) / 2
+
+        fun transform(p: Pair<Float, Float>): PointF {
+            return PointF(
+                offsetX + (p.first - minX) * scale,
+                offsetY + (p.second - minY) * scale
+            )
+        }
+
+        val first = transform(points[0])
+        path.moveTo(first.x, first.y)
 
         for (i in 1 until points.size) {
-            path.lineTo(points[i].first * scale, points[i].second * scale)
+            val pt = transform(points[i])
+            path.lineTo(pt.x, pt.y)
         }
 
         path.close()
 
         canvas.drawPath(path, paint)
-    }
-
-    private fun calculateScale(): Float {
-        val maxX = points.maxOfOrNull { it.first } ?: 1f
-        val maxY = points.maxOfOrNull { it.second } ?: 1f
-
-        val maxValue = max(maxX, maxY)
-
-        return if (maxValue == 0f) 1f else (width / maxValue) * 0.8f
     }
 }

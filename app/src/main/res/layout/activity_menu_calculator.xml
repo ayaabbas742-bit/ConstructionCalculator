@@ -1,7 +1,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#CAECF0">
+    android:background="#ABB5B6">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,9 +14,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Construction Materials"
-            android:textSize="24sp"
+            android:textSize="28sp"
             android:textStyle="bold"
-            android:textColor="#333"
+            android:textColor="#0D0C0C"
             android:paddingBottom="16dp"/>
 
         <!-- GRID -->
@@ -58,7 +58,7 @@
 
             <!-- STEEL -->
             <LinearLayout
-                android:id="@+id/card_steel"
+                android:id="@+id/card_tiles"
                 android:layout_width="0dp"
                 android:layout_height="180dp"
                 android:layout_columnWeight="1"
@@ -73,10 +73,10 @@
                 <ImageView
                     android:layout_width="80dp"
                     android:layout_height="80dp"
-                    android:src="@drawable/ic_steel"/>
+                    android:src="@drawable/ic_tiles"/>
 
                 <TextView
-                    android:text="Steel"
+                    android:text="tiles"
                     android:textSize="18sp"
                     android:textColor="#000"
                     android:paddingTop="8dp"

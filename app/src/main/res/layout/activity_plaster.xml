@@ -52,45 +52,99 @@
                 android:orientation="vertical"
                 android:padding="16dp">
 
-                <!-- WALL -->
-                <EditText
-                    android:id="@+id/etLength"
-                    android:hint="Wall Length (m)"
+                <!-- 🧱 WALL -->
+                <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"/>
+                    android:layout_height="wrap_content"
+                    android:text="🧱 Wall Dimensions"
+                    android:textStyle="bold"
+                    android:textColor="#334155"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="4dp"/>
 
-                <EditText
-                    android:id="@+id/etHeight"
-                    android:hint="Wall Height (m)"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"/>
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/etLength"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:hint="Length (m)"
+                        android:layout_height="50dp"/>
+
+                    <EditText
+                        android:id="@+id/etHeight"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:hint="Height (m)"
+                        android:layout_height="50dp"/>
+                </LinearLayout>
+
+                ---
 
                 <!-- 🚪 DOOR -->
-                <EditText
-                    android:id="@+id/etDoorL"
-                    android:hint="Door Length (m)"
+                <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"/>
+                    android:layout_height="wrap_content"
+                    android:text="🚪 Door Dimensions"
+                    android:textStyle="bold"
+                    android:textColor="#334155"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="4dp"/>
 
-                <EditText
-                    android:id="@+id/etDoorW"
-                    android:hint="Door Width (m)"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"/>
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/etDoorL"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:hint="Length (m)"
+                        android:layout_height="50dp"/>
+
+                    <EditText
+                        android:id="@+id/etDoorW"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:hint="Width (m)"
+                        android:layout_height="50dp"/>
+                </LinearLayout>
+
+                ---
 
                 <!-- 🪟 WINDOW -->
-                <EditText
-                    android:id="@+id/etWindowL"
-                    android:hint="Window Length (m)"
+                <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"/>
+                    android:layout_height="wrap_content"
+                    android:text="🪟 Window Dimensions"
+                    android:textStyle="bold"
+                    android:textColor="#334155"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="4dp"/>
 
-                <EditText
-                    android:id="@+id/etWindowW"
-                    android:hint="Window Width (m)"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"/>
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
+                    <EditText
+                        android:id="@+id/etWindowL"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:hint="Length (m)"
+                        android:layout_height="50dp"/>
+
+                    <EditText
+                        android:id="@+id/etWindowW"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:hint="Width (m)"
+                        android:layout_height="50dp"/>
+                </LinearLayout>
                 <!-- ADD -->
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnAddWall"

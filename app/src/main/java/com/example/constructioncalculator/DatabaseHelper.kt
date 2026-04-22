@@ -6,12 +6,12 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
 class DatabaseHelper(context: Context) :
-    SQLiteOpenHelper(context, "ConstructionDB", null, 2) {
+    SQLiteOpenHelper(context, "ConstructionDB", null, 3) {
 
     // ================= CREATE DATABASE =================
     override fun onCreate(db: SQLiteDatabase) {
 
-        // USERS
+        // 👤 USERS
         db.execSQL("""
             CREATE TABLE users (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -23,7 +23,7 @@ class DatabaseHelper(context: Context) :
             )
         """)
 
-        // FEEDBACK
+        // ⭐ FEEDBACK
         db.execSQL("""
             CREATE TABLE feedback (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -33,7 +33,7 @@ class DatabaseHelper(context: Context) :
             )
         """)
 
-        // RESULTS
+        // 🧱 BRICKS RESULTS
         db.execSQL("""
             CREATE TABLE results (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -43,18 +43,58 @@ class DatabaseHelper(context: Context) :
                 total REAL
             )
         """)
+
+        // 🧱 PLASTER
+        db.execSQL("""
+            CREATE TABLE plaster (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                area REAL,
+                thickness REAL,
+                ratio TEXT,
+                cement REAL,
+                sand REAL,
+                water REAL,
+                volume REAL
+            )
+        """)
+
+        // 🎨 PAINT
+        db.execSQL("""
+            CREATE TABLE paint_results (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                type TEXT,
+                area REAL,
+                coats INTEGER,
+                paint REAL,
+                date TEXT
+            )
+        """)
+        // 🧱 TABLE TILES فقط
+        db.execSQL("""
+            CREATE TABLE tiles (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                type TEXT,
+                area REAL,
+                count REAL,
+                date TEXT
+            )
+        """)
     }
 
     // ================= UPGRADE =================
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
+
         db.execSQL("DROP TABLE IF EXISTS users")
         db.execSQL("DROP TABLE IF EXISTS feedback")
         db.execSQL("DROP TABLE IF EXISTS results")
+        db.execSQL("DROP TABLE IF EXISTS plaster")
+        db.execSQL("DROP TABLE IF EXISTS paint_results")
+        db.execSQL("DROP TABLE IF EXISTS tiles")
+
         onCreate(db)
     }
 
     // ================= USERS =================
-
     fun insertUser(first: String, last: String, email: String, password: String): Boolean {
         val db = writableDatabase
 
@@ -87,7 +127,6 @@ class DatabaseHelper(context: Context) :
         return ok
     }
 
-    // 🔥 THIS IS THE FIX YOU WERE MISSING
     fun getUser(email: String): User? {
         val db = readableDatabase
 
@@ -112,26 +151,6 @@ class DatabaseHelper(context: Context) :
         return user
     }
 
-    fun getUserName(email: String): String {
-        val db = readableDatabase
-
-        val cursor = db.rawQuery(
-            "SELECT firstName FROM users WHERE email=?",
-            arrayOf(email)
-        )
-
-        var name = ""
-
-        if (cursor.moveToFirst()) {
-            name = cursor.getString(0)
-        }
-
-        cursor.close()
-        db.close()
-
-        return name
-    }
-
     // ================= OTP =================
     fun checkOtp(email: String, otp: String): Boolean {
         val db = readableDatabase
@@ -140,7 +159,6 @@ class DatabaseHelper(context: Context) :
             "SELECT id FROM users WHERE email=? AND otp=?",
             arrayOf(email, otp)
         )
-
         val ok = cursor.moveToFirst()
         cursor.close()
         db.close()
@@ -160,21 +178,16 @@ class DatabaseHelper(context: Context) :
 
         return otp
     }
+
     fun updatePassword(email: String, newPassword: String): Boolean {
         val db = writableDatabase
 
         val values = ContentValues()
         values.put("password", newPassword)
 
-        val result = db.update(
-            "users",
-            values,
-            "email=?",
-            arrayOf(email)
-        ) > 0
+        val result = db.update("users", values, "email=?", arrayOf(email)) > 0
 
         db.close()
-
         return result
     }
 
@@ -191,7 +204,7 @@ class DatabaseHelper(context: Context) :
         db.close()
     }
 
-    // ================= RESULTS =================
+    // ================= BRICKS =================
     fun insertResult(bricks: Int, cement: Double, sand: Double, total: Double): Boolean {
         val db = writableDatabase
 
@@ -207,7 +220,6 @@ class DatabaseHelper(context: Context) :
         return result != -1L
     }
 
-    // ================= GET RESULTS (PDF / SHARE) =================
     fun getAllResults(): String {
         val db = readableDatabase
         val cursor = db.rawQuery("SELECT * FROM results ORDER BY id DESC", null)
@@ -228,6 +240,8 @@ class DatabaseHelper(context: Context) :
 
         return builder.toString()
     }
+
+    // ================= PLASTER =================
     fun insertPlaster(
         area: Double,
         thickness: Double,
@@ -252,4 +266,52 @@ class DatabaseHelper(context: Context) :
         db.insert("plaster", null, values)
         db.close()
     }
+
+    // ================= PAINT =================
+    fun insertPaint(type: String, area: Double, coats: Int, paint: Double, date: String) {
+        val db = writableDatabase
+
+        val values = ContentValues().apply {
+            put("type", type)
+            put("area", area)
+            put("coats", coats)
+            put("paint", paint)
+            put("date", date)
+        }
+
+        db.insert("paint_results", null, values)
+        db.close()
+    }
+    fun getUserName(email: String): String {
+        val db = readableDatabase
+
+        val cursor = db.rawQuery(
+            "SELECT firstName FROM users WHERE email=?",
+            arrayOf(email)
+        )
+
+        var name = ""
+
+        if (cursor.moveToFirst()) {
+            name = cursor.getString(0)
+        }
+
+        cursor.close()
+        db.close()
+
+        return name
+    }
+    // ================= 🧱 INSERT TILES =================
+    fun insertTile(type: String, area: Double, count: Double, date: String) {
+        val db = writableDatabase
+        val values = ContentValues()
+
+        values.put("type", type)
+        values.put("area", area)
+        values.put("count", count)
+        values.put("date", date)
+
+        db.insert("tiles", null, values)
+    }
+
 }

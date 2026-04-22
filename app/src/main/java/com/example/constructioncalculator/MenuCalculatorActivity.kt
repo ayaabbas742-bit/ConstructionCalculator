@@ -12,7 +12,7 @@ class MenuCalculatorActivity : AppCompatActivity() {
         setContentView(R.layout.activity_menu_calculator)
 
         val brick = findViewById<LinearLayout>(R.id.card_bricks)
-        val steel = findViewById<LinearLayout>(R.id.card_steel)
+        val tiles = findViewById<LinearLayout>(R.id.card_tiles)
         val plaster = findViewById<LinearLayout>(R.id.card_plaster)
         val concrete = findViewById<LinearLayout>(R.id.card_concrete)
         val paint = findViewById<LinearLayout>(R.id.card_paint)
@@ -21,8 +21,8 @@ class MenuCalculatorActivity : AppCompatActivity() {
             startActivity(Intent(this, BrickActivity::class.java))
         }
 
-        steel.setOnClickListener {
-            startActivity(Intent(this, SteelActivity::class.java))
+        tiles.setOnClickListener {
+            startActivity(Intent(this, TilesActivity::class.java))
         }
 
         plaster.setOnClickListener {
