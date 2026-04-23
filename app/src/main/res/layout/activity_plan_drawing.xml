@@ -1,0 +1,409 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F5F5F5">
+
+    <!-- ================= TOP TOOLBAR ================= -->
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="#2E2E2E">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+            <ImageButton
+                android:id="@+id/btnZoomIn"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@android:drawable/ic_menu_zoom"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                app:tint="#FFFFFF"/>
+
+            <ImageButton
+                android:id="@+id/btnZoomOut"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@android:drawable/ic_menu_revert"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                app:tint="#FFFFFF"/>
+
+            <ImageButton
+                android:id="@+id/btnNew"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@android:drawable/ic_menu_add"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                app:tint="#FFFFFF"/>
+
+            <ImageButton
+                android:id="@+id/btnPlans"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@android:drawable/ic_menu_agenda"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                app:tint="#FFFFFF"/>
+
+            <ImageButton
+                android:id="@+id/btnUndo"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@android:drawable/ic_menu_revert"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                app:tint="#FFFFFF"/>
+
+            <ImageButton
+                android:id="@+id/btnRedo"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@android:drawable/ic_media_next"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                app:tint="#FFFFFF"/>
+
+            <ImageButton
+                android:id="@+id/btnBackground"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@android:drawable/ic_menu_view"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                app:tint="#FFFFFF"/>
+
+            <ImageButton
+                android:id="@+id/btnColor"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@android:drawable/ic_menu_manage"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                app:tint="#FFFFFF"/>
+
+            <ImageButton
+                android:id="@+id/btnClear"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@android:drawable/ic_menu_close_clear_cancel"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                app:tint="#FFFFFF"/>
+
+            <ImageButton
+                android:id="@+id/btnDelete"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@android:drawable/ic_menu_delete"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                app:tint="#FFFFFF"/>
+
+            <ImageButton
+                android:id="@+id/btnSave"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@android:drawable/ic_menu_save"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                app:tint="#FFFFFF"/>
+
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <!-- ================= INFO BAR ================= -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:background="#EEEEEE">
+        <TextView
+        android:id="@+id/tvToolName"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="Tool"
+        android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/tvPlanName"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="New Plan"/>
+
+        <TextView
+            android:id="@+id/tvShapeCount"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="0"/>
+    </LinearLayout>
+
+    <!-- ================= OBJECTS BAR ================= -->
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="100dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <!-- DOOR 1 -->
+            <LinearLayout android:id="@+id/btnShapeDoor1" style="@style/itemStyle">
+                <ImageView
+                    android:src="@drawable/door1"
+                    android:contentDescription="Door type 1"
+                    android:clickable="true"
+                    android:focusable="true"
+                    style="@style/imgStyle"/>
+                <TextView android:text="Door 1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+            </LinearLayout>
+
+            <!-- DOOR 2 -->
+            <LinearLayout android:id="@+id/btnShapeDoor2" style="@style/itemStyle">
+                <ImageView
+                    android:src="@drawable/door2"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:contentDescription="Door type 2"
+                    style="@style/imgStyle"/>
+                <TextView android:text="Door 2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+            </LinearLayout>
+
+            <!-- DOOR 3 -->
+            <LinearLayout android:id="@+id/btnShapeDoor3" style="@style/itemStyle">
+                <ImageView
+                    android:src="@drawable/door3"
+                    android:contentDescription="Door type 3"
+                    android:clickable="true"
+                    android:focusable="true"
+                    style="@style/imgStyle"/>
+                <TextView android:text="Door 3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+            </LinearLayout>
+
+            <!-- DOOR 4 -->
+            <LinearLayout android:id="@+id/btnShapeDoor4" style="@style/itemStyle">
+                <ImageView
+                    android:src="@drawable/door4"
+                    android:contentDescription="Door type 4"
+                    android:clickable="true"
+                    android:focusable="true"
+                    style="@style/imgStyle"/>
+                <TextView android:text="Door 4"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+            </LinearLayout>
+
+            <!-- WINDOW -->
+            <LinearLayout android:id="@+id/btnShapeWindow" style="@style/itemStyle">
+                <ImageView
+                    android:src="@drawable/window"
+                    android:contentDescription="Window"
+                    android:clickable="true"
+                    android:focusable="true"
+                    style="@style/imgStyle"/>
+                <TextView android:text="Window"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+            </LinearLayout>
+
+            <!-- STAIRS -->
+            <LinearLayout android:id="@+id/btnShapeStairs" style="@style/itemStyle">
+                <ImageView
+                    android:src="@drawable/stairs"
+                    android:contentDescription="Stairs"
+                    android:clickable="true"
+                    android:focusable="true"
+                    style="@style/imgStyle"/>
+                <TextView android:text="Stairs"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+            </LinearLayout>
+
+            <!-- SOFA -->
+            <LinearLayout android:id="@+id/btnShapeSofa" style="@style/itemStyle">
+                <ImageView
+                    android:src="@drawable/sofa"
+                    android:contentDescription="Sofa"
+                    android:clickable="true"
+                    android:focusable="true"
+                    style="@style/imgStyle"/>
+                <TextView android:text="Sofa"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+            </LinearLayout>
+
+            <!-- TABLE -->
+            <LinearLayout android:id="@+id/btnShapeTable" style="@style/itemStyle">
+                <ImageView
+                    android:src="@drawable/table"
+                    android:contentDescription="Table"
+                    android:clickable="true"
+                    android:focusable="true"
+                    style="@style/imgStyle"/>
+                <TextView android:text="Table"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+            </LinearLayout>
+
+            <!-- KITCHEN -->
+            <LinearLayout android:id="@+id/btnShapeKitchen" style="@style/itemStyle">
+                <ImageView
+                    android:src="@drawable/kitchen"
+                    android:contentDescription="Kitchen"
+                    android:clickable="true"
+                    android:focusable="true"
+                    style="@style/imgStyle"/>
+                <TextView android:text="Kitchen"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+            </LinearLayout>
+            <!-- KITCHEN -->
+            <LinearLayout android:id="@+id/btnShapewardrobe" style="@style/itemStyle">
+                <ImageView
+                    android:src="@drawable/wardrobe"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:contentDescription="wardrobe"
+                    style="@style/imgStyle"/>
+                <TextView android:text="wardrobe"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+            </LinearLayout>
+
+            <!-- FRIDGE -->
+            <LinearLayout android:id="@+id/btnShapeFridge" style="@style/itemStyle">
+                <ImageView
+                    android:src="@drawable/fridge"
+                    android:contentDescription="Refrigerator"
+                    style="@style/imgStyle"/>
+                <TextView android:text="Fridge"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+            </LinearLayout>
+
+            <!-- CAR -->
+            <LinearLayout android:id="@+id/btnShapeCar" style="@style/itemStyle">
+                <ImageView
+                    android:src="@drawable/car"
+                    android:contentDescription="Car"
+                    style="@style/imgStyle"/>
+                <TextView android:text="Car"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+            </LinearLayout>
+
+            <!-- TEXT -->
+            <LinearLayout android:id="@+id/btnAddLabel" style="@style/itemStyle">
+                <ImageView
+                    android:contentDescription="Add text label"
+                    style="@style/imgStyle"/>
+                <TextView android:text="Text"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+            </LinearLayout>
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <!-- ================= FLOOR VIEW ================= -->
+    <com.example.constructioncalculator.FloorPlanView
+        android:id="@+id/floorPlanView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <!-- ================= BOTTOM TOOLBAR ================= -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:background="#DDDDDD">
+
+        <LinearLayout
+            android:id="@+id/btnToolDraw"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@android:drawable/ic_menu_edit"
+                android:contentDescription="Draw"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Draw"
+                android:textSize="10sp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/btnToolRect"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@android:drawable/ic_menu_crop"
+                android:contentDescription="Rectangle"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rect"
+                android:textSize="10sp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/btnToolSelect"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@android:drawable/ic_menu_view"
+                android:contentDescription="Select"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Select"
+                android:textSize="10sp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/btnToolDimension"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@android:drawable/ic_menu_sort_by_size"
+                android:contentDescription="Dimension"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Measure"
+                android:textSize="10sp"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -12,6 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ConstructionCalculator">
         <activity
+            android:name=".ConstructionNotesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PlanDrawingActivity"
+            android:exported="false" />
+        <activity
             android:name=".CubeTankActivity"
             android:exported="false" />
         <activity

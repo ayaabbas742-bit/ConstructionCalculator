@@ -1,7 +1,44 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="8dp" android:orientation="vertical">
-    <androidx.cardview.widget.CardView android:id="@+id/card" android:layout_width="match_parent" android:layout_height="120dp" app:cardCornerRadius="20dp" app:cardElevation="6dp">
-        <ImageView android:id="@+id/icon" android:layout_width="64dp" android:layout_height="64dp" android:layout_gravity="center" android:scaleType="centerCrop"/>
-        <!--  مهم لتجنب الحواف البيضاء  -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp"
+    android:orientation="vertical">
+
+    <!-- CARD -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="6dp"
+        app:cardBackgroundColor="#E0E0E0">
+
+        <!-- CENTER CONTENT -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <!-- ICON -->
+            <ImageView
+                android:id="@+id/icon"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:scaleType="fitCenter" />
+
+        </LinearLayout>
+
     </androidx.cardview.widget.CardView>
-    <TextView android:id="@+id/title" android:layout_width="match_parent" android:layout_height="wrap_content" android:textAlignment="center" android:textSize="13sp" android:layout_marginTop="6dp"/>
+
+    <!-- TITLE -->
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textSize="14sp"
+        android:textColor="#333333"
+        android:layout_marginTop="6dp"/>
 </LinearLayout>

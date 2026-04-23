@@ -1,230 +1,253 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F7FA">
+    android:orientation="vertical"
+    android:background="#F4F6F8">
 
-    <LinearLayout
+    <!-- 🔷 TOOLBAR (Modern) -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="?attr/actionBarSize"
+        android:background="#FFFFFF"
+        android:elevation="6dp"
+        app:title="Tank Calculator"
+        app:titleTextColor="#1F1F1F"/>
 
-        <!-- 🔵 HEADER -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:orientation="vertical"
-            android:padding="20dp"
-            android:background="#14BED5">
+    <!-- 🔽 CONTENT -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-            <TextView
-                android:text="Tank Calculator"
-                android:textColor="@android:color/white"
-                android:textSize="26sp"
-                android:textStyle="bold"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-            <TextView
-                android:text="Calculate volume of all tanks easily"
-                android:textColor="#BBDEFB"
-                android:textSize="14sp"
-                android:layout_marginTop="5dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-        </LinearLayout>
-
-        <!-- CONTENT -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp"
-            android:layout_marginTop="-40dp">
+            android:padding="18dp">
 
-            <!-- CARD -->
+            <!-- 🔵 Vertical Cylinder -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_vertical_cylinder"
                 android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:layout_marginBottom="15dp"
+                android:layout_height="110dp"
+                android:layout_marginBottom="14dp"
+                android:clickable="true"
+                android:foreground="?attr/selectableItemBackground"
                 app:cardCornerRadius="20dp"
-                app:cardElevation="10dp">
+                app:cardElevation="6dp"
+                app:cardBackgroundColor="#E3F2FD">
 
                 <LinearLayout
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:padding="15dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:padding="16dp">
 
-                    <ImageView
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:src="@drawable/ic_vertical_cylinder"
-                        android:background="#E3F2FD"
-                        android:padding="10dp"/>
+                    <LinearLayout
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:background="@drawable/bg_circle_blue"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:src="@drawable/ic_vertical_cylinder"
+                            app:tint="@android:color/white"/>
+                    </LinearLayout>
 
                     <LinearLayout
                         android:orientation="vertical"
-                        android:layout_marginStart="15dp"
+                        android:layout_marginStart="14dp"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="match_parent">
 
                         <TextView
                             android:text="Vertical Cylinder"
-                            android:textSize="18sp"
+                            android:textSize="17sp"
                             android:textStyle="bold"
+                            android:textColor="#222"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="match_parent"/>
 
                         <TextView
                             android:text="Water tanks, columns"
                             android:textSize="13sp"
-                            android:textColor="#777"
+                            android:textColor="#666"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="match_parent"/>
                     </LinearLayout>
+
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- CARD -->
+            <!-- 🟢 Horizontal Cylinder -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_horizontal_cylinder"
                 android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:layout_marginBottom="15dp"
+                android:layout_height="110dp"
+                android:layout_marginBottom="14dp"
+                android:clickable="true"
+                android:foreground="?attr/selectableItemBackground"
                 app:cardCornerRadius="20dp"
-                app:cardElevation="10dp">
+                app:cardElevation="6dp"
+                app:cardBackgroundColor="#E8F5E9">
 
                 <LinearLayout
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:padding="15dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:padding="16dp">
+                    <LinearLayout
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:background="@drawable/bg_circle_green"
+                        android:gravity="center">
 
-                    <ImageView
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:src="@drawable/ic_horizontal_cylinder"
-                        android:background="#E8F5E9"
-                        android:padding="10dp"/>
+                        <ImageView
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:src="@drawable/ic_horizontal_cylinder"
+                            app:tint="@android:color/white"/>
+                    </LinearLayout>
 
                     <LinearLayout
                         android:orientation="vertical"
-                        android:layout_marginStart="15dp"
+                        android:layout_marginStart="14dp"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="match_parent">
+
                         <TextView
                             android:text="Horizontal Cylinder"
-                            android:textSize="18sp"
+                            android:textSize="17sp"
                             android:textStyle="bold"
+                            android:textColor="#222"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="match_parent"/>
 
                         <TextView
                             android:text="Fuel tanks"
                             android:textSize="13sp"
-                            android:textColor="#777"
+                            android:textColor="#666"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="match_parent"/>
                     </LinearLayout>
+
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- CARD -->
+            <!-- 🟠 Rectangular -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_rectangular"
                 android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:layout_marginBottom="15dp"
+                android:layout_height="110dp"
+                android:layout_marginBottom="14dp"
+                android:clickable="true"
+                android:foreground="?attr/selectableItemBackground"
                 app:cardCornerRadius="20dp"
-                app:cardElevation="10dp">
+                app:cardElevation="6dp"
+                app:cardBackgroundColor="#FFF3E0">
 
                 <LinearLayout
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:padding="15dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:padding="16dp">
 
-                    <ImageView
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:src="@drawable/ic_rectangular_prism"
-                        android:background="#FFF3E0"
-                        android:padding="10dp"/>
+                    <LinearLayout
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:background="@drawable/bg_circle_orange"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:src="@drawable/ic_rectangular_prism"
+                            app:tint="@android:color/white"/>
+                    </LinearLayout>
 
                     <LinearLayout
                         android:orientation="vertical"
-                        android:layout_marginStart="15dp"
+                        android:layout_marginStart="14dp"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="match_parent">
 
                         <TextView
                             android:text="Rectangular Tank"
-                            android:textSize="18sp"
+                            android:textSize="17sp"
                             android:textStyle="bold"
+                            android:textColor="#222"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="match_parent"/>
 
                         <TextView
                             android:text="Buildings &amp; reservoirs"
                             android:textSize="13sp"
-                            android:textColor="#777"
+                            android:textColor="#666"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="match_parent"/>
                     </LinearLayout>
+
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- CARD -->
+            <!-- 🟣 Cube -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_cube"
                 android:layout_width="match_parent"
-                android:layout_height="120dp"
+                android:layout_height="110dp"
+                android:clickable="true"
+                android:foreground="?attr/selectableItemBackground"
                 app:cardCornerRadius="20dp"
-                app:cardElevation="10dp">
-
+                app:cardElevation="6dp"
+                app:cardBackgroundColor="#F3E5F5">
                 <LinearLayout
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:padding="15dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:padding="16dp">
 
-                    <ImageView
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:src="@drawable/ic_cube"
-                        android:background="#F3E5F5"
-                        android:padding="10dp" />
+                    <LinearLayout
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:background="@drawable/bg_circle_purple"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:src="@drawable/ic_cube"
+                           app:tint="@android:color/white"/>
+                    </LinearLayout>
 
                     <LinearLayout
                         android:orientation="vertical"
-                        android:layout_marginStart="15dp"
+                        android:layout_marginStart="14dp"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="match_parent">
 
                         <TextView
                             android:text="Cube Tank"
-                            android:textSize="18sp"
+                            android:textSize="17sp"
                             android:textStyle="bold"
+                            android:textColor="#222"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="match_parent"/>
 
                         <TextView
                             android:text="IBC tanks"
                             android:textSize="13sp"
-                            android:textColor="#777"
+                            android:textColor="#666"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="match_parent"/>
                     </LinearLayout>
+
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
         </LinearLayout>
+    </ScrollView>
 
-    </LinearLayout>
-</ScrollView>
+</LinearLayout>

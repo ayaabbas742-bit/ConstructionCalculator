@@ -103,7 +103,7 @@ class HomeActivity : AppCompatActivity() {
             Feature("Area Calculator", R.drawable.ic_area),
             Feature("Bubble Level", R.drawable.ic_level),
             Feature("Tank Calculator", R.drawable.ic_tank),
-            Feature("Saved Projects", R.drawable.ic_save),
+            Feature("Plan Drawing", R.drawable.ic_draw),
             Feature("Floor Plan", R.drawable.ic_floor),
             Feature("Invoices", R.drawable.ic_invoice),
             Feature("Construction Notes", R.drawable.ic_notes),

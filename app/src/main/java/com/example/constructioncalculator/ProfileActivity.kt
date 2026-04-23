@@ -1,6 +1,7 @@
 package com.example.constructioncalculator
 
 import android.app.Activity
+import android.content.ContentValues
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.net.Uri
@@ -12,16 +13,18 @@ import java.io.InputStream
 class ProfileActivity : AppCompatActivity() {
 
     private lateinit var profileImage: ImageView
+    private lateinit var db: DatabaseHelper
+    private lateinit var email: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
 
         // ================= EMAIL =================
-        val email = intent.getStringExtra("email") ?: ""
+        email = intent.getStringExtra("email") ?: ""
 
         // ================= SQLITE =================
-        val db = DatabaseHelper(this)
+        db = DatabaseHelper(this)
         val user = db.getUser(email)
 
         // ================= UI =================
@@ -36,29 +39,30 @@ class ProfileActivity : AppCompatActivity() {
 
         profileImage = findViewById(R.id.profileImage)
 
-        // ================= SET DATA FROM SQLITE =================
+        // ================= SET DATA =================
         if (user != null) {
             nameTv.text = user.firstName
             lastTv.text = user.lastName
             emailTv.text = user.email
+
+            // 🔥 LOAD IMAGE FROM SQLITE
+            if (!user.profileImage.isNullOrEmpty()) {
+                profileImage.setImageURI(Uri.parse(user.profileImage))
+            } else {
+                profileImage.setImageResource(R.drawable.ic_user)
+            }
         }
 
         ratingBar.rating = 4.5f
         ratingText.text = "Engineer Rating"
 
-        profileImage.setImageResource(R.drawable.ic_user)
-
-        // ================= IMAGE PICK =================
+        // ================= PICK IMAGE =================
         profileImage.setOnClickListener {
             openGallery()
         }
 
-        // ================= LOGOUT (SQLite Session Clear) =================
+        // ================= LOGOUT =================
         logoutBtn.setOnClickListener {
-
-            // ❌ هنا نمسح أي session محفوظة في SQLite أو app
-            // (اختياري: إذا عندك table session لاحقاً)
-
             Toast.makeText(this, "Logged out", Toast.LENGTH_SHORT).show()
 
             val intent = Intent(this, LoginActivity::class.java)
@@ -69,13 +73,14 @@ class ProfileActivity : AppCompatActivity() {
         }
     }
 
-    // ================= IMAGE PICK =================
+    // ================= OPEN GALLERY =================
     private fun openGallery() {
         val intent = Intent(Intent.ACTION_PICK)
         intent.type = "image/*"
         startActivityForResult(intent, 100)
     }
 
+    // ================= RESULT =================
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -84,10 +89,14 @@ class ProfileActivity : AppCompatActivity() {
             val uri: Uri? = data?.data
 
             if (uri != null) {
+
                 val inputStream: InputStream? = contentResolver.openInputStream(uri)
                 val bitmap = BitmapFactory.decodeStream(inputStream)
 
                 profileImage.setImageBitmap(bitmap)
+
+                // 🔥 SAVE IMAGE IN SQLITE
+                db.updateProfileImage(email, uri.toString())
             }
         }
     }

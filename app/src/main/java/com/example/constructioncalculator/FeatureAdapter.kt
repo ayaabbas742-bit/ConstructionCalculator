@@ -32,13 +32,7 @@ class FeatureAdapter(private val list: List<Feature>) :
         holder.title.text = item.title
         holder.icon.setImageResource(item.icon)
 
-        // 🔹 ألوان متنوعة للبطاقات
-        val colors = listOf(
-            "#B2DFDB", "#F8BBD0", "#E1BEE7", "#C5E1A5",
-            "#FFE0B2", "#FFF59D", "#D7CCC8", "#DCEDC8",
-            "#CFD8DC", "#D1C4E9", "#FFCDD2"
-        )
-        holder.card.setCardBackgroundColor(Color.parseColor(colors[position % colors.size]))
+        holder.card.setCardBackgroundColor(Color.parseColor("#DFF5E1"))
 
         // 🔹 الضغط على البطاقة لكل ميزة
         holder.card.setOnClickListener {
@@ -61,6 +55,10 @@ class FeatureAdapter(private val list: List<Feature>) :
 
                 "Floor Plan" -> {
                     val intent = Intent(holder.itemView.context, FloorPlanActivity::class.java)
+                    holder.itemView.context.startActivity(intent)
+                }
+                "Plan Drawing" -> {
+                    val intent = Intent(holder.itemView.context, PlanDrawingActivity::class.java)
                     holder.itemView.context.startActivity(intent)
                 }
             }

@@ -1,16 +1,95 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent" android:background="#F2F2F2">
-    <!--  HEADER  -->
-    <RelativeLayout android:layout_width="match_parent" android:layout_height="150dp" android:background="@drawable/header_bg" android:padding="16dp">
-        <!--  Icons top-right  -->
-        <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:orientation="horizontal">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F2F2F2">
 
-            <ImageView android:id="@+id/ic_settings" android:layout_width="24dp" android:layout_height="24dp" android:scaleType="centerCrop" android:src="@drawable/ic_settings"/>
-        </LinearLayout>
-        <!--  Title  -->
-        <TextView android:id="@+id/title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="آلة حاسبة للبناء" android:textColor="#FFFFFF" android:textSize="24sp" android:textStyle="bold" android:layout_marginTop="16dp"/>
-        <!--  Description  -->
-        <TextView android:id="@+id/description" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="الآلة الحاسبة للبناء التي تساعدك في التخطيط والميزانية وتنفيذ مشاريعك" android:textColor="#FFFFFF" android:textSize="14sp" android:layout_below="@id/title" android:layout_marginTop="8dp"/>
-    </RelativeLayout>
-    <!--  GRID  -->
-    <androidx.recyclerview.widget.RecyclerView android:id="@+id/recycler" android:layout_width="match_parent" android:layout_height="match_parent" android:padding="8dp"/>
+    <!-- ================= HEADER ================= -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="210dp">
+
+        <!-- 📸 BACKGROUND -->
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/header_image" />
+
+        <!-- 🌑 OVERLAY (polished) -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#3A000000" />
+
+        <!-- CONTENT -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="18dp">
+
+            <!-- ⚙️ SETTINGS -->
+            <ImageView
+                android:id="@+id/ic_settings"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/bg_circle"
+                android:padding="8dp"
+                android:src="@drawable/ic_settings"
+                app:tint="#FFFFFF" />
+
+            <!-- 👷 TITLE -->
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hi, Engineer 👷"
+                android:textColor="#FFFFFF"
+                android:textSize="26sp"
+                android:textStyle="bold"
+                android:layout_marginTop="38dp" />
+
+            <!-- 👤 NAME -->
+            <TextView
+                android:id="@+id/engineer_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="#FFFFFF"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_below="@id/title"
+                android:layout_marginTop="6dp" />
+
+            <!-- 📄 DESCRIPTION -->
+            <TextView
+                android:id="@+id/description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Construction calculator for engineering projects"
+                android:textColor="#E7E7E7"
+                android:textSize="18sp"
+                android:lineSpacingExtra="2dp"
+                android:layout_below="@id/engineer_name"
+                android:layout_marginTop="6dp" />
+
+        </RelativeLayout>
+
+    </FrameLayout>
+
+    <!-- 🔹 SPACE BETWEEN HEADER & CARDS -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="14dp"/>
+
+    <!-- ================= GRID ================= -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp"
+        android:clipToPadding="false"/>
+
 </LinearLayout>

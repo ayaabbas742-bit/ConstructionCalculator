@@ -1,0 +1,21 @@
+<resources>
+
+<!-- شكل كل عنصر (زر فيه صورة + نص) -->
+<style name="itemStyle">
+    <item name="android:layout_width">90dp</item>
+    <item name="android:layout_height">match_parent</item>
+    <item name="android:orientation">vertical</item>
+    <item name="android:gravity">center</item>
+    <item name="android:padding">6dp</item>
+    <item name="android:background">?attr/selectableItemBackground</item>
+</style>
+
+<!-- شكل الصورة داخل العنصر -->
+<style name="imgStyle">
+    <item name="android:layout_width">50dp</item>
+    <item name="android:layout_height">50dp</item>
+    <item name="android:scaleType">centerInside</item>
+    <item name="android:adjustViewBounds">true</item>
+</style>
+
+</resources>

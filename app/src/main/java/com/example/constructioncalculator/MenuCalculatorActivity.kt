@@ -2,8 +2,8 @@ package com.example.constructioncalculator
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.card.MaterialCardView
 
 class MenuCalculatorActivity : AppCompatActivity() {
 
@@ -11,12 +11,14 @@ class MenuCalculatorActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu_calculator)
 
-        val brick = findViewById<LinearLayout>(R.id.card_bricks)
-        val tiles = findViewById<LinearLayout>(R.id.card_tiles)
-        val plaster = findViewById<LinearLayout>(R.id.card_plaster)
-        val concrete = findViewById<LinearLayout>(R.id.card_concrete)
-        val paint = findViewById<LinearLayout>(R.id.card_paint)
+        // ================= CARDS =================
+        val brick = findViewById<MaterialCardView>(R.id.card_bricks)
+        val tiles = findViewById<MaterialCardView>(R.id.card_tiles)
+        val plaster = findViewById<MaterialCardView>(R.id.card_plaster)
+        val concrete = findViewById<MaterialCardView>(R.id.card_concrete)
+        val paint = findViewById<MaterialCardView>(R.id.card_paint)
 
+        // ================= CLICK EVENTS =================
         brick.setOnClickListener {
             startActivity(Intent(this, BrickActivity::class.java))
         }
