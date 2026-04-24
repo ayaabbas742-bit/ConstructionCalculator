@@ -4,7 +4,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layoutDirection="rtl"
     android:background="#F5F5F5">
 
     <LinearLayout
@@ -12,18 +11,74 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/etSearch"
+        <!-- Top Bar -->
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="بحث.."
-            android:padding="12dp"
-            android:layout_margin="12dp"
-            android:drawableEnd="@drawable/ic_search"
-            android:background="@drawable/search_bg"
-            android:inputType="text"
-            android:gravity="end"/>
+            android:layout_height="56dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="#FFFFFF"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:elevation="4dp">
 
+            <ImageButton
+                android:id="@+id/btnBack"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_back"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:tint="#333333"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Construction Notes"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="#1a1a1a"
+                android:gravity="center"/>
+
+            <View
+                android:layout_width="40dp"
+                android:layout_height="40dp"/>
+
+        </LinearLayout>
+
+        <!-- Search Bar -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="#FFFFFF"
+            android:layout_margin="12dp"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp">
+
+            <EditText
+                android:id="@+id/etSearch"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:hint="Search.."
+                android:textSize="18sp"
+                android:textColorHint="#AAAAAA"
+                android:gravity="end|center_vertical"
+                android:background="@null"
+                android:inputType="text"/>
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_search"
+                android:layout_marginStart="8dp"
+                android:tint="#AAAAAA"/>
+
+        </LinearLayout>
+
+        <!-- Notes List -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerNotes"
             android:layout_width="match_parent"
@@ -33,14 +88,17 @@
 
     </LinearLayout>
 
+    <!-- FAB في الأسفل اليمين -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
         android:src="@drawable/ic_add"
-        app:backgroundTint="#585A5B"
-        app:tint="@android:color/white"/>
+        app:backgroundTint="#555555"
+        app:tint="@android:color/white"
+        app:fabSize="normal"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

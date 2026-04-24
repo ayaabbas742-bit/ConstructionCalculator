@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
 import android.view.View
-import kotlin.math.max
 import kotlin.math.min
 
 class IrregularShapeView @JvmOverloads constructor(
@@ -12,11 +11,36 @@ class IrregularShapeView @JvmOverloads constructor(
     attrs: AttributeSet? = null
 ) : View(context, attrs) {
 
-    private val paint = Paint().apply {
+    // رسم الخطوط
+    private val linePaint = Paint().apply {
         color = Color.parseColor("#6D4C41")
         style = Paint.Style.STROKE
         strokeWidth = 5f
         isAntiAlias = true
+    }
+
+    // تلوين داخل الشكل
+    private val fillPaint = Paint().apply {
+        color = Color.parseColor("#6D4C41")
+        alpha = 40
+        style = Paint.Style.FILL
+        isAntiAlias = true
+    }
+
+    // رسم النقاط
+    private val dotPaint = Paint().apply {
+        color = Color.RED
+        style = Paint.Style.FILL
+        isAntiAlias = true
+    }
+
+    // أرقام النقاط
+    private val textPaint = Paint().apply {
+        color = Color.BLACK
+        textSize = 32f
+        textAlign = Paint.Align.CENTER
+        isAntiAlias = true
+        typeface = Typeface.DEFAULT_BOLD
     }
 
     private val path = Path()
@@ -34,7 +58,6 @@ class IrregularShapeView @JvmOverloads constructor(
 
         path.reset()
 
-        // 🔥 حساب الحدود
         val minX = points.minOf { it.first }
         val maxX = points.maxOf { it.first }
         val minY = points.minOf { it.second }
@@ -45,14 +68,12 @@ class IrregularShapeView @JvmOverloads constructor(
 
         if (widthRange == 0f || heightRange == 0f) return
 
-        // 🔥 Padding داخل الشاشة
-        val padding = 40f
+        val padding = 50f
 
         val scaleX = (width - padding * 2) / widthRange
         val scaleY = (height - padding * 2) / heightRange
         val scale = min(scaleX, scaleY)
 
-        // 🔥 تمركز الشكل في الوسط
         val offsetX = (width - widthRange * scale) / 2
         val offsetY = (height - heightRange * scale) / 2
 
@@ -63,6 +84,7 @@ class IrregularShapeView @JvmOverloads constructor(
             )
         }
 
+        // رسم الشكل
         val first = transform(points[0])
         path.moveTo(first.x, first.y)
 
@@ -70,9 +92,28 @@ class IrregularShapeView @JvmOverloads constructor(
             val pt = transform(points[i])
             path.lineTo(pt.x, pt.y)
         }
-
         path.close()
 
-        canvas.drawPath(path, paint)
+        // تلوين الداخل
+        canvas.drawPath(path, fillPaint)
+
+        // رسم الحدود
+        canvas.drawPath(path, linePaint)
+
+        // رسم النقاط والأرقام
+        for (i in points.indices) {
+            val pt = transform(points[i])
+
+            // دائرة حمراء
+            canvas.drawCircle(pt.x, pt.y, 10f, dotPaint)
+
+            // رقم النقطة
+            canvas.drawText(
+                "P${i + 1}",
+                pt.x,
+                pt.y - 18f,
+                textPaint
+            )
+        }
     }
 }

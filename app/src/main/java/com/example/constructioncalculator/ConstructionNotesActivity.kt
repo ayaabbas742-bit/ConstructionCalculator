@@ -18,14 +18,12 @@ class ConstructionNotesActivity : AppCompatActivity() {
         binding = ActivityConstructionNotesBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        supportActionBar?.apply {
-            title = "ملاحظات البناء"
-            setDisplayHomeAsUpEnabled(true)
-        }
+        supportActionBar?.hide()
 
         setupRecyclerView()
         setupSearch()
         setupFab()
+        setupBack()
     }
 
     private fun setupRecyclerView() {
@@ -66,13 +64,14 @@ class ConstructionNotesActivity : AppCompatActivity() {
         }
     }
 
+    private fun setupBack() {
+        binding.btnBack.setOnClickListener {
+            finish()
+        }
+    }
+
     override fun onResume() {
         super.onResume()
         adapter.updateList(NoteManager.getAllNotes())
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
-        finish()
-        return true
     }
 }

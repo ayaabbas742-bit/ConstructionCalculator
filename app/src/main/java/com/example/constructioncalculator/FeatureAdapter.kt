@@ -61,6 +61,10 @@ class FeatureAdapter(private val list: List<Feature>) :
                     val intent = Intent(holder.itemView.context, PlanDrawingActivity::class.java)
                     holder.itemView.context.startActivity(intent)
                 }
+                "Construction Notes" -> {
+                    val intent = Intent(holder.itemView.context, ConstructionNotesActivity::class.java)
+                    holder.itemView.context.startActivity(intent)
+                }
             }
         }
     }

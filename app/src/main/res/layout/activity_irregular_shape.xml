@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white">
@@ -15,10 +16,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Irregular Shape Calculator"
-            android:textSize="24sp"
+            android:textSize="22sp"
             android:textStyle="bold"
             android:layout_gravity="center_horizontal"
-            android:padding="10dp"/>
+            android:paddingBottom="10dp"/>
 
         <!-- CANVAS -->
         <com.example.constructioncalculator.IrregularShapeView
@@ -28,144 +29,94 @@
             android:background="#EEE"
             android:layout_marginBottom="15dp"/>
 
-        <!-- POINT 1 -->
+        <!-- POINT COUNT -->
         <TextView
-            android:text="Point 1"
+            android:id="@+id/tvPointCount"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:text="Points added: 0"
+            android:textSize="14sp"
+            android:textColor="#666666"
+            android:paddingBottom="8dp"/>
+
+        <!-- INPUT -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add Point"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:paddingBottom="6dp"/>
 
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/p1x"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:hint="X1"
-                android:layout_height="wrap_content"/>
-
-            <EditText android:id="@+id/p1y"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:hint="Y1"
-            android:layout_height="wrap_content"/>
-        </LinearLayout>
-
-        <!-- POINT 2 -->
-        <TextView android:text="Point 2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-        <LinearLayout android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <EditText android:id="@+id/p2x"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:hint="X2"
-                android:layout_height="wrap_content"/>
-            <EditText android:id="@+id/p2y"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:hint="Y2"
-                android:layout_height="wrap_content"/>
-        </LinearLayout>
-
-        <!-- POINT 3 -->
-        <TextView android:text="Point 3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-        <LinearLayout android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <EditText android:id="@+id/p3x"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:hint="X3"
-                android:layout_height="wrap_content"/>
-            <EditText android:id="@+id/p3y"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:hint="Y3"
-                android:layout_height="wrap_content"/>
-        </LinearLayout>
-
-        <!-- POINT 4 -->
-        <TextView android:text="Point 4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-        <LinearLayout android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <EditText android:id="@+id/p4x"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:hint="X4"
-                android:layout_height="wrap_content"/>
-            <EditText android:id="@+id/p4y"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:hint="Y4"
-                android:layout_height="wrap_content"/>
-        </LinearLayout>
-
-        <!-- EXTRA INPUT FOR ADD POINT -->
-        <TextView android:text="Extra Point (optional)" android:paddingTop="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-        <LinearLayout android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
             <EditText
                 android:id="@+id/etX"
                 android:layout_width="0dp"
                 android:layout_weight="1"
+                android:layout_height="wrap_content"
                 android:hint="X"
-                android:layout_height="wrap_content"/>
+                android:inputType="numberDecimal"
+                android:layout_marginEnd="8dp"/>
+
             <EditText
                 android:id="@+id/etY"
                 android:layout_width="0dp"
                 android:layout_weight="1"
+                android:layout_height="wrap_content"
                 android:hint="Y"
-                android:layout_height="wrap_content"/>
+                android:inputType="numberDecimal"/>
+
         </LinearLayout>
 
         <!-- BUTTONS -->
         <Button
             android:id="@+id/btnAddPoint"
-            android:text="➕ Add Point"
             android:layout_width="match_parent"
-            android:layout_height="48dp"/>
+            android:layout_height="48dp"
+            android:text="➕ Add Point"
+            android:backgroundTint="#2196F3"
+            android:layout_marginTop="10dp"/>
 
         <Button
             android:id="@+id/btnDeletePoint"
-            android:backgroundTint="#5B5A5A"
-            android:text="❌ Delete Last Point"
             android:layout_width="match_parent"
-            android:layout_height="48dp"/>
+            android:layout_height="48dp"
+            android:text="❌ Delete Last Point"
+            android:backgroundTint="#5B5A5A"
+            android:layout_marginTop="6dp"/>
+
         <Button
             android:id="@+id/btnClearPoints"
-            android:backgroundTint="#786969"
-            android:text="♻️ Clear All"
             android:layout_width="match_parent"
-            android:layout_height="48dp"/>
+            android:layout_height="48dp"
+            android:text="♻️ Clear All"
+            android:backgroundTint="#786969"
+            android:layout_marginTop="6dp"/>
 
         <Button
             android:id="@+id/btnCalculate"
-            android:text="📐 Calculate"
-            android:backgroundTint="#3C3C3C"
             android:layout_width="match_parent"
-            android:layout_height="50dp"/>
+            android:layout_height="50dp"
+            android:text="📐 Calculate Area"
+            android:backgroundTint="#3C3C3C"
+            android:layout_marginTop="10dp"/>
 
         <!-- RESULT -->
         <TextView
             android:id="@+id/txtArea"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="wrap_content"
             android:text="Area ="
-            android:textSize="18sp"
-            android:padding="10dp"/>
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:padding="16dp"
+            android:layout_marginTop="10dp"
+            android:background="#F5F5F5"/>
 
     </LinearLayout>
 </ScrollView>
