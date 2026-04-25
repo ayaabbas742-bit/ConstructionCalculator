@@ -21,7 +21,7 @@
     <View
         android:layout_width="70dp"
         android:layout_height="3dp"
-        android:background="#DFF5E1"
+        android:background="#B0BEC5"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="14dp"/>
 

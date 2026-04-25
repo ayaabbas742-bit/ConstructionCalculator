@@ -1,44 +1,49 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+android:id="@+id/card"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:layout_margin="6dp"
+app:cardCornerRadius="16dp"
+app:cardElevation="4dp"
+app:cardBackgroundColor="#FFFFFF">
+
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="8dp"
-    android:orientation="vertical">
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="12dp">
 
-    <!-- CARD -->
+    <!-- المربع الملون -->
     <androidx.cardview.widget.CardView
-        android:id="@+id/card"
-        android:layout_width="match_parent"
-        android:layout_height="120dp"
-        app:cardCornerRadius="16dp"
-        app:cardElevation="6dp"
-        app:cardBackgroundColor="#E0E0E0">
+        android:id="@+id/colorBox"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="0dp">
 
-        <!-- CENTER CONTENT -->
-        <LinearLayout
+        <ImageView
+            android:id="@+id/icon"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <!-- ICON -->
-            <ImageView
-                android:id="@+id/icon"
-                android:layout_width="72dp"
-                android:layout_height="72dp"
-                android:scaleType="fitCenter" />
-
-        </LinearLayout>
+            android:scaleType="centerInside"
+            android:padding="10dp"/>
 
     </androidx.cardview.widget.CardView>
 
-    <!-- TITLE -->
+    <!-- الاسم -->
     <TextView
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center"
-        android:textSize="14sp"
+        android:textSize="12sp"
         android:textColor="#333333"
-        android:layout_marginTop="6dp"/>
+        android:layout_marginTop="8dp"/>
+
 </LinearLayout>
+
+</androidx.cardview.widget.CardView>

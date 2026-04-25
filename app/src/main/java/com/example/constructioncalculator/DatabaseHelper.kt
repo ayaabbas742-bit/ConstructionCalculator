@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
 class DatabaseHelper(context: Context) :
-    SQLiteOpenHelper(context, "ConstructionDB", null, 5) {
+    SQLiteOpenHelper(context, "ConstructionDB", null, 6) {
 
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL("""
@@ -121,6 +121,9 @@ class DatabaseHelper(context: Context) :
         )
     """)
         }
+        if (oldVersion < 6) {
+            db.execSQL("ALTER TABLE users ADD COLUMN profile_image TEXT")
+        }            // نهاية onUpgrade
     }
 
     // ================= USERS =================

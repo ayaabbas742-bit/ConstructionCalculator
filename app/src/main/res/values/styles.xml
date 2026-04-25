@@ -18,4 +18,13 @@
     <item name="android:adjustViewBounds">true</item>
 </style>
 
+<!-- Theme -->
+<style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <item name="android:statusBarColor">#0D2535</item>
+    <item name="android:navigationBarColor">#0D2535</item>
+</style>
+    <style name="CircleImageView">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
 </resources>

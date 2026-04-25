@@ -9,10 +9,10 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Construction Materials 🧱"
+        android:text="Construction Materials "
         android:textSize="24sp"
         android:textStyle="bold"
-        android:textColor="#1FA7A5"
+        android:textColor="#0C0D0D"
         android:layout_margin="16dp"/>
 
     <!-- GRID -->
@@ -37,8 +37,8 @@
                 android:layout_margin="8dp"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="8dp"
-                app:cardBackgroundColor="#DFF5E1"
-                app:strokeColor="#B2DFDB"
+                app:cardBackgroundColor="#B0BEC5"
+                app:strokeColor="#B0BEC5"
                 app:strokeWidth="1dp"
                 android:clickable="true"
                 android:focusable="true">
@@ -77,8 +77,8 @@
                 android:layout_margin="8dp"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="8dp"
-                app:cardBackgroundColor="#DFF5E1"
-                app:strokeColor="#B2DFDB"
+                app:cardBackgroundColor="#B0BEC5"
+                app:strokeColor="#B0BEC5"
                 app:strokeWidth="1dp"
                 android:clickable="true"
                 android:focusable="true">
@@ -117,8 +117,8 @@
                 android:layout_margin="8dp"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="8dp"
-                app:cardBackgroundColor="#DFF5E1"
-                app:strokeColor="#B2DFDB"
+                app:cardBackgroundColor="#B0BEC5"
+                app:strokeColor="#B0BEC5"
                 app:strokeWidth="1dp"
                 android:clickable="true"
                 android:focusable="true">
@@ -156,8 +156,8 @@
                 android:layout_margin="8dp"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="8dp"
-                app:cardBackgroundColor="#DFF5E1"
-                app:strokeColor="#B2DFDB"
+                app:cardBackgroundColor="#B0BEC5"
+                app:strokeColor="#B0BEC5"
                 app:strokeWidth="1dp"
                 android:clickable="true"
                 android:focusable="true">
@@ -195,8 +195,8 @@
                 android:layout_margin="8dp"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="8dp"
-                app:cardBackgroundColor="#DFF5E1"
-                app:strokeColor="#B2DFDB"
+                app:cardBackgroundColor="#B0BEC5"
+                app:strokeColor="#B0BEC5"
                 app:strokeWidth="1dp"
                 android:clickable="true"
                 android:focusable="true">

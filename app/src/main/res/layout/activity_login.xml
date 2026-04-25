@@ -15,7 +15,7 @@
             android:layout_height="250dp"
             android:gravity="center"
             android:orientation="vertical"
-            android:background="#19A7A6">
+            android:background="#0D2535">
 
             <ImageView
                 android:layout_width="180dp"
@@ -24,8 +24,8 @@
 
             <TextView
                 android:text="LOGIN"
-                android:textColor="#FFFFFF"
-                android:textSize="25sp"
+                android:textColor="#1FA7A5"
+                android:textSize="28sp"
                 android:textStyle="bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
@@ -81,7 +81,7 @@
             <TextView
                 android:id="@+id/forgot"
                 android:text="Forgot Password?"
-                android:textColor="#19A7A6"
+                android:textColor="#1FA7A5"
                 android:textStyle="bold"
                 android:gravity="end"
                 android:layout_marginTop="5dp"
@@ -95,7 +95,7 @@
                 android:layout_height="60dp"
                 android:text="LOGIN"
                 android:textColor="#FFFFFF"
-                android:backgroundTint="#19A7A6"
+                android:backgroundTint="#1FA7A5"
                 android:layout_marginTop="15dp"/>
 
 

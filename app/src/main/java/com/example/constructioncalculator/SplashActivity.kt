@@ -18,11 +18,17 @@ class SplashActivity : AppCompatActivity() {
         val dot2 = findViewById<View>(R.id.dot2)
         val dot3 = findViewById<View>(R.id.dot3)
 
-        val anim = AnimationUtils.loadAnimation(this, R.anim.loader_blink)
+        val anim1 = AnimationUtils.loadAnimation(this, R.anim.loader_blink)
+        val anim2 = AnimationUtils.loadAnimation(this, R.anim.loader_blink)
+        val anim3 = AnimationUtils.loadAnimation(this, R.anim.loader_blink)
 
-        dot1.startAnimation(anim)
-        dot2.startAnimation(anim.apply { startOffset = 150 })
-        dot3.startAnimation(anim.apply { startOffset = 300 })
+        anim1.startOffset = 0
+        anim2.startOffset = 150
+        anim3.startOffset = 300
+
+        dot1.startAnimation(anim1)
+        dot2.startAnimation(anim2)
+        dot3.startAnimation(anim3)
 
         // ✅ SESSION
         val pref = getSharedPreferences("SESSION", MODE_PRIVATE)

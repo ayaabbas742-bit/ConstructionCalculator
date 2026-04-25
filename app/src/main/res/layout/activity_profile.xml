@@ -1,4 +1,5 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F2F2F2">
@@ -6,104 +7,184 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="20dp">
+        android:orientation="vertical">
 
         <!-- HEADER -->
-        <LinearLayout
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="180dp"
-            android:background="#19A7A6"
-            android:gravity="center"
-            android:orientation="vertical">
+            android:layout_height="200dp"
+            android:background="#1FA7A5">
 
             <TextView
                 android:text="ENGINEER PROFILE"
-                android:textSize="22sp"
+                android:textSize="24sp"
                 android:textStyle="bold"
                 android:textColor="#FFFFFF"
+                android:gravity="center"
+                android:layout_gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
-        </LinearLayout>
+        </FrameLayout>
 
         <!-- PROFILE IMAGE -->
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/profileImage"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
             android:layout_gravity="center"
+            android:layout_marginTop="-65dp"
             android:src="@drawable/ic_user"
-            android:layout_marginTop="-60dp"
-            android:background="@drawable/circle_bg"
-            android:padding="10dp"
-            android:scaleType="centerCrop"/>
+            android:scaleType="centerCrop"
+            app:shapeAppearanceOverlay="@style/CircleImageView"
+            app:strokeColor="#19A7A6"
+            app:strokeWidth="4dp"/>
 
-        <!-- FIRST NAME -->
-        <TextView android:text="First Name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+        <!-- TAP TO CHANGE -->
         <TextView
-            android:id="@+id/nameText"
-            android:background="#FFFFFF"
-            android:padding="12dp"
-            android:textSize="18sp"
+            android:text="Tap to change photo"
+            android:textSize="12sp"
+            android:textColor="#19A7A6"
+            android:gravity="center"
+            android:layout_marginTop="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
-        <!-- LAST NAME -->
-        <TextView android:text="Last Name"
+        <!-- CARD INFO -->
+        <androidx.cardview.widget.CardView
+            xmlns:card="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-        <TextView
-            android:id="@+id/lastNameText"
-            android:background="#FFFFFF"
-            android:padding="12dp"
-            android:textSize="18sp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            card:cardCornerRadius="16dp"
+            card:cardElevation="4dp"
+            card:cardBackgroundColor="#FFFFFF">
 
-        <!-- EMAIL -->
-        <TextView android:text="Email"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-        <TextView
-            android:id="@+id/emailText"
-            android:background="#FFFFFF"
-            android:padding="12dp"
-            android:textSize="18sp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
 
-        <!-- RATING -->
-        <TextView
-            android:text="Rating"
-            android:layout_marginTop="20dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+                <!-- FIRST NAME -->
+                <TextView
+                    android:text="👤 First Name"
+                    android:textStyle="bold"
+                    android:textColor="#555"
+                    android:textSize="13sp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:id="@+id/nameText"
+                    android:textSize="17sp"
+                    android:textColor="#111"
+                    android:paddingBottom="12dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
 
-        <RatingBar
-            android:id="@+id/ratingBar"
-            android:numStars="5"
-            android:stepSize="0.5"
-            android:rating="4.5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#EEEEEE"/>
 
-        <TextView
-            android:id="@+id/ratingText"
-            android:text="Engineer Rating"
-            android:textStyle="bold"
-            android:layout_marginTop="10dp"
+                <!-- LAST NAME -->
+                <TextView
+                    android:text="👤 Last Name"
+                    android:textStyle="bold"
+                    android:textColor="#555"
+                    android:textSize="13sp"
+                    android:paddingTop="12dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:id="@+id/lastNameText"
+                    android:textSize="17sp"
+                    android:textColor="#111"
+                    android:paddingBottom="12dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#EEEEEE"/>
+
+                <!-- EMAIL -->
+                <TextView
+                    android:text="📧 Email"
+                    android:textStyle="bold"
+                    android:textColor="#555"
+                    android:textSize="13sp"
+                    android:paddingTop="12dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:id="@+id/emailText"
+                    android:textSize="17sp"
+                    android:textColor="#111"
+                    android:paddingBottom="4dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- RATING CARD -->
+        <androidx.cardview.widget.CardView
+            xmlns:card="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            card:cardCornerRadius="16dp"
+            card:cardElevation="4dp"
+            card:cardBackgroundColor="#FFFFFF">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:text="⭐ Rating"
+                    android:textStyle="bold"
+                    android:textColor="#555"
+                    android:textSize="13sp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <RatingBar
+                    android:id="@+id/ratingBar"
+                    android:numStars="5"
+                    android:stepSize="0.5"
+                    android:rating="4.5"
+                    android:layout_marginTop="8dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:id="@+id/ratingText"
+                    android:text="Engineer Rating"
+                    android:textStyle="bold"
+                    android:textColor="#333"
+                    android:layout_marginTop="8dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- LOGOUT -->
         <Button
             android:id="@+id/logoutBtn"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:text="LOGOUT"
             android:textColor="#FFF"
-            android:backgroundTint="#E53935"
-            android:layout_marginTop="30dp"/>
+            android:backgroundTint="#BF4D4B"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="24dp"/>
 
     </LinearLayout>
 

@@ -13,10 +13,22 @@ import androidx.recyclerview.widget.RecyclerView
 class FeatureAdapter(private val list: List<Feature>) :
     RecyclerView.Adapter<FeatureAdapter.ViewHolder>() {
 
+    private val colors = listOf(
+        "#B0BEC5", // رمادي زيتوني
+        "#B0BEC5",
+        "#B0BEC5",
+        "#B0BEC5",
+        "#B0BEC5",
+        "#B0BEC5",
+        "#B0BEC5",
+        "#B0BEC5",
+        "#B0BEC5"
+    )
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val title: TextView = view.findViewById(R.id.title)
         val icon: ImageView = view.findViewById(R.id.icon)
         val card: CardView = view.findViewById(R.id.card)
+        val colorBox: CardView = view.findViewById(R.id.colorBox)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -31,40 +43,16 @@ class FeatureAdapter(private val list: List<Feature>) :
         val item = list[position]
         holder.title.text = item.title
         holder.icon.setImageResource(item.icon)
+        holder.colorBox.setCardBackgroundColor(Color.parseColor(colors[position]))
 
-        holder.card.setCardBackgroundColor(Color.parseColor("#DFF5E1"))
-
-        // 🔹 الضغط على البطاقة لكل ميزة
         holder.card.setOnClickListener {
             when (item.title) {
-
-                "Construction Calculator" -> {
-                    val intent = Intent(holder.itemView.context, MenuCalculatorActivity::class.java)
-                    holder.itemView.context.startActivity(intent)
-                }
-
-                "Area Calculator" -> {
-                    val intent = Intent(holder.itemView.context, AreaCalculatorActivity::class.java)
-                    holder.itemView.context.startActivity(intent)
-                }
-
-                "Tank Calculator" -> {
-                    val intent = Intent(holder.itemView.context, TankCalculatorActivity::class.java)
-                    holder.itemView.context.startActivity(intent)
-                }
-
-                "Floor Plan" -> {
-                    val intent = Intent(holder.itemView.context, FloorPlanActivity::class.java)
-                    holder.itemView.context.startActivity(intent)
-                }
-                "Plan Drawing" -> {
-                    val intent = Intent(holder.itemView.context, PlanDrawingActivity::class.java)
-                    holder.itemView.context.startActivity(intent)
-                }
-                "Construction Notes" -> {
-                    val intent = Intent(holder.itemView.context, ConstructionNotesActivity::class.java)
-                    holder.itemView.context.startActivity(intent)
-                }
+                "Construction Calculator" -> holder.itemView.context.startActivity(Intent(holder.itemView.context, MenuCalculatorActivity::class.java))
+                "Area Calculator" -> holder.itemView.context.startActivity(Intent(holder.itemView.context, AreaCalculatorActivity::class.java))
+                "Tank Calculator" -> holder.itemView.context.startActivity(Intent(holder.itemView.context, TankCalculatorActivity::class.java))
+                "Floor Plan" -> holder.itemView.context.startActivity(Intent(holder.itemView.context, FloorPlanActivity::class.java))
+                "Plan Drawing" -> holder.itemView.context.startActivity(Intent(holder.itemView.context, PlanDrawingActivity::class.java))
+                "Construction Notes" -> holder.itemView.context.startActivity(Intent(holder.itemView.context, ConstructionNotesActivity::class.java))
             }
         }
     }

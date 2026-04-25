@@ -4,7 +4,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="90dp"
-        android:background="#29B3C5"
+        android:background="#707273"
         android:gravity="center_vertical"
         android:paddingStart="16dp">
         <TextView
