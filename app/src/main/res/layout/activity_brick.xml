@@ -1,185 +1,102 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#EEF3F7">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent" android:layout_height="match_parent" android:background="#F5F0EB">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        <!--  HEADER                                  -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:background="#2C1810" android:padding="20dp" android:layout_marginBottom="16dp">
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="🧱 BRICKS" android:textSize="32sp" android:textStyle="bold" android:textColor="#E8C97A" android:letterSpacing="0.15" android:gravity="center"/>
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="CALCULATOR PRO · 🇩🇿 Algerian Standard" android:textSize="12sp" android:textColor="#A08060" android:gravity="center" android:letterSpacing="0.1" android:layout_marginTop="4dp"/>
+        </LinearLayout>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Bricks Calculator PRO"
-            android:textSize="26sp"
-            android:textStyle="bold"
-            android:gravity="center"
-            android:textColor="#111827"
-            android:padding="10dp"/>
-
-
-        <!-- WALL -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="14dp"
-            android:background="@drawable/card_bg"
-            android:layout_marginBottom="12dp">
-
-            <TextView
-                android:text="WALL"
-                android:textStyle="bold"
-                android:textSize="22sp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-            <!-- IMAGE -->
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="220dp"
-                android:layout_height="180dp"
-                android:layout_gravity="center"
-                app:cardCornerRadius="25dp"
-                app:cardElevation="10dp">
-
-                <ImageView
-                    android:id="@+id/wallimage"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/wall"
-                    android:scaleType="centerCrop"/>
+        <!--  BRICK TYPE CARD                         -->
+        <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="12dp" app:cardCornerRadius="12dp" app:cardElevation="6dp" app:cardBackgroundColor="#FFFDF8">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginBottom="12dp">
+                    <View android:layout_width="4dp" android:layout_height="24dp" android:background="#E8C97A" android:layout_marginEnd="10dp"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="BRICK TYPE" android:textSize="13sp" android:textStyle="bold" android:textColor="#2C1810" android:letterSpacing="0.1"/>
+                </LinearLayout>
+                <com.google.android.material.card.MaterialCardView android:layout_width="160dp" android:layout_height="130dp" android:layout_gravity="center" android:layout_marginBottom="12dp" app:cardCornerRadius="10dp" app:cardElevation="4dp" app:strokeColor="#E8C97A" app:strokeWidth="2dp">
+                    <ImageView android:id="@+id/brickImage" android:layout_width="match_parent" android:layout_height="match_parent" android:scaleType="centerCrop"/>
+                </com.google.android.material.card.MaterialCardView>
+                <Spinner android:id="@+id/spinnerBrick" android:layout_width="match_parent" android:layout_height="50dp" android:background="@drawable/spinner_bg" android:layout_marginBottom="10dp"/>
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="💰 Price per brick (DZD)" android:textSize="13sp" android:textStyle="bold" android:textColor="#5C3D2E" android:paddingBottom="4dp"/>
+                <EditText android:id="@+id/price" android:layout_width="match_parent" android:layout_height="50dp" android:hint="0.00 DZD" android:inputType="numberDecimal" android:background="@drawable/edittext_bg" android:paddingStart="12dp" android:paddingEnd="12dp"/>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+        <!--  ══════════════════════════════════════  -->
+        <!--  WALL DIMENSIONS CARD                    -->
+        <!--  ══════════════════════════════════════  -->
+        <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="12dp" app:cardCornerRadius="12dp" app:cardElevation="6dp" app:cardBackgroundColor="#FFFDF8">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
+            <!--  Section header  -->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginBottom="12dp">
+                <View android:layout_width="4dp" android:layout_height="24dp" android:background="#E8C97A" android:layout_marginEnd="10dp"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="WALL DIMENSIONS" android:textSize="13sp" android:textStyle="bold" android:textColor="#2C1810" android:letterSpacing="0.1"/>
+            </LinearLayout>
+            <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="140dp" android:layout_gravity="center" android:layout_marginBottom="12dp" app:cardCornerRadius="10dp" app:cardElevation="4dp">
+                <ImageView android:id="@+id/wallimage" android:layout_width="match_parent" android:layout_height="match_parent" android:src="@drawable/wall" android:scaleType="centerCrop"/>
             </com.google.android.material.card.MaterialCardView>
-            <EditText
-                android:id="@+id/wallWidth"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="48dp"
-                android:inputType="numberDecimal"
-                android:hint="Width (m)"
-                android:layout_marginTop="6dp"/>
-
-            <EditText
-                android:id="@+id/wallHeight"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="48dp"
-                android:inputType="numberDecimal"
-                android:hint="Height (m)"
-                android:layout_marginTop="6dp"/>
-
-            <EditText
-                android:id="@+id/openings"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="48dp"
-                android:inputType="numberDecimal"
-                android:hint="Openings (m²)"
-                android:layout_marginTop="6dp"/>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:weightSum="2">
+                <EditText android:id="@+id/etLength" android:layout_width="0dp" android:layout_weight="1" android:layout_height="50dp" android:hint="Length (m)" android:inputType="numberDecimal" android:background="@drawable/edittext_bg" android:paddingStart="12dp" android:layout_marginEnd="6dp"/>
+                <EditText android:id="@+id/etHeight" android:layout_width="0dp" android:layout_weight="1" android:layout_height="50dp" android:hint="Height (m)" android:inputType="numberDecimal" android:background="@drawable/edittext_bg" android:paddingStart="12dp" android:layout_marginStart="6dp"/>
+            </LinearLayout>
+            <!--  DOOR  -->
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#E8D5C0" android:layout_marginVertical="12dp"/>
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="🚪 Door Dimensions" android:textSize="13sp" android:textStyle="bold" android:textColor="#5C3D2E" android:paddingBottom="6dp"/>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:weightSum="2">
+                <EditText android:id="@+id/etDoorL" android:layout_width="0dp" android:layout_weight="1" android:layout_height="50dp" android:hint="Length (m)" android:inputType="numberDecimal" android:background="@drawable/edittext_bg" android:paddingStart="12dp" android:layout_marginEnd="6dp"/>
+                <EditText android:id="@+id/etDoorW" android:layout_width="0dp" android:layout_weight="1" android:layout_height="50dp" android:hint="Width (m)" android:inputType="numberDecimal" android:background="@drawable/edittext_bg" android:paddingStart="12dp" android:layout_marginStart="6dp"/>
+            </LinearLayout>
+            <com.google.android.material.button.MaterialButton android:id="@+id/btnAddDoor" android:layout_width="match_parent" android:layout_height="44dp" android:layout_marginTop="8dp" android:text="➕ ADD DOOR" android:textSize="13sp" app:backgroundTint="#5C3D2E" app:cornerRadius="8dp"/>
+            <TextView android:id="@+id/tvDoors" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Doors: none" android:textSize="12sp" android:fontFamily="monospace" android:padding="8dp" android:background="#FFF5E6" android:textColor="#2C1810" android:layout_marginTop="6dp"/>
+            <!--  WINDOW  -->
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#E8D5C0" android:layout_marginVertical="12dp"/>
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="🪟 Window Dimensions" android:textSize="13sp" android:textStyle="bold" android:textColor="#5C3D2E" android:paddingBottom="6dp"/>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:weightSum="2">
+            <EditText android:id="@+id/etWindowL" android:layout_width="0dp" android:layout_weight="1" android:layout_height="50dp" android:hint="Length (m)" android:inputType="numberDecimal" android:background="@drawable/edittext_bg" android:paddingStart="12dp" android:layout_marginEnd="6dp"/>
+            <EditText android:id="@+id/etWindowW" android:layout_width="0dp" android:layout_weight="1" android:layout_height="50dp" android:hint="Width (m)" android:inputType="numberDecimal" android:background="@drawable/edittext_bg" android:paddingStart="12dp" android:layout_marginStart="6dp"/>
+        </LinearLayout>
+            <com.google.android.material.button.MaterialButton android:id="@+id/btnAddWindow" android:layout_width="match_parent" android:layout_height="44dp" android:layout_marginTop="8dp" android:text="➕ ADD WINDOW" android:textSize="13sp" app:backgroundTint="#5C3D2E" app:cornerRadius="8dp"/>
+            <TextView android:id="@+id/tvWindows" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Windows: none" android:textSize="12sp" android:fontFamily="monospace" android:padding="8dp" android:background="#FFF5E6" android:textColor="#2C1810" android:layout_marginTop="6dp"/>
+            <!--  WALL ACTION BUTTONS  -->
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#E8D5C0" android:layout_marginVertical="12dp"/>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:weightSum="2" android:layout_marginBottom="8dp">
+                <com.google.android.material.button.MaterialButton android:id="@+id/btnAddWall" android:layout_width="0dp" android:layout_weight="1" android:layout_height="50dp" android:layout_marginEnd="4dp" android:text="ADD WALL" android:textSize="13sp" app:backgroundTint="#2C1810" app:cornerRadius="8dp"/>
+                <com.google.android.material.button.MaterialButton android:id="@+id/btnModifyWall" android:layout_width="0dp" android:layout_weight="1" android:layout_height="50dp" android:layout_marginStart="4dp" android:text="✏️ MODIFY" android:textSize="13sp" app:backgroundTint="#1565C0" app:cornerRadius="8dp"/>
+            </LinearLayout>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:weightSum="2">
+                <com.google.android.material.button.MaterialButton android:id="@+id/btnDeleteWall" android:layout_width="0dp" android:layout_weight="1" android:layout_height="50dp" android:layout_marginEnd="4dp" android:text="🗑 DELETE" android:textSize="13sp" app:backgroundTint="#B71C1C" app:cornerRadius="8dp"/>
+                <com.google.android.material.button.MaterialButton android:id="@+id/btnReset" android:layout_width="0dp" android:layout_weight="1" android:layout_height="50dp" android:layout_marginStart="4dp" android:text="🔄 RESET" android:textSize="13sp" app:backgroundTint="#37474F" app:cornerRadius="8dp"/>
+            </LinearLayout>
+            <TextView android:id="@+id/tvWalls" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Walls: none" android:textSize="12sp" android:fontFamily="monospace" android:padding="8dp" android:background="#FFF5E6" android:textColor="#2C1810" android:layout_marginTop="10dp"/>
+        </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+        <!--  ══════════════════════════════════════  -->
+        <!--  LAYERS + MORTAR CARD                    -->
+        <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="12dp" app:cardCornerRadius="12dp" app:cardElevation="6dp" app:cardBackgroundColor="#FFFDF8">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginBottom="12dp">
+                <View android:layout_width="4dp" android:layout_height="24dp" android:background="#E8C97A" android:layout_marginEnd="10dp"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="LAYERS &amp; MORTAR" android:textSize="13sp" android:textStyle="bold" android:textColor="#2C1810" android:letterSpacing="0.1"/>
+            </LinearLayout>
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="🏗 Wall Layers" android:textSize="13sp" android:textStyle="bold" android:textColor="#5C3D2E" android:paddingBottom="4dp"/>
+            <Spinner android:id="@+id/spinnerThickness" android:layout_width="match_parent" android:layout_height="50dp" android:background="@drawable/spinner_bg" android:layout_marginBottom="12dp"/>
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="🧪 Mortar Ratio (Cement : Sand)" android:textSize="13sp" android:textStyle="bold" android:textColor="#5C3D2E" android:paddingBottom="4dp"/>
+            <Spinner android:id="@+id/spinnerRatio" android:layout_width="match_parent" android:layout_height="50dp" android:background="@drawable/spinner_bg"/>
+        </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+        <!--  ══════════════════════════════════════  -->
+        <!--  CALCULATE + HISTORY                     -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:weightSum="2" android:layout_marginBottom="12dp">
+            <com.google.android.material.button.MaterialButton android:id="@+id/btnCalc" android:layout_width="0dp" android:layout_weight="1" android:layout_height="56dp" android:layout_marginEnd="6dp" android:text="📊 CALCULATE" android:textSize="14sp" android:textStyle="bold" app:backgroundTint="#E8C97A" android:textColor="#2C1810" app:cornerRadius="10dp"/>
+            <com.google.android.material.button.MaterialButton android:id="@+id/btnHistory" android:layout_width="0dp" android:layout_weight="1" android:layout_height="56dp" android:layout_marginStart="6dp" android:text="📜 HISTORY" android:textSize="14sp" app:backgroundTint="#2C1810" app:cornerRadius="10dp"/>
         </LinearLayout>
 
-        <!-- BRICK -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="14dp"
-            android:background="@drawable/card_bg"
-            android:layout_marginBottom="12dp">
-
-            <TextView
-                android:text="BRICK TYPE"
-                android:textStyle="bold"
-                android:textSize="22sp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-            <ImageView
-                android:id="@+id/brickImage"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="8dp"/>
-
-            <Spinner
-                android:id="@+id/spinnerBrick"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginTop="6dp"/>
-
-            <EditText
-                android:id="@+id/price"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="48dp"
-                android:inputType="numberDecimal"
-                android:hint="Price per brick"
-                android:layout_marginTop="6dp"/>
-        </LinearLayout>
-
-        <!-- THICKNESS -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="14dp"
-            android:background="@drawable/card_bg"
-            android:layout_marginBottom="12dp">
-
-            <TextView
-                android:text="THICKNESS"
-                android:textStyle="bold"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-            <Spinner
-                android:id="@+id/spinnerThickness"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginTop="6dp"/>
-        </LinearLayout>
-
-        <!-- MORTAR -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="14dp"
-            android:background="@drawable/card_bg"
-            android:layout_marginBottom="12dp">
-
-            <TextView
-                android:text="MORTAR RATIO"
-                android:textStyle="bold"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-            <Spinner
-                android:id="@+id/spinnerRatio"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginTop="6dp"/>
-        </LinearLayout>
-
-        <!-- BUTTON -->
-        <Button
-            android:id="@+id/btnCalc"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:text="CALCULATE"
-            android:backgroundTint="#455A64"
-            android:textColor="#FFFFFF"/>
-
-        <!-- RESULT -->
-        <TextView
-            android:id="@+id/result"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:padding="12dp"
-            android:background="@drawable/card_bg"
-            android:textSize="18sp"
-            android:typeface="monospace"/>
-
+        <!--  RESULTS CARD                            -->
+        <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="16dp" app:cardCornerRadius="12dp" app:cardElevation="6dp" app:cardBackgroundColor="#2C1810" app:strokeColor="#E8C97A" app:strokeWidth="1dp">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="RESULTS" android:textSize="11sp" android:textStyle="bold" android:textColor="#E8C97A" android:letterSpacing="0.15" android:layout_marginBottom="10dp"/>
+                <TextView android:id="@+id/result" android:layout_width="match_parent" android:layout_height="wrap_content" android:textSize="13sp" android:fontFamily="monospace" android:textColor="#F5F0EB" android:lineSpacingExtra="4dp"/>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
 </ScrollView>

@@ -1,7 +1,10 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent" android:layout_height="match_parent" android:background="#EEF8FA">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent" android:layout_height="match_parent" android:background="#FFFFFF">
     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="20dp">
-        <!--  TITLE  -->
-        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Plaster Calculator PRO" android:textSize="26sp" android:textStyle="bold" android:gravity="center" android:textColor="#111827" android:padding="10dp"/>
+        <!--  HEADER                                  -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:background="#E6E2DD" android:padding="20dp" android:layout_marginBottom="16dp">
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="PLASTER" android:textSize="32sp" android:textStyle="bold" android:textColor="#E8C97A" android:letterSpacing="0.15" android:gravity="center"/>
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="CALCULATOR PRO · 🇩🇿 Algerian Standard" android:textSize="12sp" android:textColor="#000000" android:gravity="center" android:letterSpacing="0.1" android:layout_marginTop="4dp"/>
+        </LinearLayout>
         <!--  IMAGE  -->
         <com.google.android.material.card.MaterialCardView android:layout_width="220dp" android:layout_height="180dp" android:layout_gravity="center" app:cardCornerRadius="25dp" app:cardElevation="10dp">
             <ImageView android:id="@+id/imgPlaster" android:layout_width="match_parent" android:layout_height="match_parent" android:src="@drawable/plaster" android:scaleType="centerCrop"/>
@@ -9,7 +12,7 @@
         <!--  ════════════════════════════════════  -->
         <!--           INPUT CARD                   -->
         <!--  ════════════════════════════════════  -->
-        <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp" app:cardCornerRadius="16dp" app:cardElevation="8dp" app:cardBackgroundColor="#D4F1F4">
+        <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp" app:cardCornerRadius="16dp" app:cardElevation="8dp" app:cardBackgroundColor="#E6E2DD">
             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
                 <!--  ── WALL DIMENSIONS ──  -->
                 <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="🧱 Wall Dimensions" android:textStyle="bold" android:textSize="15sp" android:textColor="#334155" android:paddingBottom="6dp"/>
@@ -67,7 +70,7 @@
         <!--  ════════════════════════════════════  -->
         <!--           RESULTS CARD                 -->
         <!--  ════════════════════════════════════  -->
-        <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="14dp" app:cardCornerRadius="16dp" app:cardElevation="8dp" app:cardBackgroundColor="#E8F5E9">
+        <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="14dp" app:cardCornerRadius="16dp" app:cardElevation="8dp" app:cardBackgroundColor="#E6E2DD">
             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
                 <TextView android:id="@+id/tvArea" android:layout_width="match_parent" android:layout_height="wrap_content" android:textSize="14sp" android:fontFamily="monospace" android:textColor="#1B5E20" android:paddingBottom="8dp"/>
                 <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#A5D6A7" android:layout_marginBottom="8dp"/>
