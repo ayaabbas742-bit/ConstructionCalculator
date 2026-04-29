@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F9FF">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- TOOLBAR -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="#2196F3"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="8dp">
+
+            <ImageView
+                android:id="@+id/btnBack"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@android:drawable/ic_media_previous"
+                app:tint="#FFFFFF"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="معلومات العمل"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:gravity="end"/>
+
+            <TextView
+                android:id="@+id/btnSave"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="✓"
+                android:textColor="#FFFFFF"
+                android:textSize="22sp"
+                android:padding="8dp"/>
+        </LinearLayout>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="12dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="4dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:gravity="center">
+
+                <!-- شعار العمل -->
+                <ImageView
+                    android:id="@+id/imgLogo"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:src="@android:drawable/ic_input_add"
+                    android:background="#F5F5F5"
+                    android:padding="20dp"
+                    android:layout_marginBottom="8dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="شعار العمل"
+                    android:textColor="#555"
+                    android:layout_marginBottom="16dp"/>
+
+                <!-- اسم العمل -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="اسم العمل *"
+                    android:textColor="#F44336"
+                    android:gravity="end"
+                    android:layout_marginBottom="4dp"/>
+
+                <EditText
+                    android:id="@+id/etName"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:hint="أدخل اسم العمل"
+                    android:background="#F5F5F5"
+                    android:padding="12dp"
+                    android:gravity="end"
+                    android:layout_marginBottom="12dp"/>
+
+                <!-- البريد الإلكتروني -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="أدخل العنوان"
+                    android:gravity="end"
+                    android:layout_marginBottom="4dp"/>
+                <EditText
+                    android:id="@+id/etEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:hint="أدخل بريدك الإلكتروني"
+                    android:inputType="textEmailAddress"
+                    android:background="#F5F5F5"
+                    android:padding="12dp"
+                    android:gravity="end"
+                    android:layout_marginBottom="12dp"/>
+
+                <!-- الهاتف -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="الهاتف"
+                    android:gravity="end"
+                    android:layout_marginBottom="4dp"/>
+
+                <EditText
+                    android:id="@+id/etPhone"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:hint="إضافة رقم الهاتف"
+                    android:inputType="phone"
+                    android:background="#F5F5F5"
+                    android:padding="12dp"
+                    android:gravity="end"
+                    android:layout_marginBottom="12dp"/>
+
+                <!-- عنوان العمل -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="عنوان العمل"
+                    android:gravity="end"
+                    android:layout_marginBottom="4dp"/>
+
+                <EditText
+                    android:id="@+id/etAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:hint="أدخل عنوان الفواتير"
+                    android:background="#F5F5F5"
+                    android:padding="12dp"
+                    android:gravity="end"
+                    android:layout_marginBottom="12dp"/>
+
+                <!-- الموقع -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="موقع العمل على الإنترنت"
+                    android:gravity="end"
+                    android:layout_marginBottom="4dp"/>
+
+                <EditText
+                    android:id="@+id/etWebsite"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:hint="www.example.com"
+                    android:inputType="textUri"
+                    android:background="#F5F5F5"
+                    android:padding="12dp"
+                    android:gravity="end"/>
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
+</ScrollView>

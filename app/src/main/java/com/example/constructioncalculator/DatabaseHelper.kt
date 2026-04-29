@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
 class DatabaseHelper(context: Context) :
-    SQLiteOpenHelper(context, "ConstructionDB", null, 6) {
+    SQLiteOpenHelper(context, "ConstructionDB", null, 10) {
 
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL("""
@@ -92,10 +92,77 @@ class DatabaseHelper(context: Context) :
         subtitle TEXT,
         body TEXT,
         color INTEGER,
-        date TEXT
+        date TEXT,
+        images TEXT DEFAULT '',
+        files TEXT DEFAULT '',
+        links TEXT DEFAULT ''
     )
 """)
+        db.execSQL("""
+            CREATE TABLE business (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT,
+                email TEXT,
+                phone TEXT,
+                address TEXT,
+                website TEXT,
+                logo TEXT
+            )
+        """)
+
+        // جدول العملاء
+        db.execSQL("""
+            CREATE TABLE clients (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT,
+                email TEXT,
+                phone TEXT,
+                address1 TEXT,
+                address2 TEXT,
+                ship_address1 TEXT,
+                ship_address2 TEXT,
+                notes TEXT
+            )
+        """)
+
+        // جدول الفواتير
+        db.execSQL("""
+            CREATE TABLE invoices (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                invoice_number TEXT,
+                created_date TEXT,
+                due_date TEXT,
+                business_id INTEGER,
+                client_id INTEGER,
+                discount REAL DEFAULT 0,
+                tax_name TEXT,
+                tax_percent REAL DEFAULT 0,
+                shipping REAL DEFAULT 0,
+                payment_method TEXT,
+                terms TEXT,
+                notes TEXT,
+                signature TEXT,
+                FOREIGN KEY(business_id) REFERENCES business(id),
+                FOREIGN KEY(client_id) REFERENCES clients(id)
+            )
+        """)
+
+        // جدول عناصر الفاتورة
+        db.execSQL("""
+            CREATE TABLE invoice_items (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                invoice_id INTEGER,
+                name TEXT,
+                quantity REAL,
+                price REAL,
+                discount REAL DEFAULT 0,
+                tax REAL DEFAULT 0,
+                description TEXT,
+                FOREIGN KEY(invoice_id) REFERENCES invoices(id)
+            )
+        """)
     }
+
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
         if (oldVersion < 4) {
@@ -120,10 +187,43 @@ class DatabaseHelper(context: Context) :
             date TEXT
         )
     """)
+            db.execSQL("""
+    CREATE TABLE history (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        type TEXT NOT NULL,
+        height REAL NOT NULL,
+        steps INTEGER NOT NULL,
+        length REAL NOT NULL,
+        area REAL NOT NULL,
+        date INTEGER NOT NULL
+        )
+         """)
         }
         if (oldVersion < 6) {
             db.execSQL("ALTER TABLE users ADD COLUMN profile_image TEXT")
-        }            // نهاية onUpgrade
+        }
+    // نهاية onUpgrade
+        if (oldVersion < 7) {
+            db.execSQL("CREATE TABLE IF NOT EXISTS business (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, email TEXT, phone TEXT, address TEXT, website TEXT, logo TEXT)")
+            db.execSQL("CREATE TABLE IF NOT EXISTS clients (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, email TEXT, phone TEXT, address1 TEXT, address2 TEXT, ship_address1 TEXT, ship_address2 TEXT, notes TEXT)")
+            db.execSQL("CREATE TABLE IF NOT EXISTS invoices (id INTEGER PRIMARY KEY AUTOINCREMENT, invoice_number TEXT, created_date TEXT, due_date TEXT, business_id INTEGER, client_id INTEGER, discount REAL DEFAULT 0, tax_name TEXT, tax_percent REAL DEFAULT 0, shipping REAL DEFAULT 0, payment_method TEXT, terms TEXT, notes TEXT, signature TEXT)")
+            db.execSQL("CREATE TABLE IF NOT EXISTS invoice_items (id INTEGER PRIMARY KEY AUTOINCREMENT, invoice_id INTEGER, name TEXT, quantity REAL, price REAL, discount REAL DEFAULT 0, tax REAL DEFAULT 0, description TEXT)")
+        }
+        if (oldVersion < 9) {
+            db.execSQL("ALTER TABLE construction_notes ADD COLUMN images TEXT DEFAULT ''")
+            db.execSQL("ALTER TABLE construction_notes ADD COLUMN files TEXT DEFAULT ''")
+            db.execSQL("ALTER TABLE construction_notes ADD COLUMN links TEXT DEFAULT ''")
+        }
+        if (oldVersion < 10) {
+            db.execSQL("""
+        CREATE TABLE IF NOT EXISTS otp_table (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            email TEXT,
+            otp TEXT,
+            created_at INTEGER
+        )
+    """)
+        }
     }
 
     // ================= USERS =================
@@ -251,7 +351,7 @@ class DatabaseHelper(context: Context) :
 
     // ================= OTP =================
     fun generateOtp(email: String): String {
-        val otp = (100000..999999).random().toString()
+        val otp = (1000..9999).random().toString()
         val cv = ContentValues().apply {
             put("email", email)
             put("otp", otp)
@@ -262,10 +362,30 @@ class DatabaseHelper(context: Context) :
     }
     fun checkOtp(email: String, otp: String): Boolean {
         val cursor = readableDatabase.rawQuery(
-            "SELECT * FROM otp_table WHERE email=? AND otp=?",
-            arrayOf(email, otp)
+            """
+        SELECT otp, created_at FROM otp_table 
+        WHERE email=? 
+        ORDER BY created_at DESC 
+        LIMIT 1
+        """,
+            arrayOf(email)
         )
-        val isValid = cursor.count > 0
+
+        var isValid = false
+
+        if (cursor.moveToFirst()) {
+            val dbOtp = cursor.getString(0)
+            val createdAt = cursor.getLong(1)
+
+            val currentTime = System.currentTimeMillis()
+            val diff = currentTime - createdAt
+
+            // صالح لمدة 5 دقائق فقط
+            if (dbOtp == otp && diff <= 300000) {
+                isValid = true
+            }
+        }
+
         cursor.close()
         return isValid
     }
@@ -338,6 +458,9 @@ class DatabaseHelper(context: Context) :
             put("body", note.body)
             put("color", note.color)
             put("date", note.date)
+            put("images", note.images)
+            put("files", note.files)
+            put("links", note.links)
         }
         return writableDatabase.insert("construction_notes", null, values)
     }
@@ -349,6 +472,9 @@ class DatabaseHelper(context: Context) :
             put("body", note.body)
             put("color", note.color)
             put("date", note.date)
+            put("images", note.images)
+            put("files", note.files)
+            put("links", note.links)
         }
         return writableDatabase.update(
             "construction_notes", values, "id=?", arrayOf(note.id.toString())
@@ -375,7 +501,10 @@ class DatabaseHelper(context: Context) :
                         subtitle = cursor.getString(cursor.getColumnIndexOrThrow("subtitle")),
                         body     = cursor.getString(cursor.getColumnIndexOrThrow("body")),
                         color    = cursor.getInt(cursor.getColumnIndexOrThrow("color")),
-                        date     = cursor.getString(cursor.getColumnIndexOrThrow("date"))
+                        date     = cursor.getString(cursor.getColumnIndexOrThrow("date")),
+                        images   = cursor.getString(cursor.getColumnIndexOrThrow("images")) ?: "",
+                        files    = cursor.getString(cursor.getColumnIndexOrThrow("files")) ?: "",
+                        links    = cursor.getString(cursor.getColumnIndexOrThrow("links")) ?: ""
                     )
                 )
             } while (cursor.moveToNext())
@@ -401,7 +530,10 @@ class DatabaseHelper(context: Context) :
                         subtitle = cursor.getString(cursor.getColumnIndexOrThrow("subtitle")),
                         body     = cursor.getString(cursor.getColumnIndexOrThrow("body")),
                         color    = cursor.getInt(cursor.getColumnIndexOrThrow("color")),
-                        date     = cursor.getString(cursor.getColumnIndexOrThrow("date"))
+                        date     = cursor.getString(cursor.getColumnIndexOrThrow("date")),
+                        images   = cursor.getString(cursor.getColumnIndexOrThrow("images")) ?: "",
+                        files    = cursor.getString(cursor.getColumnIndexOrThrow("files")) ?: "",
+                        links    = cursor.getString(cursor.getColumnIndexOrThrow("links")) ?: ""
                     )
                 )
             } while (cursor.moveToNext())
@@ -409,4 +541,287 @@ class DatabaseHelper(context: Context) :
         cursor.close()
         return notes
     }
+
+    // ==================== BUSINESS ====================
+
+    fun saveBusiness(name: String, email: String, phone: String,
+                     address: String, website: String, logo: String) {
+        val db = writableDatabase
+        val cursor = db.rawQuery("SELECT id FROM business LIMIT 1", null)
+        if (cursor.moveToFirst()) {
+            db.execSQL("""
+                UPDATE business SET name=?, email=?, phone=?,
+                address=?, website=?, logo=? WHERE id=1
+            """, arrayOf(name, email, phone, address, website, logo))
+        } else {
+            db.execSQL("""
+                INSERT INTO business (name,email,phone,address,website,logo)
+                VALUES (?,?,?,?,?,?)
+            """, arrayOf(name, email, phone, address, website, logo))
+        }
+        cursor.close()
+    }
+
+    fun getBusiness(): Map<String, String> {
+        val result = mutableMapOf<String, String>()
+        val cursor = readableDatabase.rawQuery(
+            "SELECT * FROM business LIMIT 1", null)
+        if (cursor.moveToFirst()) {
+            result["id"]      = cursor.getInt(0).toString()
+            result["name"]    = cursor.getString(1) ?: ""
+            result["email"]   = cursor.getString(2) ?: ""
+            result["phone"]   = cursor.getString(3) ?: ""
+            result["address"] = cursor.getString(4) ?: ""
+            result["website"] = cursor.getString(5) ?: ""
+            result["logo"]    = cursor.getString(6) ?: ""
+        }
+        cursor.close()
+        return result
+    }
+
+    // ==================== CLIENTS ====================
+
+    fun saveClient(name: String, email: String, phone: String,
+                   address1: String, address2: String,
+                   shipAddress1: String, shipAddress2: String,
+                   notes: String): Long {
+        var id = -1L
+        writableDatabase.execSQL("""
+            INSERT INTO clients 
+            (name,email,phone,address1,address2,
+             ship_address1,ship_address2,notes)
+            VALUES (?,?,?,?,?,?,?,?)
+        """, arrayOf(name, email, phone, address1, address2,
+            shipAddress1, shipAddress2, notes))
+        val cursor = readableDatabase.rawQuery(
+            "SELECT last_insert_rowid()", null)
+        if (cursor.moveToFirst()) id = cursor.getLong(0)
+        cursor.close()
+        return id
+    }
+
+    fun getAllClients(): List<Map<String, String>> {
+        val list = mutableListOf<Map<String, String>>()
+        val cursor = readableDatabase.rawQuery(
+            "SELECT * FROM clients ORDER BY id DESC", null)
+        while (cursor.moveToNext()) {
+            list.add(mapOf(
+                "id"           to cursor.getInt(0).toString(),
+                "name"         to (cursor.getString(1) ?: ""),
+                "email"        to (cursor.getString(2) ?: ""),
+                "phone"        to (cursor.getString(3) ?: ""),
+                "address1"     to (cursor.getString(4) ?: ""),
+                "address2"     to (cursor.getString(5) ?: ""),
+                "ship_address1" to (cursor.getString(6) ?: ""),
+                "ship_address2" to (cursor.getString(7) ?: ""),
+                "notes"        to (cursor.getString(8) ?: "")
+            ))
+        }
+        cursor.close()
+        return list
+    }
+
+    // ==================== INVOICES ====================
+
+    fun saveInvoice(
+        invoiceNumber: String, createdDate: String, dueDate: String,
+        businessId: Int, clientId: Int, discount: Double,
+        taxName: String, taxPercent: Double, shipping: Double,
+        paymentMethod: String, terms: String, notes: String,
+        signature: String
+    ): Long {
+        writableDatabase.execSQL("""
+            INSERT INTO invoices 
+            (invoice_number, created_date, due_date, business_id,
+             client_id, discount, tax_name, tax_percent, shipping,
+             payment_method, terms, notes, signature)
+            VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)
+        """, arrayOf(invoiceNumber, createdDate, dueDate, businessId,
+            clientId, discount, taxName, taxPercent, shipping,
+            paymentMethod, terms, notes, signature))
+        var id = -1L
+        val cursor = readableDatabase.rawQuery(
+            "SELECT last_insert_rowid()", null)
+        if (cursor.moveToFirst()) id = cursor.getLong(0)
+        cursor.close()
+        return id
+    }
+
+    fun getAllInvoices(): List<Map<String, String>> {
+        val list = mutableListOf<Map<String, String>>()
+        val cursor = readableDatabase.rawQuery("""
+            SELECT i.*, c.name as client_name 
+            FROM invoices i
+            LEFT JOIN clients c ON i.client_id = c.id
+            ORDER BY i.id DESC
+        """, null)
+        while (cursor.moveToNext()) {
+            list.add(mapOf(
+                "id"             to cursor.getInt(0).toString(),
+                "invoice_number" to (cursor.getString(1) ?: ""),
+                "created_date"   to (cursor.getString(2) ?: ""),
+                "due_date"       to (cursor.getString(3) ?: ""),
+                "discount"       to cursor.getDouble(6).toString(),
+                "tax_name"       to (cursor.getString(7) ?: ""),
+                "tax_percent"    to cursor.getDouble(8).toString(),
+                "shipping"       to cursor.getDouble(9).toString(),
+                "payment_method" to (cursor.getString(10) ?: ""),
+                "terms"          to (cursor.getString(11) ?: ""),
+                "notes"          to (cursor.getString(12) ?: ""),
+                "signature"      to (cursor.getString(13) ?: ""),
+                "client_name"    to (cursor.getString(14) ?: "")
+            ))
+        }
+        cursor.close()
+        return list
+    }
+
+    fun getInvoiceById(id: Int): Map<String, String> {
+        val result = mutableMapOf<String, String>()
+        val cursor = readableDatabase.rawQuery("""
+            SELECT i.*, c.name as client_name 
+            FROM invoices i
+            LEFT JOIN clients c ON i.client_id = c.id
+            WHERE i.id = ?
+        """, arrayOf(id.toString()))
+        if (cursor.moveToFirst()) {
+            result["id"]             = cursor.getInt(0).toString()
+            result["invoice_number"] = cursor.getString(1) ?: ""
+            result["created_date"]   = cursor.getString(2) ?: ""
+            result["due_date"]       = cursor.getString(3) ?: ""
+            result["business_id"]    = cursor.getInt(4).toString()
+            result["client_id"]      = cursor.getInt(5).toString()
+            result["discount"]       = cursor.getDouble(6).toString()
+            result["tax_name"]       = cursor.getString(7) ?: ""
+            result["tax_percent"]    = cursor.getDouble(8).toString()
+            result["shipping"]       = cursor.getDouble(9).toString()
+            result["payment_method"] = cursor.getString(10) ?: ""
+            result["terms"]          = cursor.getString(11) ?: ""
+            result["notes"]          = cursor.getString(12) ?: ""
+            result["signature"]      = cursor.getString(13) ?: ""
+            result["client_name"]    = cursor.getString(14) ?: ""
+        }
+        cursor.close()
+        return result
+    }
+
+    fun deleteInvoice(id: Int) {
+        writableDatabase.execSQL(
+            "DELETE FROM invoice_items WHERE invoice_id=?", arrayOf(id))
+        writableDatabase.execSQL(
+            "DELETE FROM invoices WHERE id=?", arrayOf(id))
+    }
+
+    // ==================== INVOICE ITEMS ====================
+    fun saveItem(invoiceId: Long, name: String, quantity: Double,
+                 price: Double, discount: Double, tax: Double,
+                 description: String) {
+        writableDatabase.execSQL("""
+            INSERT INTO invoice_items 
+            (invoice_id, name, quantity, price, discount, tax, description)
+            VALUES (?,?,?,?,?,?,?)
+        """, arrayOf(invoiceId, name, quantity, price,
+            discount, tax, description))
+    }
+
+    fun getItemsByInvoice(invoiceId: Int): List<Map<String, String>> {
+        val list = mutableListOf<Map<String, String>>()
+        val cursor = readableDatabase.rawQuery("""
+            SELECT * FROM invoice_items WHERE invoice_id=?
+        """, arrayOf(invoiceId.toString()))
+        while (cursor.moveToNext()) {
+            list.add(mapOf(
+                "id"          to cursor.getInt(0).toString(),
+                "invoice_id"  to cursor.getInt(1).toString(),
+                "name"        to (cursor.getString(2) ?: ""),
+                "quantity"    to cursor.getDouble(3).toString(),
+                "price"       to cursor.getDouble(4).toString(),
+                "discount"    to cursor.getDouble(5).toString(),
+                "tax"         to cursor.getDouble(6).toString(),
+                "description" to (cursor.getString(7) ?: "")
+            ))
+        }
+        cursor.close()
+        return list
+    }
+
+    fun deleteItem(id: Int) {
+        writableDatabase.execSQL(
+            "DELETE FROM invoice_items WHERE id=?", arrayOf(id))
+    }
+
+    // ==================== INVOICE NUMBER ====================
+
+    fun getNextInvoiceNumber(): String {
+        val cursor = readableDatabase.rawQuery(
+            "SELECT COUNT(*) FROM invoices", null)
+        var count = 0
+        if (cursor.moveToFirst()) count = cursor.getInt(0)
+        cursor.close()
+        return "INV%05d".format(count + 1)
+    }
+    fun getNoteById(id: Long): Note? {
+        val cursor = readableDatabase.rawQuery(
+            "SELECT * FROM construction_notes WHERE id=?",
+            arrayOf(id.toString())
+        )
+        var note: Note? = null
+        if (cursor.moveToFirst()) {
+            note = Note(
+                id       = cursor.getLong(cursor.getColumnIndexOrThrow("id")),
+                title    = cursor.getString(cursor.getColumnIndexOrThrow("title")),
+                subtitle = cursor.getString(cursor.getColumnIndexOrThrow("subtitle")),
+                body     = cursor.getString(cursor.getColumnIndexOrThrow("body")),
+                color    = cursor.getInt(cursor.getColumnIndexOrThrow("color")),
+                date     = cursor.getString(cursor.getColumnIndexOrThrow("date")),
+                images   = cursor.getString(cursor.getColumnIndexOrThrow("images")) ?: "",
+                files    = cursor.getString(cursor.getColumnIndexOrThrow("files")) ?: "",
+                links    = cursor.getString(cursor.getColumnIndexOrThrow("links")) ?: ""
+            )
+        }
+        cursor.close()
+        return note
+    }
+
+    fun insert(type: String, h: Double, steps: Int, length: Double, area: Double) {
+
+        val cv = ContentValues()
+
+        cv.put("type", type)
+        cv.put("height", h)
+        cv.put("steps", steps)
+        cv.put("length", length)
+        cv.put("area", area)
+        cv.put("date", System.currentTimeMillis()) // ✅ Long وليس String
+
+        writableDatabase.insert("history", null, cv)
+    }
+
+    fun getAll(): ArrayList<HistoryItem> {
+
+        val list = ArrayList<HistoryItem>()
+
+        val c = readableDatabase.rawQuery(
+            "SELECT * FROM history ORDER BY id DESC",
+            null
+        )
+
+        while (c.moveToNext()) {
+
+            val item = HistoryItem(
+                type = c.getString(1),
+                height = c.getDouble(2),
+                steps = c.getInt(3),
+                length = c.getDouble(4),
+                area = c.getDouble(5),
+                date = c.getLong(6)
+            )
+
+            list.add(item)
+        }
+
+        c.close()
+        return list
+    }
 }
+

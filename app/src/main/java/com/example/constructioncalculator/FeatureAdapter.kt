@@ -53,6 +53,7 @@ class FeatureAdapter(private val list: List<Feature>) :
                 "Floor Plan" -> holder.itemView.context.startActivity(Intent(holder.itemView.context, FloorPlanActivity::class.java))
                 "Plan Drawing" -> holder.itemView.context.startActivity(Intent(holder.itemView.context, PlanDrawingActivity::class.java))
                 "Construction Notes" -> holder.itemView.context.startActivity(Intent(holder.itemView.context, ConstructionNotesActivity::class.java))
+                "Create Invoice" -> holder.itemView.context.startActivity(Intent(holder.itemView.context, InvoiceListActivity::class.java))
             }
         }
     }

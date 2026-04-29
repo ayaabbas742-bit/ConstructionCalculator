@@ -31,7 +31,7 @@ class ConstructionNotesActivity : AppCompatActivity() {
             notes = NoteManager.getAllNotes(),
             onClick = { note ->
                 val intent = Intent(this, NoteEditActivity::class.java)
-                intent.putExtra("note", note)
+                intent.putExtra("note_id", note.id)
                 startActivity(intent)
             },
             onDelete = { note ->

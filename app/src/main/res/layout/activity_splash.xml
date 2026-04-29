@@ -6,7 +6,7 @@
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="190dp"
+        android:layout_height="230dp"
         android:src="@drawable/splash_bottom_wave"
         android:scaleType="fitXY"
         android:layout_alignParentBottom="true"/>

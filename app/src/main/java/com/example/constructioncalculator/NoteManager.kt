@@ -22,4 +22,5 @@ object NoteManager {
     fun delete(id: Long) = db.deleteNote(id)
 
     fun search(query: String): MutableList<Note> = db.searchNotes(query)
+    fun getById(id: Long): Note? = db.getNoteById(id)
 }

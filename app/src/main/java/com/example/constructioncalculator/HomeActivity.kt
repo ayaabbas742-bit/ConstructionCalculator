@@ -105,7 +105,7 @@ class HomeActivity : AppCompatActivity() {
             Feature("Tank Calculator", R.drawable.ic_tank),
             Feature("Plan Drawing", R.drawable.ic_draw),
             Feature("Floor Plan", R.drawable.ic_floor),
-            Feature("Invoices", R.drawable.ic_invoice),
+            Feature("Create Invoice", R.drawable.ic_invoice),
             Feature("Construction Notes", R.drawable.ic_notes),
             Feature("Geotechnical Engineering", R.drawable.ic_geo)
         )

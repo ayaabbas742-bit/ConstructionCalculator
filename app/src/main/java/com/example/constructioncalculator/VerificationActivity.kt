@@ -11,27 +11,33 @@ class VerificationActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_verification)
 
-        val codeEt = findViewById<EditText>(R.id.code)
-        val btn = findViewById<Button>(R.id.verifyBtn)
+        val d1 = findViewById<EditText>(R.id.d1)
+        val d2 = findViewById<EditText>(R.id.d2)
+        val d3 = findViewById<EditText>(R.id.d3)
+        val d4 = findViewById<EditText>(R.id.d4)
 
+        val btn = findViewById<Button>(R.id.verifyBtn)
         val db = DatabaseHelper(this)
 
-        // 📩 email جاي من Forgot Password
         val email = intent.getStringExtra("email") ?: ""
 
         btn.setOnClickListener {
 
-            val code = codeEt.text.toString().trim()
+            // 🔥 نجمع الكود هنا (داخل الزر)
+            val code = d1.text.toString() +
+                    d2.text.toString() +
+                    d3.text.toString() +
+                    d4.text.toString()
 
             if (code.length != 4) {
-                codeEt.error = "Enter 4 digits"
+                Toast.makeText(this, "Enter 4 digits", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            // 🔑 check OTP from SQLite
+            // 🔑 التحقق من SQLite
             if (db.checkOtp(email, code)) {
 
-                Toast.makeText(this, "Verified", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Verified ✔", Toast.LENGTH_SHORT).show()
 
                 val intent = Intent(this, NewPasswordActivity::class.java)
                 intent.putExtra("email", email)
@@ -40,7 +46,7 @@ class VerificationActivity : AppCompatActivity() {
                 finish()
 
             } else {
-                Toast.makeText(this, "Wrong code", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Wrong code ❌", Toast.LENGTH_SHORT).show()
             }
         }
     }

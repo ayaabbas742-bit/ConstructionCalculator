@@ -18,7 +18,15 @@ class NewPasswordActivity : AppCompatActivity() {
         val db = DatabaseHelper(this)
 
         // 📩 لازم يكون جاي من Verification
-        val email = intent.getStringExtra("email") ?: ""
+        val email = intent.getStringExtra("email")
+
+        Toast.makeText(this, "EMAIL = $email", Toast.LENGTH_LONG).show()
+
+        if (email.isNullOrEmpty()) {
+            Toast.makeText(this, "Email missing!", Toast.LENGTH_LONG).show()
+            finish()
+            return
+        }
 
         btn.setOnClickListener {
 

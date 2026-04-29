@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:background="#F5F9FF">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <!-- TOOLBAR -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="#2196F3"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="8dp">
+
+        <ImageView
+            android:id="@+id/btnBack"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@android:drawable/ic_media_previous"
+            app:tint="#FFFFFF"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Customer Information"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:gravity="end"/>
+
+        <TextView
+            android:id="@+id/btnSave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="✓"
+            android:textColor="#FFFFFF"
+            android:textSize="22sp"
+            android:padding="8dp"/>
+    </LinearLayout>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="4dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Customer name*"
+                android:textColor="#F44336"
+                android:gravity="end"
+                android:layout_marginBottom="4dp"/>
+
+            <EditText android:id="@+id/etName"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:hint="Enter the customer's name"
+                android:background="#F5F5F5"
+                android:padding="12dp"
+                android:gravity="end"
+                android:layout_marginBottom="12dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Email address"
+                android:gravity="end"
+                android:layout_marginBottom="4dp"/>
+
+            <EditText android:id="@+id/etEmail"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:hint="Enter you email address "
+                android:inputType="textEmailAddress"
+                android:background="#F5F5F5"
+                android:padding="12dp"
+                android:gravity="end"
+                android:layout_marginBottom="12dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="phone"
+                android:gravity="end"
+                android:layout_marginBottom="4dp"/>
+            <EditText android:id="@+id/etPhone"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="Enter the customer's phone number"
+            android:inputType="phone"
+            android:background="#F5F5F5"
+            android:padding="12dp"
+            android:gravity="end"
+            android:layout_marginBottom="12dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Billing Adress"
+                android:gravity="end"
+                android:textStyle="bold"
+                android:layout_marginBottom="4dp"/>
+
+            <EditText android:id="@+id/etAddress1"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:hint="Enter the address on line 1 "
+                android:background="#F5F5F5"
+                android:padding="12dp"
+                android:gravity="end"
+                android:layout_marginBottom="8dp"/>
+
+            <EditText android:id="@+id/etAddress2"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:hint="Enter the address on line 2"
+                android:background="#F5F5F5"
+                android:padding="12dp"
+                android:gravity="end"
+                android:layout_marginBottom="12dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Shipping address"
+                android:gravity="end"
+                android:textStyle="bold"
+                android:layout_marginBottom="4dp"/>
+
+            <EditText android:id="@+id/etShip1"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:hint="Enter the address on line 1"
+                android:background="#F5F5F5"
+                android:padding="12dp"
+                android:gravity="end"
+                android:layout_marginBottom="8dp"/>
+
+            <EditText android:id="@+id/etShip2"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:hint="Enter the address on line 2"
+                android:background="#F5F5F5"
+                android:padding="12dp"
+                android:gravity="end"
+                android:layout_marginBottom="12dp"/>
+
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="4dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Client details"
+                android:gravity="end"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp"/>
+
+            <EditText android:id="@+id/etNotes"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:hint="Enter customer details"
+                android:background="#F5F5F5"
+                android:padding="12dp"
+                android:gravity="top|end"/>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+</LinearLayout>
+</ScrollView>

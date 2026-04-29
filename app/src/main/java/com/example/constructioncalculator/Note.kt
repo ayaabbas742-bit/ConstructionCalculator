@@ -8,5 +8,8 @@ data class Note(
     var subtitle: String = "",
     var body: String = "",
     var color: Int = android.graphics.Color.BLACK,
-    var date: String = ""
+    var date: String = "",
+    var images: String = "",
+    var files: String = "",
+    var links: String = ""
 ) : Serializable

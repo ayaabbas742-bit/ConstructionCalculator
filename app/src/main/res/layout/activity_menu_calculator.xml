@@ -225,6 +225,46 @@
                 </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>
+            <!-- ================concrete================= -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_staircase"
+                android:layout_width="0dp"
+                android:layout_height="190dp"
+                android:layout_columnWeight="1"
+                android:layout_margin="8dp"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="8dp"
+                app:cardBackgroundColor="#B0BEC5"
+                app:strokeColor="#B0BEC5"
+                app:strokeWidth="1dp"
+                android:clickable="true"
+                android:focusable="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <ImageView
+                        android:layout_width="110dp"
+                        android:layout_height="110dp"
+                        android:src="@drawable/ic_staircase"
+                        android:scaleType="fitCenter"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Stair Case"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="#2E2E2E"
+                        android:layout_marginTop="10dp"/>
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
 
 
 

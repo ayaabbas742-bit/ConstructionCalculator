@@ -17,6 +17,7 @@ class MenuCalculatorActivity : AppCompatActivity() {
         val plaster = findViewById<MaterialCardView>(R.id.card_plaster)
         val concrete = findViewById<MaterialCardView>(R.id.card_concrete)
         val paint = findViewById<MaterialCardView>(R.id.card_paint)
+        val stair = findViewById<MaterialCardView>(R.id.card_staircase)
 
         // ================= CLICK EVENTS =================
         brick.setOnClickListener {
@@ -37,6 +38,9 @@ class MenuCalculatorActivity : AppCompatActivity() {
 
         paint.setOnClickListener {
             startActivity(Intent(this, PaintActivity::class.java))
+        }
+        stair.setOnClickListener {
+            startActivity(Intent(this, StairActivity::class.java))
         }
     }
 }
