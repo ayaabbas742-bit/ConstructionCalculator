@@ -9,9 +9,6 @@ import java.util.*
 
 class PlasterActivity : AppCompatActivity() {
 
-    // ═══════════════════════════════════════════════════
-    // 🧱 MODELS
-    // ═══════════════════════════════════════════════════
     data class Opening(val length: Double, val width: Double) {
         val area: Double get() = length * width
     }
@@ -22,84 +19,57 @@ class PlasterActivity : AppCompatActivity() {
         val doors: List<Opening>,
         val windows: List<Opening>
     ) {
-        val grossArea: Double   get() = length * height
-        val doorArea: Double    get() = doors.sumOf { it.area }
-        val windowArea: Double  get() = windows.sumOf { it.area }
-        val netArea: Double     get() = (grossArea - doorArea - windowArea).coerceAtLeast(0.0)
+        val grossArea: Double  get() = length * height
+        val doorArea: Double   get() = doors.sumOf { it.area }
+        val windowArea: Double get() = windows.sumOf { it.area }
+        val netArea: Double    get() = (grossArea - doorArea - windowArea).coerceAtLeast(0.0)
     }
 
-    data class HistoryEntry(
-        val date: String,
-        val wallCount: Int,
-        val totalArea: Double,
-        val thickness: String,
-        val mortar: String,
-        val wetVolume: Double,
-        val dryVolume: Double,
-        val cementBags: Double,
-        val sandVol: Double
-    )
-
-    // ═══════════════════════════════════════════════════
-    // 🔢 ENGINEERING CONSTANTS
-    // ═══════════════════════════════════════════════════
     companion object {
-        // Mortar shrinks ~25% when water is added → dry = wet × 1.33
-        const val DRY_VOLUME_FACTOR = 1.33
-
-        // OPC Portland Cement bulk density
-        const val CEMENT_DENSITY_KG_M3 = 1500.0
-
-        // Standard bag weight
-        const val BAG_WEIGHT_KG = 50.0
-
-        // 5% wastage for spillage and uneven surfaces
-        const val WASTE_FACTOR = 1.05
+        const val DRY_VOLUME_FACTOR     = 1.33
+        const val CEMENT_DENSITY_KG_M3  = 1500.0
+        const val BAG_WEIGHT_KG         = 50.0
+        const val WASTE_FACTOR          = 1.05
     }
 
-    private val walls   = mutableListOf<Wall>()
-    private val history = mutableListOf<HistoryEntry>()
+    private val walls       = mutableListOf<Wall>()
     private var modifyIndex = -1
-
-    // Temporary openings while building a wall entry
     private val tempDoors   = mutableListOf<Opening>()
     private val tempWindows = mutableListOf<Opening>()
+    private lateinit var db: DatabaseHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_plaster)
 
-        // ── Inputs ─────────────────────────────────────
-        val etLength = findViewById<EditText>(R.id.etLength)
-        val etHeight = findViewById<EditText>(R.id.etHeight)
-        val etDoorL  = findViewById<EditText>(R.id.etDoorL)
-        val etDoorW  = findViewById<EditText>(R.id.etDoorW)
-        val etWinL   = findViewById<EditText>(R.id.etWindowL)
-        val etWinW   = findViewById<EditText>(R.id.etWindowW)
+        db = DatabaseHelper(this)
 
-        // ── Spinners ───────────────────────────────────
+        // ── Views ───────────────────────────────────────────────────────
+        val etLength         = findViewById<EditText>(R.id.etLength)
+        val etHeight         = findViewById<EditText>(R.id.etHeight)
+        val etDoorL          = findViewById<EditText>(R.id.etDoorL)
+        val etDoorW          = findViewById<EditText>(R.id.etDoorW)
+        val etWinL           = findViewById<EditText>(R.id.etWindowL)
+        val etWinW           = findViewById<EditText>(R.id.etWindowW)
         val spinnerThickness = findViewById<Spinner>(R.id.spinnerThickness)
         val spinnerMortar    = findViewById<Spinner>(R.id.spinnerMortar)
+        val btnAddDoor       = findViewById<Button>(R.id.btnAddDoor)
+        val btnAddWindow     = findViewById<Button>(R.id.btnAddWindow)
+        val btnAddWall       = findViewById<Button>(R.id.btnAddWall)
+        val btnModify        = findViewById<Button>(R.id.btnModifyWall)
+        val btnDelete        = findViewById<Button>(R.id.btnDeleteWall)
+        val btnReset         = findViewById<Button>(R.id.btnReset)
+        val btnCalc          = findViewById<Button>(R.id.btnCalcPlaster)
+        val btnHistory       = findViewById<Button>(R.id.btnHistory)
+        val tvDoors          = findViewById<TextView>(R.id.tvDoors)
+        val tvWindows        = findViewById<TextView>(R.id.tvWindows)
+        val tvWalls          = findViewById<TextView>(R.id.tvWalls)
+        val tvArea           = findViewById<TextView>(R.id.tvArea)
+        val tvVolume         = findViewById<TextView>(R.id.tvVolume)
+        val tvCement         = findViewById<TextView>(R.id.tvCement)
+        val tvSand           = findViewById<TextView>(R.id.tvSand)
 
-        // ── Buttons ────────────────────────────────────
-        val btnAddDoor   = findViewById<Button>(R.id.btnAddDoor)
-        val btnAddWindow = findViewById<Button>(R.id.btnAddWindow)
-        val btnAddWall   = findViewById<Button>(R.id.btnAddWall)
-        val btnModify    = findViewById<Button>(R.id.btnModifyWall)
-        val btnDelete    = findViewById<Button>(R.id.btnDeleteWall)
-        val btnReset     = findViewById<Button>(R.id.btnReset)
-        val btnCalc      = findViewById<Button>(R.id.btnCalcPlaster)
-        val btnHistory   = findViewById<Button>(R.id.btnHistory)
-
-        // ── TextViews ──────────────────────────────────
-        val tvDoors   = findViewById<TextView>(R.id.tvDoors)
-        val tvWindows = findViewById<TextView>(R.id.tvWindows)
-        val tvWalls   = findViewById<TextView>(R.id.tvWalls)
-        val tvArea    = findViewById<TextView>(R.id.tvArea)
-        val tvVolume  = findViewById<TextView>(R.id.tvVolume)
-        val tvCement  = findViewById<TextView>(R.id.tvCement)
-        val tvSand    = findViewById<TextView>(R.id.tvSand)
-        // ── Spinners data ──────────────────────────────
+        // ── Spinners ────────────────────────────────────────────────────
         spinnerThickness.adapter = ArrayAdapter(
             this, android.R.layout.simple_spinner_dropdown_item,
             arrayOf(
@@ -114,10 +84,8 @@ class PlasterActivity : AppCompatActivity() {
             arrayOf("1:3", "1:4", "1:5", "1:6")
         )
 
-        // ═══════════════════════════════════════════════
-        // ➕ ADD DOOR  (multiple per wall supported)
-        // ═══════════════════════════════════════════════
-        btnAddDoor.setOnClickListener {
+        // ── Add Door ────────────────────────────────────────────────────
+         btnAddDoor.setOnClickListener {
             val l = etDoorL.text.toString().toDoubleOrNull()
             val w = etDoorW.text.toString().toDoubleOrNull()
             if (l == null || w == null || l <= 0 || w <= 0) {
@@ -129,9 +97,7 @@ class PlasterActivity : AppCompatActivity() {
             updateOpeningsDisplay(tvDoors, tvWindows)
         }
 
-        // ═══════════════════════════════════════════════
-        // ➕ ADD WINDOW  (multiple per wall supported)
-        // ═══════════════════════════════════════════════
+        // ── Add Window ──────────────────────────────────────────────────
         btnAddWindow.setOnClickListener {
             val l = etWinL.text.toString().toDoubleOrNull()
             val w = etWinW.text.toString().toDoubleOrNull()
@@ -144,32 +110,24 @@ class PlasterActivity : AppCompatActivity() {
             updateOpeningsDisplay(tvDoors, tvWindows)
         }
 
-        // ═══════════════════════════════════════════════
-        // ➕ ADD WALL  /  💾 SAVE MODIFICATION
-        // ═══════════════════════════════════════════════
+        // ── Add / Save Wall ─────────────────────────────────────────────
         btnAddWall.setOnClickListener {
             val length = etLength.text.toString().toDoubleOrNull()
             val height = etHeight.text.toString().toDoubleOrNull()
-
             if (length == null || length <= 0 || height == null || height <= 0) {
             Toast.makeText(this, "Enter valid wall Length and Height", Toast.LENGTH_SHORT).show()
             return@setOnClickListener
         }
-
-            // ✅ Engineering check: openings must not exceed wall area
             val openingsArea = tempDoors.sumOf { it.area } + tempWindows.sumOf { it.area }
-            val grossArea    = length * height
-            if (openingsArea >= grossArea) {
+            if (openingsArea >= length * height) {
                 Toast.makeText(
                     this,
-                    "⚠️ Openings area (%.2f m²) ≥ Wall area (%.2f m²)".format(openingsArea, grossArea),
+                    "⚠️ Openings area (%.2f m²) ≥ Wall area (%.2f m²)".format(openingsArea, length * height),
                     Toast.LENGTH_LONG
                 ).show()
                 return@setOnClickListener
             }
-
             val wall = Wall(length, height, tempDoors.toList(), tempWindows.toList())
-
             if (modifyIndex >= 0) {
                 walls[modifyIndex] = wall
                 modifyIndex = -1
@@ -178,16 +136,13 @@ class PlasterActivity : AppCompatActivity() {
             } else {
                 walls.add(wall)
             }
-
             tempDoors.clear(); tempWindows.clear()
             clearInputs(etLength, etHeight, etDoorL, etDoorW, etWinL, etWinW)
             updateOpeningsDisplay(tvDoors, tvWindows)
             updateWallsDisplay(tvWalls)
         }
 
-// ═══════════════════════════════════════════════
-// ✏️ MODIFY
-// ═══════════════════════════════════════════════
+        // ── Modify Wall ─────────────────────────────────────────────────
         btnModify.setOnClickListener {
             if (walls.isEmpty()) {
                 Toast.makeText(this, "No walls to modify", Toast.LENGTH_SHORT).show()
@@ -204,16 +159,13 @@ class PlasterActivity : AppCompatActivity() {
                     tempDoors.clear();   tempDoors.addAll(w.doors)
                     tempWindows.clear(); tempWindows.addAll(w.windows)
                     updateOpeningsDisplay(tvDoors, tvWindows)
-                    modifyIndex    = which
+                    modifyIndex = which
                     btnAddWall.text = "💾 SAVE WALL ${which + 1}"
                     Toast.makeText(this, "Editing Wall ${which + 1}", Toast.LENGTH_SHORT).show()
                 }
                 .setNegativeButton("Cancel", null).show()
         }
-
-        // ═══════════════════════════════════════════════
-        // 🗑 DELETE
-        // ═══════════════════════════════════════════════
+        // ── Delete Wall ─────────────────────────────────────────────────
         btnDelete.setOnClickListener {
             if (walls.isEmpty()) {
                 Toast.makeText(this, "No walls to delete", Toast.LENGTH_SHORT).show()
@@ -236,9 +188,7 @@ class PlasterActivity : AppCompatActivity() {
                 .setNegativeButton("Cancel", null).show()
         }
 
-        // ═══════════════════════════════════════════════
-        // 🔄 RESET
-        // ═══════════════════════════════════════════════
+        // ── Reset ───────────────────────────────────────────────────────
         btnReset.setOnClickListener {
             walls.clear(); tempDoors.clear(); tempWindows.clear()
             modifyIndex = -1; btnAddWall.text = "ADD WALL"
@@ -247,24 +197,19 @@ class PlasterActivity : AppCompatActivity() {
             tvArea.text = ""; tvVolume.text = ""; tvCement.text = ""; tvSand.text = ""
         }
 
-        // ═══════════════════════════════════════════════════════════════════
-        // 📊 CALCULATE  ─  FULL ENGINEERING CALCULATIONS
-        // ═══════════════════════════════════════════════════════════════════
+        // ═══════════════════════════════════════════════════════════════
+        // CALCULATE
+        // ═══════════════════════════════════════════════════════════════
         btnCalc.setOnClickListener {
             if (walls.isEmpty()) {
                 Toast.makeText(this, "Add at least one wall", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            // ─────────────────────────────────────────────────────────────
-            // STEP 1 │ Total Net Plaster Area
-            //        │ Net Area = Σ [ (L × H) − Σ doors − Σ windows ]
-            // ─────────────────────────────────────────────────────────────
+            // STEP 1 — Total Net Area
             val totalArea = walls.sumOf { it.netArea }
 
-// ─────────────────────────────────────────────────────────────
-// STEP 2 │ Plaster Thickness  (convert mm → m)
-// ─────────────────────────────────────────────────────────────
+            // STEP 2 — Thickness
             val thicknessStr = spinnerThickness.selectedItem.toString()
             val thickness: Double = when {
                 thicknessStr.contains("6 mm")  -> 0.006
@@ -274,55 +219,32 @@ class PlasterActivity : AppCompatActivity() {
                 else                           -> 0.012
             }
 
-            // ─────────────────────────────────────────────────────────────
-            // STEP 3 │ Wet Volume
-            //        │ Wet Volume = Net Area × Thickness   (m³)
-            // ─────────────────────────────────────────────────────────────
+            // STEP 3 — Wet Volume
             val wetVolume = totalArea * thickness
 
-            // ─────────────────────────────────────────────────────────────
-            // STEP 4 │ Dry Volume
-            //        │ Mortar loses ~25% of its volume when mixed with water
-            //        │ ∴ Dry Volume = Wet Volume × 1.33
-            // ─────────────────────────────────────────────────────────────
+            // STEP 4 — Dry Volume
             val dryVolume = wetVolume * DRY_VOLUME_FACTOR
 
-            // ─────────────────────────────────────────────────────────────
-            // STEP 5 │ Parse Mortar Ratio  e.g. "1:4" → c=1, s=4, total=5
-            // ─────────────────────────────────────────────────────────────
+            // STEP 5 — Parse Mortar Ratio
             val mortarStr  = spinnerMortar.selectedItem.toString()
             val parts      = mortarStr.split(":")
             val cParts     = parts[0].trim().toDouble()
             val sParts     = parts[1].trim().toDouble()
             val totalParts = cParts + sParts
 
-            // ─────────────────────────────────────────────────────────────
-            // STEP 6 │ Cement & Sand Volumes
-            //        │ Cement Vol = Dry Volume × ( cParts / totalParts )
-            //        │ Sand Vol   = Dry Volume × ( sParts / totalParts )
-            // ─────────────────────────────────────────────────────────────
+            // STEP 6 — Cement & Sand Volumes
             val cementVol = dryVolume * (cParts / totalParts)
             val sandVol   = dryVolume * (sParts / totalParts)
 
-            // ─────────────────────────────────────────────────────────────
-            // STEP 7 │ Cement Bags
-            //        │ Cement Mass (kg) = Cement Volume (m³) × 1500 kg/m³
-            //        │ Bags = Cement Mass ÷ 50 kg/bag
-            // ─────────────────────────────────────────────────────────────
+            // STEP 7 — Cement Bags
             val cementMass = cementVol * CEMENT_DENSITY_KG_M3
             val cementBags = cementMass / BAG_WEIGHT_KG
 
-            // ─────────────────────────────────────────────────────────────
-            // STEP 8 │ Add 5% Wastage
-            //        │ Final Cement = Bags × 1.05
-            //        │ Final Sand   = Sand Vol × 1.05
-            // ─────────────────────────────────────────────────────────────
+            // STEP 8 — Add 5% Wastage
             val cementBagsFinal = cementBags * WASTE_FACTOR
             val sandVolFinal    = sandVol    * WASTE_FACTOR
 
-            // ─────────────────────────────────────────────────────────────
-            // STEP 9 │ Display
-            // ─────────────────────────────────────────────────────────────
+            // STEP 9 — Display
             tvArea.text = buildString {
                 append("🧱  Walls: ${walls.size}\n")
                 walls.forEachIndexed { i, w ->
@@ -330,7 +252,6 @@ class PlasterActivity : AppCompatActivity() {
                 }
                 append("📐  Total Net Area = %.4f m²".format(totalArea))
             }
-
             tvVolume.text = buildString {
                 append("💧 Wet Volume\n")
                 append("   = Area × Thickness\n")
@@ -356,7 +277,6 @@ class PlasterActivity : AppCompatActivity() {
                 append("   = %.2f × 1.05\n".format(cementBags))
                 append("   ✅ = %.2f bags".format(cementBagsFinal))
             }
-
             tvSand.text = buildString {
                 append("🏖  Sand Volume\n")
                 append("   = %.5f × (%.0f/%.0f)\n".format(dryVolume, sParts, totalParts))
@@ -366,80 +286,83 @@ class PlasterActivity : AppCompatActivity() {
                 append("   ✅ = %.5f m³".format(sandVolFinal))
             }
 
-            // ─────────────────────────────────────────────────────────────
-            // STEP 10 │ Save to history
-            // ─────────────────────────────────────────────────────────────
-            val sdf = SimpleDateFormat("dd/MM/yyyy  HH:mm", Locale.getDefault())
-            history.add(0, HistoryEntry(
-                date        = sdf.format(Date()),
-                wallCount   = walls.size,
-                totalArea   = totalArea,
-                thickness   = thicknessStr,
-                mortar      = mortarStr,
-                wetVolume   = wetVolume,
-                dryVolume   = dryVolume,
-                cementBags  = cementBagsFinal,
-                sandVol     = sandVolFinal
-            ))
+            // STEP 10 — Save to DB
+            val dateStr = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault()).format(Date())
+            db.insertPlasterHistory(
+                surface    = "Walls: ${walls.size}",
+                area       = totalArea,
+                thickness  = thickness * 1000, // تحويل لـ mm
+                ratio      = mortarStr,
+                cementBags = cementBagsFinal,
+                sandM3     = sandVolFinal,
+                waterL     = 0.0,
+                volumeM3   = wetVolume,
+                coats      = 1,
+                date       = dateStr
+            )
+            Toast.makeText(this, "✅ Saved to history", Toast.LENGTH_SHORT).show()
         }
 
-        // ═══════════════════════════════════════════════
-        // 📜 HISTORY
-        // ═══════════════════════════════════════════════
+        // ── History ─────────────────────────────────────────────────────
         btnHistory.setOnClickListener {
-            if (history.isEmpty()) {
+            val records = db.getAllPlasterHistory()
+            if (records.isEmpty()) {
                 Toast.makeText(this, "No calculations yet", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
             val sb = StringBuilder()
-            history.forEachIndexed { i, h ->
+            records.forEachIndexed { i, h ->
                 sb.append("━━━━━━━━━━━━━━━━━━━━━━━━\n")
-                sb.append("#${i + 1}  📅 ${h.date}\n")
-                sb.append("Walls: ${h.wallCount}  |  Area: %.4f m²\n".format(h.totalArea))
-                sb.append("Thickness: ${h.thickness}\n")
-                sb.append("Mortar: ${h.mortar}\n")
-                sb.append("Wet: %.5f m³  |  Dry: %.5f m³\n".format(h.wetVolume, h.dryVolume))
-                sb.append("Cement: %.2f bags  |  Sand: %.5f m³\n".format(h.cementBags, h.sandVol))
+                sb.append("#${i + 1}  📅 ${h["date"]}\n")
+                sb.append("Surface  : ${h["surface"]}\n")
+                sb.append("Area     : ${h["area"]} m²\n")
+                sb.append("Thickness: ${h["thickness"]} mm\n")
+                sb.append("Ratio    : ${h["ratio"]}\n")
+                sb.append("Cement   : ${"%.2f".format(h["cement_bags"]?.toDoubleOrNull() ?: 0.0)} bags\n")
+                sb.append("Sand     : ${"%.5f".format(h["sand_m3"]?.toDoubleOrNull() ?: 0.0)} m³\n")
             }
             AlertDialog.Builder(this)
                 .setTitle("📜 Calculation History")
                 .setMessage(sb.toString())
                 .setPositiveButton("OK", null)
-                .setNegativeButton("Clear History") { _, _ ->
-                    history.clear()
+                .setNegativeButton("🗑 Clear History") { _, _ ->
+                    db.clearPlasterHistory()
                     Toast.makeText(this, "History cleared", Toast.LENGTH_SHORT).show()
                 }
                 .show()
         }
     }
-
-    // ═══════════════════════════════════════════════
-    // 🔧 HELPERS
-    // ═══════════════════════════════════════════════
+    // ── Helpers ─────────────────────────────────────────────────────────
 
     private fun wallLabels() = walls.mapIndexed { i, w ->
         "Wall ${i + 1}: ${w.length}×${w.height} m  |  Net: %.3f m²".format(w.netArea)
     }.toTypedArray()
 
     private fun clearInputs(vararg fields: EditText) = fields.forEach { it.text.clear() }
+
     private fun updateWallsDisplay(tv: TextView) {
         tv.text = if (walls.isEmpty()) "Walls: none"
         else walls.mapIndexed { i, w ->
             val d   = if (w.doorArea   > 0) "  D:%.2fm²".format(w.doorArea)   else ""
             val win = if (w.windowArea > 0) "  W:%.2fm²".format(w.windowArea) else ""
-            "W${i + 1}: ${w.length}×${w.height}m$d$win  →  Net: %.3f m²".format(w.netArea)
+            "W${i+1}: ${w.length}×${w.height}m$d$win  →  Net: %.3f m²".format(w.netArea)
         }.joinToString("\n")
     }
 
     private fun updateOpeningsDisplay(tvDoors: TextView, tvWindows: TextView) {
         tvDoors.text = if (tempDoors.isEmpty()) "Doors: none"
         else tempDoors.mapIndexed { i, d ->
-            "D${i + 1}: ${d.length}×${d.width}=%.2fm²".format(d.area)
+            "D${i+1}: ${d.length}×${d.width}=%.2fm²".format(d.area)
         }.joinToString("  ", "🚪 ")
 
         tvWindows.text = if (tempWindows.isEmpty()) "Windows: none"
         else tempWindows.mapIndexed { i, w ->
-            "W${i + 1}: ${w.length}×${w.width}=%.2fm²".format(w.area)
+            "W${i+1}: ${w.length}×${w.width}=%.2fm²".format(w.area)
         }.joinToString("  ", "🪟 ")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        db.close()
     }
 }

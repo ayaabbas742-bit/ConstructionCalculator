@@ -1,227 +1,54 @@
-<?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#EEF3F7">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
-
-        <!-- TITLE -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Concrete Calculator PRO"
-            android:textSize="26sp"
-            android:textStyle="bold"
-            android:gravity="center"
-            android:textColor="#111827"
-            android:padding="10dp"/>
-
-
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="220dp"
-            android:layout_height="180dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            app:cardCornerRadius="25dp"
-            app:cardElevation="12dp"
-            app:strokeWidth="1dp"
-            app:strokeColor="#22000000">
-
-            <ImageView
-                android:id="@+id/imgElement"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/slab"
-                android:scaleType="centerCrop"/>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent" android:layout_height="match_parent" android:background="#EEF3F7">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
+        <!--  HEADER                                  -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:background="#716F6B" android:padding="20dp" android:layout_marginBottom="16dp">
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="CONCRETE" android:textSize="32sp" android:textStyle="bold" android:textColor="#1F1F1F" android:letterSpacing="0.15" android:gravity="center"/>
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="CALCULATOR PRO · 🇩🇿 Algerian Standard" android:textSize="12sp" android:textColor="#000000" android:gravity="center" android:letterSpacing="0.1" android:layout_marginTop="4dp"/>
+        </LinearLayout>
+        <!--  SUBTITLE  -->
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="DTR BC 2.41 / CBA93 — Algeria" android:textSize="13sp" android:gravity="center" android:textColor="#6B7280" android:paddingBottom="8dp"/>
+        <!--  IMAGE  -->
+        <com.google.android.material.card.MaterialCardView android:layout_width="220dp" android:layout_height="160dp" android:layout_gravity="center" android:layout_marginTop="8dp" app:cardCornerRadius="20dp" app:cardElevation="10dp" app:strokeWidth="1dp" app:strokeColor="#22000000">
+            <ImageView android:id="@+id/imgElement" android:layout_width="match_parent" android:layout_height="match_parent" android:src="@drawable/slab" android:scaleType="centerCrop"/>
         </com.google.android.material.card.MaterialCardView>
-
-        <!-- ELEMENT -->
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="6dp">
-
-            <LinearLayout
-                android:padding="12dp"
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:text="Structural Element"
-                    android:textStyle="bold"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-
-                <Spinner
-                    android:id="@+id/spinnerElement"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+        <!--  STRUCTURAL ELEMENT  -->
+        <androidx.cardview.widget.CardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" app:cardCornerRadius="12dp" app:cardElevation="4dp">
+            <LinearLayout android:padding="12dp" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content">
+                <TextView android:text="Structural Element" android:textStyle="bold" android:textColor="#1A237E" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+                <Spinner android:id="@+id/spinnerElement" android:layout_width="match_parent" android:layout_height="wrap_content"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
-
-        <!-- GRADE -->
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="6dp">
-
-            <LinearLayout
-                android:padding="12dp"
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:text="Concrete Grade"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-
-                <Spinner
-                    android:id="@+id/spinnerGrade"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+        <!--  CONCRETE GRADE  -->
+        <androidx.cardview.widget.CardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp" app:cardCornerRadius="12dp" app:cardElevation="4dp">
+            <LinearLayout android:padding="12dp" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content">
+                <TextView android:text="Concrete Grade (fc28)" android:textStyle="bold" android:textColor="#1A237E" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+                <Spinner android:id="@+id/spinnerGrade" android:layout_width="match_parent" android:layout_height="wrap_content"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
-
-        <!-- INPUTS -->
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            app:cardCornerRadius="12dp">
-
-            <LinearLayout
-                android:padding="12dp"
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <EditText
-                    android:id="@+id/etLength"
-                    android:hint="Length (m)"
-                    android:inputType="numberDecimal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-
-                <EditText
-                    android:id="@+id/etWidth"
-                    android:hint="Width (m)"
-                    android:inputType="numberDecimal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-
-                <EditText
-                    android:id="@+id/etHeight"
-                    android:hint="Height / Thickness (m)"
-                    android:inputType="numberDecimal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-
-                <EditText
-                    android:id="@+id/etOpenings"
-                    android:hint="Openings (m³)"
-                    android:inputType="numberDecimal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-            </LinearLayout>
-
-            <!-- Beam inputs -->
-            <LinearLayout
-                android:id="@+id/beamInputs"
-                android:orientation="vertical"
-                android:visibility="gone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <EditText
-                    android:id="@+id/etBeamL"
-                    android:hint="Beam Length (m)"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-
-                <EditText
-                    android:id="@+id/etBeamB"
-                    android:hint="Beam Width (b)"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-
-                <EditText
-                    android:id="@+id/etBeamH"
-                    android:hint="Beam Height (h)"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-            </LinearLayout>
-
-            <!-- Column inputs -->
-            <LinearLayout
-                android:id="@+id/columnInputs"
-                android:orientation="vertical"
-                android:visibility="gone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <EditText
-                    android:id="@+id/etColB"
-                    android:hint="Column Width"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-
-                <EditText
-                    android:id="@+id/etColD"
-                    android:hint="Column Depth"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-
-                <EditText
-                    android:id="@+id/etColH"
-                    android:hint="Column Height"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+        <!--  DIMENSIONS  -->
+        <androidx.cardview.widget.CardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp" app:cardCornerRadius="12dp" app:cardElevation="4dp">
+            <LinearLayout android:padding="12dp" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content">
+                <TextView android:text="Dimensions" android:textStyle="bold" android:textColor="#1A237E" android:paddingBottom="6dp" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+                <EditText android:id="@+id/etLength" android:hint="Length (m)" android:inputType="numberDecimal" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+                <EditText android:id="@+id/etWidth" android:hint="Width (m)" android:inputType="numberDecimal" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+                <EditText android:id="@+id/etHeight" android:hint="Thickness / Height (m)" android:inputType="numberDecimal" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+                <EditText android:id="@+id/etOpenings" android:hint="Openings / Voids (m³) — optional" android:inputType="numberDecimal" android:layout_width="match_parent" android:layout_height="wrap_content"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
-
-        <!-- WASTE -->
-        <TextView
-            android:layout_marginTop="10dp"
-            android:text="Waste Factor %"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-        <SeekBar
-            android:id="@+id/wasteBar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:max="10"/>
-
-        <!-- BUTTON -->
-        <Button
-            android:id="@+id/btnCalc"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="CALCULATE"
-            android:backgroundTint="#1A237E"
-            android:textColor="#FFFFFF"
-            android:layout_marginTop="12dp"/>
-
-        <!-- RESULT -->
-        <TextView
-            android:id="@+id/tvResult"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="14dp"
-            android:text="Result"
-            android:textSize="14sp"
-            android:layout_marginTop="12dp"
-            android:background="#FFFFFF"/>
-
+        <!--  WASTE FACTOR  -->
+        <androidx.cardview.widget.CardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp" app:cardCornerRadius="12dp" app:cardElevation="4dp">
+            <LinearLayout android:padding="12dp" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content">
+                <LinearLayout android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="wrap_content">
+                    <TextView android:text="Waste Factor: " android:textStyle="bold" android:textColor="#1A237E" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                    <TextView android:id="@+id/tvWasteValue" android:text="5%" android:textStyle="bold" android:textColor="#D32F2F" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                </LinearLayout>
+                <SeekBar android:id="@+id/wasteBar" android:layout_width="match_parent" android:layout_height="wrap_content" android:max="15" android:progress="5" android:layout_marginTop="6dp"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+        <!--  BUTTONS  -->
+        <Button android:id="@+id/btnCalc" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="🧮 CALCULATE" android:backgroundTint="#454545" android:textColor="#FFFFFF" android:textStyle="bold" android:layout_marginTop="14dp"/>
+        <Button android:id="@+id/btnHistory" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="📋 HISTORY" android:backgroundTint="#37474F" android:textColor="#FFFFFF" android:layout_marginTop="6dp"/>
+        <!--  RESULT  -->
+        <TextView android:id="@+id/tvResult" android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="14dp" android:text="Result will appear here…" android:textSize="13sp" android:fontFamily="monospace" android:layout_marginTop="14dp" android:background="#FFFFFF" android:textColor="#111827"/>
     </LinearLayout>
 </ScrollView>

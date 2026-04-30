@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
 class DatabaseHelper(context: Context) :
-    SQLiteOpenHelper(context, "ConstructionDB", null, 10) {
+    SQLiteOpenHelper(context, "ConstructionDB", null, 13) {
 
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL("""
@@ -17,7 +17,8 @@ class DatabaseHelper(context: Context) :
                 email TEXT UNIQUE,
                 password TEXT,
                 otp TEXT,
-                profile_image TEXT
+                profile_image TEXT,
+                role TEXT DEFAULT 'user'
             )
         """)
         db.execSQL("""
@@ -198,6 +199,99 @@ class DatabaseHelper(context: Context) :
         date INTEGER NOT NULL
         )
          """)
+            db.execSQL("""
+            CREATE TABLE stair_history (
+                id      INTEGER PRIMARY KEY AUTOINCREMENT,
+                type    TEXT,
+                height  REAL,
+                steps   INTEGER,
+                riser   REAL,
+                tread   REAL,
+                blondel REAL,
+                length  REAL,
+                area    REAL,
+                status  TEXT,
+                date    TEXT
+            )
+        """)
+            db.execSQL("""
+            CREATE TABLE tile_history (
+                id           INTEGER PRIMARY KEY AUTOINCREMENT,
+                tile_type    TEXT,
+                floor_area   REAL,
+                tile_l_cm    REAL,
+                tile_w_cm    REAL,
+                base_tiles   INTEGER,
+                total_tiles  INTEGER,
+                waste_pct    REAL,
+                install_type TEXT,
+                date         TEXT
+            )
+        """)
+            // ── تاريخ الطابوق (Brick) ──
+            db.execSQL("""
+            CREATE TABLE brick_history (
+                id          INTEGER PRIMARY KEY AUTOINCREMENT,
+                wall_length REAL,
+                wall_height REAL,
+                wall_thick  REAL,
+                brick_l     REAL,
+                brick_h     REAL,
+                brick_w     REAL,
+                mortar_ratio TEXT,
+                bricks      INTEGER,
+                cement_bags REAL,
+                sand_m3     REAL,
+                wall_area   REAL,
+                wall_volume REAL,
+                status      TEXT,
+                date        TEXT
+            )
+        """)
+            // ── تاريخ اللياسة (Plaster) ──
+            db.execSQL("""
+            CREATE TABLE plaster_history (
+                id          INTEGER PRIMARY KEY AUTOINCREMENT,
+                surface     TEXT,
+                area        REAL,
+                thickness   REAL,
+                ratio       TEXT,
+                cement_bags REAL,
+                sand_m3     REAL,
+                water_l     REAL,
+                volume_m3   REAL,
+                coats       INTEGER,
+                date        TEXT
+            )
+        """)
+
+            // ── تاريخ الطلاء (Paint) ──
+            db.execSQL("""
+            CREATE TABLE paint_history (
+                id          INTEGER PRIMARY KEY AUTOINCREMENT,
+                paint_type  TEXT,
+                surface     TEXT,
+                area        REAL,
+                coats       INTEGER,
+                paint_liters REAL,
+                cans_needed INTEGER,
+                primer_l    REAL,
+                date        TEXT
+            )
+        """)
+
+            // ── جدول history القديم (للتوافق مع الكود الموجود) ──
+            db.execSQL("""
+            CREATE TABLE IF NOT EXISTS history (
+                id     INTEGER PRIMARY KEY AUTOINCREMENT,
+                type   TEXT    NOT NULL,
+                height REAL    NOT NULL,
+                steps  INTEGER NOT NULL,
+                length REAL    NOT NULL,
+                area   REAL    NOT NULL,
+                date   INTEGER NOT NULL
+            )
+        """)
         }
         if (oldVersion < 6) {
             db.execSQL("ALTER TABLE users ADD COLUMN profile_image TEXT")
@@ -224,6 +318,59 @@ class DatabaseHelper(context: Context) :
         )
     """)
         }
+        if (oldVersion < 11) {
+            db.execSQL("""
+                CREATE TABLE IF NOT EXISTS stair_history (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT, type TEXT,
+                    height REAL, steps INTEGER, riser REAL, tread REAL,
+                    blondel REAL, length REAL, area REAL, status TEXT, date TEXT
+                )
+            """)
+
+            db.execSQL("""
+                CREATE TABLE IF NOT EXISTS tile_history (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT, tile_type TEXT,
+                    floor_area REAL, tile_l_cm REAL, tile_w_cm REAL,
+                    base_tiles INTEGER, total_tiles INTEGER, waste_pct REAL,
+                    install_type TEXT, date TEXT
+                )
+            """)
+            db.execSQL("""
+                CREATE TABLE IF NOT EXISTS brick_history (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    wall_length REAL, wall_height REAL, wall_thick REAL,
+                    brick_l REAL, brick_h REAL, brick_w REAL,
+                    mortar_ratio TEXT, bricks INTEGER, cement_bags REAL,
+                    sand_m3 REAL, wall_area REAL, wall_volume REAL,
+                    status TEXT, date TEXT
+                )
+            """)
+            db.execSQL("""
+                CREATE TABLE IF NOT EXISTS plaster_history (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT, surface TEXT,
+                    area REAL, thickness REAL, ratio TEXT, cement_bags REAL,
+                    sand_m3 REAL, water_l REAL, volume_m3 REAL,
+                    coats INTEGER, date TEXT
+                )
+            """)
+            db.execSQL("""
+                CREATE TABLE IF NOT EXISTS paint_history (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT, paint_type TEXT,
+                    surface TEXT, area REAL, coats INTEGER,
+                    paint_liters REAL, cans_needed INTEGER,
+                    primer_l REAL, date TEXT
+                )
+            """)
+        }
+        if (oldVersion < 12) {
+            db.execSQL("ALTER TABLE users ADD COLUMN role TEXT DEFAULT 'user'")
+        }
+        if (oldVersion < 13) {
+            db.execSQL("""
+        INSERT OR IGNORE INTO users (firstName, lastName, email, password, role)
+        VALUES ('Admin', 'System', 'admin@gmail.com', 'ayouch12345', 'admin')
+    """)
+        }
     }
 
     // ================= USERS =================
@@ -234,6 +381,7 @@ class DatabaseHelper(context: Context) :
             put("email", email)
             put("password", password)
             put("otp", (1000..9999).random().toString())
+            put("role","user")
         }
         return writableDatabase.insert("users", null, values) != -1L
     }
@@ -300,13 +448,72 @@ class DatabaseHelper(context: Context) :
 
     // ================= RESULTS =================
     fun insertResult(bricks: Int, cement: Double, sand: Double, total: Double): Boolean {
-        val values = ContentValues().apply {
-            put("bricks", bricks)
-            put("cement", cement)
-            put("sand", sand)
-            put("total", total)
+        val v = ContentValues().apply {
+            put("bricks", bricks); put("cement", cement)
+            put("sand", sand);     put("total", total)
         }
-        return writableDatabase.insert("results", null, values) != -1L
+        return writableDatabase.insert("results", null, v) != -1L
+    }
+    fun insertBrickHistory(
+        wallLength: Double, wallHeight: Double, wallThick: Double,
+        brickL: Double,     brickH: Double,     brickW: Double,
+        mortarRatio: String,
+        bricks: Int,        cementBags: Double, sandM3: Double,
+        wallArea: Double,   wallVolume: Double,
+        status: String,     date: String
+    ): Long {
+        val cv = ContentValues().apply {
+            put("wall_length",  wallLength)
+            put("wall_height",  wallHeight)
+            put("wall_thick",   wallThick)
+            put("brick_l",      brickL)
+            put("brick_h",      brickH)
+            put("brick_w",      brickW)
+            put("mortar_ratio", mortarRatio)
+            put("bricks",       bricks)
+            put("cement_bags",  cementBags)
+            put("sand_m3",      sandM3)
+            put("wall_area",    wallArea)
+            put("wall_volume",  wallVolume)
+            put("status",       status)
+            put("date",         date)
+        }
+        return writableDatabase.insert("brick_history", null, cv)
+    }
+
+    fun getAllBrickHistory(): List<Map<String, String>> {
+        val list = mutableListOf<Map<String, String>>()
+        val c = readableDatabase.rawQuery(
+            "SELECT * FROM brick_history ORDER BY id DESC", null)
+        c.use {
+            while (it.moveToNext()) {
+                list.add(mapOf(
+                    "id"          to it.getString(it.getColumnIndexOrThrow("id")),
+                    "wall_length" to it.getString(it.getColumnIndexOrThrow("wall_length")),
+                    "wall_height" to it.getString(it.getColumnIndexOrThrow("wall_height")),
+                    "wall_thick"  to it.getString(it.getColumnIndexOrThrow("wall_thick")),
+                    "brick_l"     to it.getString(it.getColumnIndexOrThrow("brick_l")),
+                    "brick_h"     to it.getString(it.getColumnIndexOrThrow("brick_h")),
+                    "brick_w"     to it.getString(it.getColumnIndexOrThrow("brick_w")),
+                    "mortar_ratio" to it.getString(it.getColumnIndexOrThrow("mortar_ratio")),
+                    "bricks"      to it.getString(it.getColumnIndexOrThrow("bricks")),
+                    "cement_bags" to it.getString(it.getColumnIndexOrThrow("cement_bags")),
+                    "sand_m3"     to it.getString(it.getColumnIndexOrThrow("sand_m3")),
+                    "wall_area"   to it.getString(it.getColumnIndexOrThrow("wall_area")),
+                    "wall_volume" to it.getString(it.getColumnIndexOrThrow("wall_volume")),
+                    "status"      to it.getString(it.getColumnIndexOrThrow("status")),
+                    "date"        to it.getString(it.getColumnIndexOrThrow("date"))
+                ))
+            }
+        }
+        return list
+    }
+
+    fun deleteBrickHistory(id: Int) {
+        writableDatabase.delete("brick_history", "id=?", arrayOf(id.toString()))
+    }
+    fun clearBrickHistory() {
+        writableDatabase.execSQL("DELETE FROM brick_history")
     }
 
     // ================= PLASTER =================
@@ -314,40 +521,231 @@ class DatabaseHelper(context: Context) :
         area: Double, thickness: Double, ratio: String,
         cement: Double, sand: Double, water: Double, volume: Double
     ) {
-        val values = ContentValues().apply {
-            put("area", area)
-            put("thickness", thickness)
-            put("ratio", ratio)
-            put("cement", cement)
-            put("sand", sand)
-            put("water", water)
-            put("volume", volume)
+        val v = ContentValues().apply {
+            put("area", area); put("thickness", thickness); put("ratio", ratio)
+            put("cement", cement); put("sand", sand); put("water", water); put("volume", volume)
         }
-        writableDatabase.insert("plaster", null, values)
+        writableDatabase.insert("plaster", null, v)
+    }
+
+    /**
+     * حفظ حساب اللياسة كاملاً في plaster_history
+     */
+    fun insertPlasterHistory(
+        surface: String,
+        area: Double,     thickness: Double, ratio: String,
+        cementBags: Double, sandM3: Double,  waterL: Double,
+        volumeM3: Double, coats: Int,        date: String
+    ): Long {
+        val cv = ContentValues().apply {
+            put("surface",     surface)
+            put("area",        area)
+            put("thickness",   thickness)
+            put("ratio",       ratio)
+            put("cement_bags", cementBags)
+            put("sand_m3",     sandM3)
+            put("water_l",     waterL)
+            put("volume_m3",   volumeM3)
+            put("coats",       coats)
+            put("date",        date)
+        }
+        return writableDatabase.insert("plaster_history", null, cv)
+    }
+
+    fun getAllPlasterHistory(): List<Map<String, String>> {
+        val list = mutableListOf<Map<String, String>>()
+        val c = readableDatabase.rawQuery(
+            "SELECT * FROM plaster_history ORDER BY id DESC", null)
+        c.use {
+            while (it.moveToNext()) {
+                list.add(mapOf(
+                    "id"          to it.getString(it.getColumnIndexOrThrow("id")),
+                    "surface"     to it.getString(it.getColumnIndexOrThrow("surface")),
+                    "area"        to it.getString(it.getColumnIndexOrThrow("area")),
+                    "thickness"   to it.getString(it.getColumnIndexOrThrow("thickness")),
+                    "ratio"       to it.getString(it.getColumnIndexOrThrow("ratio")),
+                    "cement_bags" to it.getString(it.getColumnIndexOrThrow("cement_bags")),
+                    "sand_m3"     to it.getString(it.getColumnIndexOrThrow("sand_m3")),
+                    "water_l"     to it.getString(it.getColumnIndexOrThrow("water_l")),
+                    "volume_m3"   to it.getString(it.getColumnIndexOrThrow("volume_m3")),
+                    "coats"       to it.getString(it.getColumnIndexOrThrow("coats")),
+                    "date"        to it.getString(it.getColumnIndexOrThrow("date"))
+                ))
+            }
+        }
+        return list
+    }
+
+    fun deletePlasterHistory(id: Int) {
+        writableDatabase.delete("plaster_history", "id=?", arrayOf(id.toString()))
+    }
+    fun clearPlasterHistory() {
+        writableDatabase.execSQL("DELETE FROM plaster_history")
     }
 
     // ================= PAINT =================
     fun insertPaint(type: String, area: Double, coats: Int, paint: Double, date: String) {
-        val values = ContentValues().apply {
-            put("type", type)
-            put("area", area)
-            put("coats", coats)
-            put("paint", paint)
-            put("date", date)
+        val v = ContentValues().apply {
+            put("type", type); put("area", area)
+            put("coats", coats); put("paint", paint); put("date", date)
         }
-        writableDatabase.insert("paint_results", null, values)
+        writableDatabase.insert("paint_results", null, v)
     }
 
+    /**
+     * حفظ حساب الطلاء كاملاً في paint_history
+     */
+    fun insertPaintHistory(
+        paintType: String, surface: String,
+        area: Double,      coats: Int,
+        paintLiters: Double, cansNeeded: Int,
+        primerL: Double,   date: String
+    ): Long {
+        val cv = ContentValues().apply {
+            put("paint_type",   paintType)
+            put("surface",      surface)
+            put("area",         area)
+            put("coats",        coats)
+            put("paint_liters", paintLiters)
+            put("cans_needed",  cansNeeded)
+            put("primer_l",     primerL)
+            put("date",         date)
+        }
+        return writableDatabase.insert("paint_history", null, cv)
+    }
+
+    fun getAllPaintHistory(): List<Map<String, String>> {
+        val list = mutableListOf<Map<String, String>>()
+        val c = readableDatabase.rawQuery(
+            "SELECT * FROM paint_history ORDER BY id DESC", null)
+        c.use {
+            while (it.moveToNext()) {
+                list.add(mapOf(
+                    "id"           to it.getString(it.getColumnIndexOrThrow("id")),
+                    "paint_type"   to it.getString(it.getColumnIndexOrThrow("paint_type")),
+                    "surface"      to it.getString(it.getColumnIndexOrThrow("surface")),
+                    "area"         to it.getString(it.getColumnIndexOrThrow("area")),
+                    "coats"        to it.getString(it.getColumnIndexOrThrow("coats")),
+                    "paint_liters" to it.getString(it.getColumnIndexOrThrow("paint_liters")),
+                    "cans_needed"  to it.getString(it.getColumnIndexOrThrow("cans_needed")),
+                    "primer_l"     to it.getString(it.getColumnIndexOrThrow("primer_l")),
+                    "date"         to it.getString(it.getColumnIndexOrThrow("date"))
+                ))
+            }
+        }
+        return list
+    }
+
+    fun deletePaintHistory(id: Int) {
+        writableDatabase.delete("paint_history", "id=?", arrayOf(id.toString()))
+    }
+    fun clearPaintHistory() {
+        writableDatabase.execSQL("DELETE FROM paint_history")
+    }
     // ================= TILES =================
     fun insertTile(type: String, area: Double, count: Double, date: String) {
-        val values = ContentValues().apply {
-            put("type", type)
-            put("area", area)
-            put("count", count)
-            put("date", date)
+        val v = ContentValues().apply {
+            put("type", type); put("area", area); put("count", count); put("date", date)
         }
-        writableDatabase.insert("tiles", null, values)
+        writableDatabase.insert("tiles", null, v)
     }
+
+    /**
+     * حفظ حساب البلاط كاملاً في tile_history
+     */
+    fun insertTileHistory(
+        tileType: String,  floorArea: Double,
+        tileLcm: Double,   tileWcm: Double,
+        baseTiles: Int,    totalTiles: Int,
+        wastePct: Double,  installType: String,
+        date: String
+    ): Long {
+        val cv = ContentValues().apply {
+            put("tile_type",    tileType)
+            put("floor_area",   floorArea)
+            put("tile_l_cm",    tileLcm)
+            put("tile_w_cm",    tileWcm)
+            put("base_tiles",   baseTiles)
+            put("total_tiles",  totalTiles)
+            put("waste_pct",    wastePct)
+            put("install_type", installType)
+            put("date",         date)
+        }
+        return writableDatabase.insert("tile_history", null, cv)
+    }
+
+    fun getAllTileHistory(): List<Map<String, String>> {
+        val list = mutableListOf<Map<String, String>>()
+        val c = readableDatabase.rawQuery(
+            "SELECT * FROM tile_history ORDER BY id DESC", null)
+        c.use {
+            while (it.moveToNext()) {
+                list.add(mapOf(
+                    "id"           to it.getString(it.getColumnIndexOrThrow("id")),
+                    "tile_type"    to it.getString(it.getColumnIndexOrThrow("tile_type")),
+                    "floor_area"   to it.getString(it.getColumnIndexOrThrow("floor_area")),
+                    "tile_l_cm"    to it.getString(it.getColumnIndexOrThrow("tile_l_cm")),
+                    "tile_w_cm"    to it.getString(it.getColumnIndexOrThrow("tile_w_cm")),
+                    "base_tiles"   to it.getString(it.getColumnIndexOrThrow("base_tiles")),
+                    "total_tiles"  to it.getString(it.getColumnIndexOrThrow("total_tiles")),
+                    "waste_pct"    to it.getString(it.getColumnIndexOrThrow("waste_pct")),
+                    "install_type" to it.getString(it.getColumnIndexOrThrow("install_type")),
+                    "date"         to it.getString(it.getColumnIndexOrThrow("date"))
+                ))
+            }
+        }
+        return list
+    }
+
+    fun deleteTileHistory(id: Int) {
+        writableDatabase.delete("tile_history", "id=?", arrayOf(id.toString()))
+    }
+    // ═══════════════════════════════════════════════════════
+    //  STAIR (الدرج) — stair_history
+    // ═══════════════════════════════════════════════════════
+    fun insertStair(
+        type: String,   height: Double, steps: Int,
+        riser: Double,  tread: Double,  blondel: Double,
+        length: Double, area: Double,   status: String, date: String
+    ): Long {
+        val cv = ContentValues().apply {
+            put("type",    type);    put("height",  height)
+            put("steps",   steps);   put("riser",   riser)
+            put("tread",   tread);   put("blondel", blondel)
+            put("length",  length);  put("area",    area)
+            put("status",  status);  put("date",    date)
+        }
+        return writableDatabase.insert("stair_history", null, cv)
+    }
+
+    fun getAllStairs(): List<Map<String, String>> {
+        val list = mutableListOf<Map<String, String>>()
+        val c = readableDatabase.rawQuery(
+            "SELECT * FROM stair_history ORDER BY id DESC", null)
+        c.use {
+            while (it.moveToNext()) {
+                list.add(mapOf(
+                    "id"      to it.getString(it.getColumnIndexOrThrow("id")),
+                    "type"    to it.getString(it.getColumnIndexOrThrow("type")),
+                    "height"  to it.getString(it.getColumnIndexOrThrow("height")),
+                    "steps"   to it.getString(it.getColumnIndexOrThrow("steps")),
+                    "riser"   to it.getString(it.getColumnIndexOrThrow("riser")),
+                    "tread"   to it.getString(it.getColumnIndexOrThrow("tread")),
+                    "blondel" to it.getString(it.getColumnIndexOrThrow("blondel")),
+                    "length"  to it.getString(it.getColumnIndexOrThrow("length")),
+                    "area"    to it.getString(it.getColumnIndexOrThrow("area")),
+                    "status"  to it.getString(it.getColumnIndexOrThrow("status")),
+                    "date"    to it.getString(it.getColumnIndexOrThrow("date"))
+                ))
+            }
+        }
+        return list
+    }
+
+    fun deleteStair(id: Int) {
+        writableDatabase.delete("stair_history", "id=?", arrayOf(id.toString()))
+    }
+
 
     // ================= OTP =================
     fun generateOtp(email: String): String {
@@ -782,46 +1180,118 @@ class DatabaseHelper(context: Context) :
         cursor.close()
         return note
     }
-
-    fun insert(type: String, h: Double, steps: Int, length: Double, area: Double) {
-
-        val cv = ContentValues()
-
-        cv.put("type", type)
-        cv.put("height", h)
-        cv.put("steps", steps)
-        cv.put("length", length)
-        cv.put("area", area)
-        cv.put("date", System.currentTimeMillis()) // ✅ Long وليس String
-
-        writableDatabase.insert("history", null, cv)
+    // إضافة admin يدوياً
+    fun insertAdmin(first: String, last: String,
+                    email: String, password: String): Boolean {
+        val values = ContentValues().apply {
+            put("firstName", first)
+            put("lastName", last)
+            put("email", email)
+            put("password", password)
+            put("role", "admin")
+        }
+        return writableDatabase.insert("users", null, values) != -1L
     }
 
-    fun getAll(): ArrayList<HistoryItem> {
+    // تحقق هل المستخدم admin؟
+    fun isAdmin(email: String): Boolean {
+        val cursor = readableDatabase.rawQuery(
+            "SELECT role FROM users WHERE email=?",
+            arrayOf(email)
+        )
+        var admin = false
+        if (cursor.moveToFirst()) {
+            admin = cursor.getString(0) == "admin"
+        }
+        cursor.close()
+        return admin
+    }
 
-        val list = ArrayList<HistoryItem>()
-
-        val c = readableDatabase.rawQuery(
-            "SELECT * FROM history ORDER BY id DESC",
+    // جلب كل المستخدمين (للـ admin فقط)
+    fun getAllUsers(): List<Map<String, String>> {
+        val list = mutableListOf<Map<String, String>>()
+        val cursor = readableDatabase.rawQuery(
+            "SELECT id, firstName, lastName, email, role FROM users", null)
+        while (cursor.moveToNext()) {
+            list.add(mapOf(
+                "id"        to cursor.getString(0),
+                "firstName" to cursor.getString(1),
+                "lastName"  to cursor.getString(2),
+                "email"     to cursor.getString(3),
+                "role"      to cursor.getString(4)
+            ))
+        }
+        cursor.close()
+        return list
+    }
+    fun getTotalUsers(): Int {
+        val cursor = readableDatabase.rawQuery(
+            "SELECT COUNT(*) FROM users",
             null
         )
 
-        while (c.moveToNext()) {
-
-            val item = HistoryItem(
-                type = c.getString(1),
-                height = c.getDouble(2),
-                steps = c.getInt(3),
-                length = c.getDouble(4),
-                area = c.getDouble(5),
-                date = c.getLong(6)
-            )
-
-            list.add(item)
+        var count = 0
+        if (cursor.moveToFirst()) {
+            count = cursor.getInt(0)
         }
 
-        c.close()
+        cursor.close()
+        return count
+    }
+    fun getTotalFeedback(): Int {
+        val cursor = readableDatabase.rawQuery(
+            "SELECT COUNT(*) FROM feedback",
+            null
+        )
+
+        var count = 0
+        if (cursor.moveToFirst()) {
+            count = cursor.getInt(0)
+        }
+
+        cursor.close()
+        return count
+    }
+    fun getAverageRating(): Double {
+        val cursor = readableDatabase.rawQuery(
+            "SELECT AVG(rating) FROM feedback",
+            null
+        )
+
+        var avg = 0.0
+        if (cursor.moveToFirst()) {
+            avg = cursor.getDouble(0)
+        }
+
+        cursor.close()
+
+        // حماية من null (إذا ما كاش بيانات)
+        return if (avg.isNaN()) 0.0 else avg
+    }
+    fun getAllFeedback(): List<Map<String, String>> {
+        val list = mutableListOf<Map<String, String>>()
+        val cursor = readableDatabase.rawQuery(
+            "SELECT email, rating, note FROM feedback ORDER BY id DESC", null
+        )
+        while (cursor.moveToNext()) {
+            list.add(mapOf(
+                "email"  to (cursor.getString(0) ?: ""),
+                "rating" to (cursor.getString(1) ?: "0"),
+                "note"   to (cursor.getString(2) ?: "")
+            ))
+        }
+        cursor.close()
         return list
     }
+
+    //  يمنع حذف Admin + يستقبل email بدل id
+    fun deleteUser(email: String): Boolean {
+        // لا يحذف Admin أبداً
+        if (isAdmin(email)) return false
+        return writableDatabase.delete(
+            "users", "email=?", arrayOf(email)
+        ) > 0
+    }
+
 }
 

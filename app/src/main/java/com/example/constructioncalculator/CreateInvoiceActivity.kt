@@ -17,6 +17,7 @@ class CreateInvoiceActivity : AppCompatActivity() {
 
     private var selectedClientId   = -1
     private var selectedBusinessId = 1
+    private var editInvoiceId = -1
     private val items = mutableListOf<InvoiceItem>()
 
     private lateinit var tvInvoiceNumber: TextView
@@ -253,6 +254,50 @@ class CreateInvoiceActivity : AppCompatActivity() {
     }
 
     private fun showPaymentDialog() {
+        val options = arrayOf(
+            "💵 Cash",
+            "💳 Card",
+            "🏦 Bank Transfer",
+            "📝 Check",
+            "📱 Mobile Payment",
+            "✏️ Custom..."
+        )
+
+        android.app.AlertDialog.Builder(this)
+            .setTitle("Payment Method")
+            .setItems(options) { _, which ->
+                when (which) {
+                    0 -> {
+                        paymentMethod = "Cash"
+                        tvPaymentVal.text = "💵 Cash"
+                    }
+                    1 -> {
+                        paymentMethod = "Card"
+                        tvPaymentVal.text = "💳 Card"
+                    }
+                    2 -> {
+                        paymentMethod = "Bank Transfer"
+                        tvPaymentVal.text = "🏦 Bank Transfer"
+                    }
+                    3 -> {
+                        paymentMethod = "Check"
+                        tvPaymentVal.text = "📝 Check"
+                    }
+                    4 -> {
+                        paymentMethod = "Mobile Payment"
+                        tvPaymentVal.text = "📱 Mobile Payment"
+                    }
+                    5 -> {
+                        // كتابة يدوية
+                        showCustomPaymentDialog()
+                    }
+                }
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
+    }
+
+    private fun showCustomPaymentDialog() {
         val layout = LinearLayout(this)
         layout.orientation = LinearLayout.VERTICAL
         layout.setPadding(50, 30, 50, 10)
@@ -291,7 +336,7 @@ class CreateInvoiceActivity : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence?, st: Int, c: Int, a: Int) {}
         })
 
-        AlertDialog.Builder(this)
+        android.app.AlertDialog.Builder(this)
             .setView(layout)
             .setPositiveButton("Save") { _, _ ->
                 paymentMethod = etPayment.text.toString()
@@ -406,6 +451,10 @@ class CreateInvoiceActivity : AppCompatActivity() {
             return -1
         }
 
+        if (editInvoiceId != -1) {
+            db.deleteInvoice(editInvoiceId)
+        }
+
         val invoiceId = db.saveInvoice(
             invoiceNumber = tvInvoiceNumber.text.toString(),
             createdDate   = tvCreatedDate.text.toString(),
@@ -421,6 +470,7 @@ class CreateInvoiceActivity : AppCompatActivity() {
             notes         = etNotes.text.toString(),
             signature     = signaturePath
         )
+
         for (item in items) {
             db.saveItem(
                 invoiceId   = invoiceId,
@@ -432,8 +482,8 @@ class CreateInvoiceActivity : AppCompatActivity() {
                 description = item.description
             )
         }
-
-        Toast.makeText(this, "✅ Invoice saved!", Toast.LENGTH_SHORT).show()
+        val msg = if (editInvoiceId != -1) "✅ Invoice updated!" else "✅ Invoice saved!"
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
         return invoiceId
     }
 

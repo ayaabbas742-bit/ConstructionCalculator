@@ -14,7 +14,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:background="#2196F3"
+            android:background="#1A5276"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:padding="8dp">
@@ -63,7 +63,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="اسم العنصر *"
+                    android:text="item name *"
                     android:textColor="#F44336"
                     android:gravity="end"
                     android:layout_marginBottom="4dp"/>
@@ -72,7 +72,7 @@
                     android:id="@+id/etName"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:hint="أدخل اسم العنصر"
+                    android:hint="enter the name of the item"
                     android:background="#F5F5F5"
                     android:padding="12dp"
                     android:gravity="end"
@@ -94,7 +94,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="كمية العنصر"
+                            android:text="Quantity of item"
                             android:gravity="end"
                             android:layout_marginBottom="4dp"/>
                         <EditText
@@ -117,7 +117,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="سعر العنصر"
+                            android:text="item price"
                             android:gravity="end"
                             android:layout_marginBottom="4dp"/>
 
@@ -137,7 +137,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="الخصم"
+                    android:text="opponent"
                     android:gravity="end"
                     android:layout_marginTop="12dp"
                     android:layout_marginBottom="4dp"/>
@@ -152,7 +152,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="النسبة المئوية (%)"
+                        android:text="percentage (%)"
                         android:padding="8dp"
                         android:textColor="#555"/>
 
@@ -172,7 +172,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="نسبة الضريبة (%)"
+                    android:text="Tax rate (%)"
                     android:gravity="end"
                     android:layout_marginTop="12dp"
                     android:layout_marginBottom="4dp"/>
@@ -190,7 +190,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="هذا الخصم والضريبة صالحة لهذا العنصر فقط"
+                    android:text="This discount and tax are valid for this item only"
                     android:textSize="12sp"
                     android:textColor="#999"
                     android:gravity="end"
@@ -216,7 +216,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="مبلغ 0"
+                        android:text="Amount 0"
                         android:gravity="end"
                         android:padding="12dp"
                         android:textColor="#2196F3"
@@ -227,7 +227,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="وصف العنصر"
+                    android:text="Item description"
                     android:gravity="end"
                     android:layout_marginBottom="4dp"/>
 
@@ -235,7 +235,7 @@
                     android:id="@+id/etDesc"
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
-                    android:hint="أدخل تفاصيل العنصر"
+                    android:hint="Enter the item details"
                     android:background="#F5F5F5"
                     android:padding="12dp"
                     android:gravity="top|end"/>

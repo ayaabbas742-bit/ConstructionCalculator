@@ -36,7 +36,9 @@ class SignatureActivity : AppCompatActivity() {
 
         findViewById<TextView>(R.id.btnSave).setOnClickListener {
             val bitmap = signatureView.getBitmap()
-            val file = File(cacheDir, "signature.png")
+            val dir = File(filesDir, "signatures")
+            if (!dir.exists()) dir.mkdirs()
+            val file = File(dir, "sig_${System.currentTimeMillis()}.png")
 
             FileOutputStream(file).use {
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, it)

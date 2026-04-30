@@ -1,33 +1,46 @@
-<?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:background="#F5F5F5">
-
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="16dp">
-
-    <TextView
-        android:text="History"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:textColor="#222"
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <TextView
-        android:id="@+id/tvHistory"
-        android:text="Loading..."
-        android:textSize="16sp"
-        android:textColor="#000"
-        android:padding="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:background="#EEF8FA">
+    <!--  TITLE  -->
+<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="📋 Calculation History" android:textSize="20sp" android:textStyle="bold" android:gravity="center" android:padding="14dp" android:background="#303130" android:textColor="#FFFFFF"/>
+    <!--  TAB HOST  -->
+<TabHost android:id="@+id/tabHost" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1">
+<LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical">
+    <HorizontalScrollView android:layout_width="match_parent" android:layout_height="wrap_content" android:fillViewport="true" android:scrollbars="none">
+        <TabWidget android:id="@android:id/tabs" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+    </HorizontalScrollView>
+    <FrameLayout android:id="@android:id/tabcontent" android:layout_width="match_parent" android:layout_height="match_parent">
+        <!--  ─── STAIRS ───  -->
+        <LinearLayout android:id="@+id/tabStairs" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent" android:padding="8dp">
+            <TextView android:id="@+id/tvStairEmpty" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="No stair records yet" android:gravity="center" android:padding="24dp" android:textColor="#888" android:visibility="gone"/>
+            <ListView android:id="@+id/lvStairs" android:layout_width="match_parent" android:layout_height="match_parent" android:divider="#CCCCCC" android:dividerHeight="1dp"/>
+        </LinearLayout>
+        <!--  ─── TILES ───  -->
+        <LinearLayout android:id="@+id/tabTiles" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent" android:padding="8dp">
+            <TextView android:id="@+id/tvTileEmpty" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="No tile records yet" android:gravity="center" android:padding="24dp" android:textColor="#888" android:visibility="gone"/>
+            <ListView android:id="@+id/lvTiles" android:layout_width="match_parent" android:layout_height="match_parent" android:divider="#CCCCCC" android:dividerHeight="1dp"/>
+        </LinearLayout>
+        <!--  ─── CONCRETE ───  -->
+        <LinearLayout android:id="@+id/tabConcrete" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent" android:padding="8dp">
+            <TextView android:id="@+id/tvConcreteEmpty" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="No concrete records yet" android:gravity="center" android:padding="24dp" android:textColor="#888" android:visibility="gone"/>
+            <ListView android:id="@+id/lvConcrete" android:layout_width="match_parent" android:layout_height="match_parent" android:divider="#CCCCCC" android:dividerHeight="1dp"/>
+        </LinearLayout>
+        <!--  ─── BRICK ───  -->
+        <LinearLayout android:id="@+id/tabBrick" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent" android:padding="8dp">
+            <TextView android:id="@+id/tvBrickEmpty" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="No brick records yet" android:gravity="center" android:padding="24dp" android:textColor="#888" android:visibility="gone"/>
+            <ListView android:id="@+id/lvBrick" android:layout_width="match_parent" android:layout_height="match_parent" android:divider="#CCCCCC" android:dividerHeight="1dp"/>
+        </LinearLayout>
+        <!--  ─── PLASTER ───  -->
+        <LinearLayout android:id="@+id/tabPlaster" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent" android:padding="8dp">
+            <TextView android:id="@+id/tvPlasterEmpty" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="No plaster records yet" android:gravity="center" android:padding="24dp" android:textColor="#888" android:visibility="gone"/>
+            <ListView android:id="@+id/lvPlaster" android:layout_width="match_parent" android:layout_height="match_parent" android:divider="#CCCCCC" android:dividerHeight="1dp"/>
+        </LinearLayout>
+        <!--  ─── PAINT ───  -->
+        <LinearLayout android:id="@+id/tabPaint" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent" android:padding="8dp">
+            <TextView android:id="@+id/tvPaintEmpty" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="No paint records yet" android:gravity="center" android:padding="24dp" android:textColor="#888" android:visibility="gone"/>
+            <ListView android:id="@+id/lvPaint" android:layout_width="match_parent" android:layout_height="match_parent" android:divider="#CCCCCC" android:dividerHeight="1dp"/>
+        </LinearLayout>
+    </FrameLayout>
 </LinearLayout>
-</ScrollView>
+</TabHost>
+    <!--  CLEAR ALL  -->
+<Button android:id="@+id/btnClearAll" android:layout_width="match_parent" android:layout_height="50dp" android:text="🗑 Clear All History" android:textColor="#FFFFFF" android:backgroundTint="#C62828" android:textStyle="bold"/>
+    </LinearLayout>

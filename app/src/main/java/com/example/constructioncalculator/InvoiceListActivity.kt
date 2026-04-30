@@ -35,13 +35,39 @@ class InvoiceListActivity : AppCompatActivity() {
             startActivity(Intent(this, CreateInvoiceActivity::class.java))
         }
 
-        // فتح الفاتورة عند الضغط
         listView.setOnItemClickListener { _, _, position, _ ->
             val invoices = db.getAllInvoices()
             val id = invoices[position]["id"]!!.toInt()
-            val intent = Intent(this, PreviewInvoiceActivity::class.java)
-            intent.putExtra("invoice_id", id)
-            startActivity(intent)
+
+            // خيارات: عرض أو تعديل
+            android.app.AlertDialog.Builder(this)
+                .setTitle("Invoice ${invoices[position]["invoice_number"]}")
+                .setItems(arrayOf("👁 View", "✏️ Edit", "🗑 Delete")) { _, which ->
+                    when (which) {
+                        0 -> {
+                            val intent = Intent(this, PreviewInvoiceActivity::class.java)
+                            intent.putExtra("invoice_id", id)
+                            startActivity(intent)
+                        }
+                        1 -> {
+                            val intent = Intent(this, CreateInvoiceActivity::class.java)
+                            intent.putExtra("edit_invoice_id", id)
+                            startActivity(intent)
+                        }
+                        2 -> {
+                            android.app.AlertDialog.Builder(this)
+                                .setTitle("Delete")
+                                .setMessage("Delete this invoice?")
+                                .setPositiveButton("Yes") { _, _ ->
+                                    db.deleteInvoice(id)
+                                    loadInvoices()
+                                }
+                                .setNegativeButton("No", null)
+                                .show()
+                        }
+                    }
+                }
+                .show()
         }
 
         // حذف عند الضغط الطويل

@@ -1,10 +1,14 @@
 package com.example.constructioncalculator
 
 data class HistoryItem(
-    val type: String,
-    val height: Double,
-    val steps: Int,
-    val length: Double,
-    val area: Double,
-    val date: Long
+    val id: Int,
+    val date: String,
+    val element: String,
+    val grade: String,
+    val volume: Double,
+    val cementBags: Int,
+    val sandM3: Double,
+    val gravelM3: Double,
+    val steelKg: Double,
+    val mixRatio: String
 )
