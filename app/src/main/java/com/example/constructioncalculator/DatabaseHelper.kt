@@ -1285,11 +1285,36 @@ class DatabaseHelper(context: Context) :
     }
 
     //  يمنع حذف Admin + يستقبل email بدل id
-    fun deleteUser(email: String): Boolean {
-        // لا يحذف Admin أبداً
-        if (isAdmin(email)) return false
+    fun deleteUser(email: String, currentEmail: String): Boolean {
+
+        // ❌ منع حذف نفسه
+        if (email == currentEmail) {
+            return false
+        }
+
+        // ❌ منع حذف admin
+        if (isAdmin(email)) {
+            return false
+        }
+
         return writableDatabase.delete(
-            "users", "email=?", arrayOf(email)
+            "users",
+            "email=?",
+            arrayOf(email)
+        ) > 0
+    }
+    fun updateUser(email: String, newFirstName: String, newLastName: String, newRole: String): Boolean {
+        val values = ContentValues().apply {
+            put("firstName", newFirstName)
+            put("lastName", newLastName)
+            put("role", newRole)
+        }
+
+        return writableDatabase.update(
+            "users",
+            values,
+            "email=?",
+            arrayOf(email)
         ) > 0
     }
 

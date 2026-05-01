@@ -10,7 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 //  مُصحَّح: onDelete يستقبل email (String) بدل id (Int)
 class UsersAdapter(
     private val list: List<Map<String, String>>,
-    private val onDelete: (String) -> Unit   // ← String (email)
+    private val currentEmail: String,
+    private val onDelete: (String) -> Unit
 ) : RecyclerView.Adapter<UsersAdapter.VH>() {
 
     inner class VH(v: View) : RecyclerView.ViewHolder(v) {
@@ -20,6 +21,7 @@ class UsersAdapter(
         val del   = v.findViewById<ImageView>(R.id.btnDelete)
     }
 
+    // ⭐ هذا هو الناقص عندك
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_user, parent, false)
@@ -27,19 +29,25 @@ class UsersAdapter(
     }
 
     override fun onBindViewHolder(holder: VH, position: Int) {
+
         val u = list[position]
+        val email = u["email"] ?: ""
+        val role = u["role"] ?: ""
 
-        holder.name.text  = "${u["firstName"]} ${u["lastName"]}"
-        holder.email.text = u["email"]
+        holder.name.text = "${u["firstName"]} ${u["lastName"]}"
+        holder.email.text = email
+        holder.role.text = if (role == "admin") "🛡 Admin" else "👤 User"
 
-        //  عرض الدور بشكل واضح
-        holder.role.text = if (u["role"] == "admin") "🛡 Admin" else "👤 User"
+        if (email == currentEmail || role == "admin") {
+            holder.del.visibility = View.GONE
+        } else {
+            holder.del.visibility = View.VISIBLE
+        }
 
-        //  تمرير email بدل id
         holder.del.setOnClickListener {
-            onDelete(u["email"] ?: "")
+            onDelete(email)
         }
     }
 
-    override fun getItemCount() = list.size
+    override fun getItemCount(): Int = list.size
 }

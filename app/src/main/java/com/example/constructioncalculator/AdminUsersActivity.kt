@@ -29,7 +29,10 @@ class AdminUsersActivity : AppCompatActivity() {
         val list = db.getAllUsers()
 
         // ✅ مُصحَّح: نمرر email للـ adapter بدل id
-        val adapter = UsersAdapter(list) { email ->
+        val prefs = getSharedPreferences("app_prefs", MODE_PRIVATE)
+        val currentEmail = prefs.getString("logged_email", "") ?: ""
+
+        val adapter = UsersAdapter(list, currentEmail) { email ->
             val user = list.find { it["email"] == email }
             val name = "${user?.get("firstName")} ${user?.get("lastName")}"
 
@@ -37,7 +40,10 @@ class AdminUsersActivity : AppCompatActivity() {
                 .setTitle("حذف المستخدم")
                 .setMessage("هل أنت متأكد من حذف $name ؟")
                 .setPositiveButton("حذف") { _, _ ->
-                    val success = db.deleteUser(email)
+                    val prefs = getSharedPreferences("app_prefs", MODE_PRIVATE)
+                    val currentEmail = prefs.getString("logged_email", "") ?: ""
+
+                    val success = db.deleteUser(email, currentEmail)
                     if (success) {
                         Toast.makeText(this, "✅ تم الحذف", Toast.LENGTH_SHORT).show()
                         loadUsers()

@@ -29,7 +29,7 @@
                      ══════════════════════════════════════  -->
         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:paddingHorizontal="16dp" android:paddingTop="20dp" android:paddingBottom="4dp">
             <!--  بطاقة المستخدمين  -->
-            <androidx.cardview.widget.CardView android:layout_width="0dp" android:layout_height="130dp" android:layout_weight="1" android:layout_marginEnd="8dp" app:cardCornerRadius="24dp" app:cardBackgroundColor="#0A1A3A" app:cardElevation="12dp">
+            <androidx.cardview.widget.CardView android:layout_width="0dp" android:layout_height="150dp" android:layout_weight="1" android:layout_marginEnd="8dp" app:cardCornerRadius="24dp" app:cardBackgroundColor="#0A1A3A" app:cardElevation="12dp">
                 <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent">
                     <!--  خط جانبي ملون  -->
                     <View android:layout_width="4dp" android:layout_height="match_parent" android:background="@drawable/admin_card_accent_blue"/>
@@ -43,7 +43,7 @@
                 </FrameLayout>
             </androidx.cardview.widget.CardView>
             <!--  بطاقة التقييمات  -->
-            <androidx.cardview.widget.CardView android:layout_width="0dp" android:layout_height="130dp" android:layout_weight="1" app:cardCornerRadius="24dp" app:cardBackgroundColor="#0A1A3A" app:cardElevation="12dp">
+            <androidx.cardview.widget.CardView android:layout_width="0dp" android:layout_height="150dp" android:layout_weight="1" app:cardCornerRadius="24dp" app:cardBackgroundColor="#0A1A3A" app:cardElevation="12dp">
                 <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent">
                     <View android:layout_width="4dp" android:layout_height="match_parent" android:background="@drawable/admin_card_accent_cyan"/>
                     <View android:layout_width="80dp" android:layout_height="80dp" android:layout_gravity="bottom|end" android:layout_marginEnd="-20dp" android:layout_marginBottom="-20dp" android:background="@drawable/admin_glow_circle_cyan" android:alpha="0.3"/>
