@@ -30,7 +30,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="معلومات العمل"
+                android:text="Work information"
                 android:textColor="#FFFFFF"
                 android:textSize="18sp"
                 android:textStyle="bold"
@@ -73,7 +73,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="شعار العمل"
+                    android:text="Business logo"
                     android:textColor="#555"
                     android:layout_marginBottom="16dp"/>
 
@@ -81,7 +81,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="اسم العمل *"
+                    android:text="Business name *"
                     android:textColor="#F44336"
                     android:gravity="end"
                     android:layout_marginBottom="4dp"/>
@@ -90,7 +90,7 @@
                     android:id="@+id/etName"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:hint="أدخل اسم العمل"
+                    android:hint="Enter the business name"
                     android:background="#F5F5F5"
                     android:padding="12dp"
                     android:gravity="end"
@@ -100,14 +100,14 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="أدخل العنوان"
+                    android:text="Enter the adress"
                     android:gravity="end"
                     android:layout_marginBottom="4dp"/>
                 <EditText
                     android:id="@+id/etEmail"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:hint="أدخل بريدك الإلكتروني"
+                    android:hint="Enter your email adress"
                     android:inputType="textEmailAddress"
                     android:background="#F5F5F5"
                     android:padding="12dp"
@@ -118,7 +118,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="الهاتف"
+                    android:text="phone"
                     android:gravity="end"
                     android:layout_marginBottom="4dp"/>
 
@@ -126,7 +126,7 @@
                     android:id="@+id/etPhone"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:hint="إضافة رقم الهاتف"
+                    android:hint="Add phone number"
                     android:inputType="phone"
                     android:background="#F5F5F5"
                     android:padding="12dp"
@@ -137,7 +137,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="عنوان العمل"
+                    android:text="Work address"
                     android:gravity="end"
                     android:layout_marginBottom="4dp"/>
 
@@ -145,7 +145,7 @@
                     android:id="@+id/etAddress"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:hint="أدخل عنوان الفواتير"
+                    android:hint="Enter your billing address"
                     android:background="#F5F5F5"
                     android:padding="12dp"
                     android:gravity="end"
@@ -155,7 +155,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="موقع العمل على الإنترنت"
+                    android:text="Online job site"
                     android:gravity="end"
                     android:layout_marginBottom="4dp"/>
 
