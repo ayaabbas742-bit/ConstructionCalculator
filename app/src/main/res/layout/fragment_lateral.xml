@@ -1,0 +1,71 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent" android:layout_height="match_parent" android:background="@color/background">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
+        <Button android:id="@+id/btnHistory" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="📄 History"/>
+        <androidx.cardview.widget.CardView android:layout_width="match_parent" android:layout_height="wrap_content" app:cardCornerRadius="16dp" app:cardElevation="3dp" app:cardBackgroundColor="@color/card_bg" android:layout_marginBottom="12dp">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="🧱 Lateral Earth Pressure — Rankine" style="@style/SectionTitle" android:layout_marginBottom="16dp"/>
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginBottom="10dp">
+                    <com.google.android.material.textfield.TextInputLayout style="@style/GeoInput" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:hint="Friction Angle φ" app:suffixText="°" android:layout_marginEnd="6dp">
+                        <com.google.android.material.textfield.TextInputEditText android:id="@+id/etFriction" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="numberDecimal" android:text="30"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout style="@style/GeoInput" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:hint="Wall Friction δ" app:suffixText="°">
+                        <com.google.android.material.textfield.TextInputEditText android:id="@+id/etDelta" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="numberDecimal" android:text="0"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginBottom="16dp">
+                    <com.google.android.material.textfield.TextInputLayout style="@style/GeoInput" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:hint="Unit Weight γ" app:suffixText="kN/m³" android:layout_marginEnd="6dp">
+                        <com.google.android.material.textfield.TextInputEditText android:id="@+id/etGamma" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="numberDecimal" android:text="18"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout style="@style/GeoInput" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:hint="Wall Height H" app:suffixText="m">
+                        <com.google.android.material.textfield.TextInputEditText android:id="@+id/etHeight" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="numberDecimal" android:text="4"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+                <com.google.android.material.button.MaterialButton android:id="@+id/btnCalc" style="@style/GeoButton" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/calculate"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+        <!--  Result  -->
+        <LinearLayout android:id="@+id/layoutResult" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:background="@drawable/bg_result_card" android:padding="16dp" android:visibility="gone">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="📐 Pressure Coefficients" style="@style/SectionTitle" android:layout_marginBottom="10dp"/>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:paddingTop="6dp" android:paddingBottom="6dp">
+                <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Ka (Active)" style="@style/ResultLabel"/>
+                <TextView android:id="@+id/tvKa" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="—" style="@style/ResultValue"/>
+            </LinearLayout>
+            <View android:layout_width="match_parent" android:layout_height="0.5dp" android:background="@color/divider"/>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:paddingTop="6dp" android:paddingBottom="6dp">
+                <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Kp (Passive)" style="@style/ResultLabel"/>
+                <TextView android:id="@+id/tvKp" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="—" style="@style/ResultValue"/>
+            </LinearLayout>
+            <View android:layout_width="match_parent" android:layout_height="0.5dp" android:background="@color/divider"/>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:paddingTop="6dp" android:paddingBottom="6dp">
+                <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="K₀ (At-Rest)" style="@style/ResultLabel"/>
+                <TextView android:id="@+id/tvK0" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="—" style="@style/ResultValue"/>
+            </LinearLayout>
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/green_light" android:layout_marginTop="8dp" android:layout_marginBottom="8dp"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="📊 Resultant Forces" style="@style/SectionTitle" android:layout_marginBottom="10dp"/>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:paddingTop="8dp">
+                <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Active Pressure Force Pa" style="@style/ResultLabel"/>
+                <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="horizontal">
+                    <TextView android:id="@+id/tvPa" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="—" style="@style/ResultHighlight"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text=" kN/m" android:textSize="11sp" android:textColor="@color/text_hint"/>
+                </LinearLayout>
+            </LinearLayout>
+            <View android:layout_width="match_parent" android:layout_height="0.5dp" android:background="@color/divider" android:layout_marginTop="8dp"/>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:paddingTop="6dp" android:paddingBottom="6dp">
+                <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Passive Pressure Force Pp" style="@style/ResultLabel"/>
+                <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="horizontal">
+                    <TextView android:id="@+id/tvPp" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="—" style="@style/ResultValue"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text=" kN/m" android:textSize="11sp" android:textColor="@color/text_hint"/>
+                </LinearLayout>
+            </LinearLayout>
+            <View android:layout_width="match_parent" android:layout_height="0.5dp" android:background="@color/divider"/>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:paddingTop="6dp" android:paddingBottom="6dp">
+                <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="At-Rest Pressure Force P₀" style="@style/ResultLabel"/>
+                <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="horizontal">
+                    <TextView android:id="@+id/tvP0" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="—" style="@style/ResultValue"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text=" kN/m" android:textSize="11sp" android:textColor="@color/text_hint"/>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+        <View android:layout_width="match_parent" android:layout_height="32dp"/>
+    </LinearLayout>
+</ScrollView>

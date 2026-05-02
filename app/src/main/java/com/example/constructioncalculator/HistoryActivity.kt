@@ -8,26 +8,25 @@ import androidx.appcompat.app.AppCompatActivity
 
 class HistoryActivity : AppCompatActivity() {
 
-    private lateinit var db:         DatabaseHelper
-    private lateinit var concreteDb: ConcreteDB
+    // ✅ حذفنا concreteDb وأبقينا db فقط
+    private lateinit var db: DatabaseHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_history)
 
-        db         = DatabaseHelper(this)
-        concreteDb = ConcreteDB(this)
+        // ✅ سطر واحد فقط
+        db = DatabaseHelper(this)
 
         val tabHost = findViewById<TabHost>(R.id.tabHost)
         tabHost.setup()
 
-        // ── 6 Tabs ───────────────────────────────────────────────────────────
         tabHost.addTab(tabHost.newTabSpec("stairs")
             .setIndicator("🪜 Stairs")   .setContent(R.id.tabStairs))
         tabHost.addTab(tabHost.newTabSpec("tiles")
             .setIndicator("🧱 Tiles")    .setContent(R.id.tabTiles))
         tabHost.addTab(tabHost.newTabSpec("concrete")
-            .setIndicator("🏗️ Concrete") .setContent(R.id.tabConcrete))
+            .setIndicator("🏗 Concrete") .setContent(R.id.tabConcrete))
         tabHost.addTab(tabHost.newTabSpec("brick")
             .setIndicator("🧱 Brick")    .setContent(R.id.tabBrick))
         tabHost.addTab(tabHost.newTabSpec("plaster")
@@ -35,7 +34,6 @@ class HistoryActivity : AppCompatActivity() {
         tabHost.addTab(tabHost.newTabSpec("paint")
             .setIndicator("🎨 Paint")    .setContent(R.id.tabPaint))
 
-        // ── Load all ─────────────────────────────────────────────────────────
         loadStairs()
         loadTiles()
         loadConcrete()
@@ -43,7 +41,6 @@ class HistoryActivity : AppCompatActivity() {
         loadPlaster()
         loadPaint()
 
-        // ── Clear All ─────────────────────────────────────────────────────────
         findViewById<Button>(R.id.btnClearAll).setOnClickListener {
             AlertDialog.Builder(this)
                 .setTitle("Clear History")
@@ -51,10 +48,10 @@ class HistoryActivity : AppCompatActivity() {
                 .setPositiveButton("Delete") { _, _ ->
                     db.writableDatabase.execSQL("DELETE FROM stair_history")
                     db.writableDatabase.execSQL("DELETE FROM tile_history")
+                    db.writableDatabase.execSQL("DELETE FROM concrete_history")
                     db.writableDatabase.execSQL("DELETE FROM brick_history")
                     db.writableDatabase.execSQL("DELETE FROM plaster_history")
                     db.writableDatabase.execSQL("DELETE FROM paint_history")
-                    concreteDb.deleteAll()
                     loadStairs(); loadTiles(); loadConcrete()
                     loadBrick();  loadPlaster(); loadPaint()
                     Toast.makeText(this, "History cleared", Toast.LENGTH_SHORT).show()
@@ -64,9 +61,6 @@ class HistoryActivity : AppCompatActivity() {
         }
     }
 
-    // ═════════════════════════════════════════════════════════════════════════
-    // HELPER — builds a simple ListView tab with long-press delete
-    // ═════════════════════════════════════════════════════════════════════════
     private fun setupListTab(
         listViewId: Int,
         emptyViewId: Int,
@@ -84,7 +78,8 @@ class HistoryActivity : AppCompatActivity() {
         lv.visibility    = View.VISIBLE
         empty.visibility = View.GONE
 
-        lv.adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, items)
+        lv.adapter = ArrayAdapter(this,
+            android.R.layout.simple_list_item_1, items)
 
         lv.setOnItemLongClickListener { _, _, pos, _ ->
             AlertDialog.Builder(this)
@@ -96,16 +91,15 @@ class HistoryActivity : AppCompatActivity() {
             true
         }
     }
-    // ═════════════════════════════════════════════════════════════════════════
-    // STAIRS
-    // ═════════════════════════════════════════════════════════════════════════
+
+    // ══ STAIRS ══════════════════════════════════════════════════════════
     private fun loadStairs() {
-        val list = db.getAllStairs()
+        val list  = db.getAllStairs()
         val items = list.map { r ->
             """
             🪜 ${r["type"]}  |  ${r["date"]}
             H=${r["height"]} m  |  N=${r["steps"]}
-            R=${String.format("%.3f", r["riser"]?.toDoubleOrNull() ?: 0.0)} m  |  T=${String.format("%.3f", r["tread"]?.toDoubleOrNull() ?: 0.0)} m
+[01/05/2026 23:44] .. Aya: R=${String.format("%.3f", r["riser"]?.toDoubleOrNull() ?: 0.0)} m  |  T=${String.format("%.3f", r["tread"]?.toDoubleOrNull() ?: 0.0)} m
             Blondel=${String.format("%.3f", r["blondel"]?.toDoubleOrNull() ?: 0.0)} m  |  L=${String.format("%.2f", r["length"]?.toDoubleOrNull() ?: 0.0)} m
             Status: ${r["status"]}
             """.trimIndent()
@@ -116,11 +110,9 @@ class HistoryActivity : AppCompatActivity() {
         }
     }
 
-    // ═════════════════════════════════════════════════════════════════════════
-    // TILES
-    // ═════════════════════════════════════════════════════════════════════════
+    // ══ TILES ═══════════════════════════════════════════════════════════
     private fun loadTiles() {
-        val list = db.getAllTileHistory()
+        val list  = db.getAllTileHistory()
         val items = list.map { r ->
             """
             🧱 ${r["tile_type"]}  |  ${r["date"]}
@@ -137,34 +129,33 @@ class HistoryActivity : AppCompatActivity() {
         }
     }
 
-    // ═════════════════════════════════════════════════════════════════════════
-    // CONCRETE
-    // ═════════════════════════════════════════════════════════════════════════
+    // ══ CONCRETE ════════════════════════════════════════════════════════
     private fun loadConcrete() {
-        val list = concreteDb.getAll()
-        val items = list.map { item ->
+        // ✅ الآن نستخدم db.getAllConcreteHistory() بدل concreteDb.getAll()
+        val list  = db.getAllConcreteHistory()
+        val items = list.map { r: Map<String, String> ->
             """
-            🏗️ ${item.element}  |  ${item.grade}  |  ${item.date}
-            📦 Volume  : ${"%.3f".format(item.volume)} m³
-            🧱 Cement  : ${item.cementBags} bags × 50 kg
-            🪨 Sand    : ${"%.3f".format(item.sandM3)} m³
-            🪨 Gravel  : ${"%.3f".format(item.gravelM3)} m³
-            ⚙️ Steel   : ${item.steelKg.toInt()} kg
-            📐 Mix     : ${item.mixRatio}
+            🏗 ${r["element"]}  |  ${r["grade"]}  |  ${r["date"]}
+            📦 Volume  : ${r["volume"]} m³
+            🧱 Cement  : ${r["cement_bags"]} bags × 50 kg
+            🪨 Sand    : ${r["sand_m3"]} m³
+            🪨 Gravel  : ${r["gravel_m3"]} m³
+            ⚙️ Steel   : ${r["steel_kg"]} kg
+            📐 Mix     : ${r["mix_ratio"]}
             """.trimIndent()
         }
         setupListTab(R.id.lvConcrete, R.id.tvConcreteEmpty, items) { pos ->
-            val id = list[pos].id
-            concreteDb.writableDatabase.delete("history", "id=?", arrayOf(id.toString()))
+            val id = list[pos]["id"]?.toIntOrNull() ?: return@setupListTab
+            // ✅ حذف من concrete_history بدل history
+            db.writableDatabase.delete(
+                "concrete_history", "id=?", arrayOf(id.toString()))
             loadConcrete()
         }
     }
 
-    // ═════════════════════════════════════════════════════════════════════════
-    // BRICK
-    // ═════════════════════════════════════════════════════════════════════════
+    // ══ BRICK ═══════════════════════════════════════════════════════════
     private fun loadBrick() {
-        val list = db.getAllBrickHistory()
+        val list  = db.getAllBrickHistory()
         val items = list.map { r ->
             """
             🧱 ${r["date"]}
@@ -181,11 +172,10 @@ class HistoryActivity : AppCompatActivity() {
             db.deleteBrickHistory(id); loadBrick()
         }
     }
-    // ═════════════════════════════════════════════════════════════════════════
-    // PLASTER
-    // ═════════════════════════════════════════════════════════════════════════
+
+    // ══ PLASTER ═════════════════════════════════════════════════════════
     private fun loadPlaster() {
-        val list = db.getAllPlasterHistory()
+        val list  = db.getAllPlasterHistory()
         val items = list.map { r ->
             """
             🪣 ${r["surface"]}  |  ${r["date"]}
@@ -193,7 +183,7 @@ class HistoryActivity : AppCompatActivity() {
             Ratio: ${r["ratio"]}  |  Coats: ${r["coats"]}
             🧱 Cement: ${r["cement_bags"]} bags
             🪨 Sand: ${r["sand_m3"]} m³  |  💧 Water: ${r["water_l"]} L
-            📦 Volume: ${r["volume_m3"]} m³
+[01/05/2026 23:44] .. Aya: 📦 Volume: ${r["volume_m3"]} m³
             """.trimIndent()
         }
         setupListTab(R.id.lvPlaster, R.id.tvPlasterEmpty, items) { pos ->
@@ -202,11 +192,9 @@ class HistoryActivity : AppCompatActivity() {
         }
     }
 
-    // ═════════════════════════════════════════════════════════════════════════
-    // PAINT
-    // ═════════════════════════════════════════════════════════════════════════
+    // ══ PAINT ═══════════════════════════════════════════════════════════
     private fun loadPaint() {
-        val list = db.getAllPaintHistory()
+        val list  = db.getAllPaintHistory()
         val items = list.map { r ->
             """
             🎨 ${r["paint_type"]}  |  ${r["date"]}

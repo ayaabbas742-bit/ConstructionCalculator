@@ -6,4 +6,7 @@
     </style>
 
     <style name="Theme.ConstructionCalculator" parent="Base.Theme.ConstructionCalculator" />
+
+        <!--  بعد  -->
+    <style name="Theme.Geo" parent="Theme.MaterialComponents.Light.NoActionBar"/>
 </resources>

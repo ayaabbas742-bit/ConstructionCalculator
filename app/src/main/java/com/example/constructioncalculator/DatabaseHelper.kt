@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
 class DatabaseHelper(context: Context) :
-    SQLiteOpenHelper(context, "ConstructionDB", null, 13) {
+    SQLiteOpenHelper(context, "ConstructionDB", null, 17) {
 
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL("""
@@ -162,6 +162,20 @@ class DatabaseHelper(context: Context) :
                 FOREIGN KEY(invoice_id) REFERENCES invoices(id)
             )
         """)
+        db.execSQL("""
+    CREATE TABLE IF NOT EXISTS concrete_history (
+        id          INTEGER PRIMARY KEY AUTOINCREMENT,
+        date        TEXT,
+        element     TEXT,
+        grade       TEXT,
+        volume      REAL,
+        cement_bags INTEGER,
+        sand_m3     REAL,
+        gravel_m3   REAL,
+        steel_kg    REAL,
+        mix_ratio   TEXT
+    )
+""")
     }
 
 
@@ -282,7 +296,7 @@ class DatabaseHelper(context: Context) :
 
             // ── جدول history القديم (للتوافق مع الكود الموجود) ──
             db.execSQL("""
-            CREATE TABLE IF NOT EXISTS history (
+            CREATE TABLE IF NOT EXISTS concrete_history (
                 id     INTEGER PRIMARY KEY AUTOINCREMENT,
                 type   TEXT    NOT NULL,
                 height REAL    NOT NULL,
@@ -292,6 +306,7 @@ class DatabaseHelper(context: Context) :
                 date   INTEGER NOT NULL
             )
         """)
+
         }
         if (oldVersion < 6) {
             db.execSQL("ALTER TABLE users ADD COLUMN profile_image TEXT")
@@ -361,6 +376,7 @@ class DatabaseHelper(context: Context) :
                     primer_l REAL, date TEXT
                 )
             """)
+
         }
         if (oldVersion < 12) {
             db.execSQL("ALTER TABLE users ADD COLUMN role TEXT DEFAULT 'user'")
@@ -371,6 +387,48 @@ class DatabaseHelper(context: Context) :
         VALUES ('Admin', 'System', 'admin@gmail.com', 'ayouch12345', 'admin')
     """)
         }
+        if (oldVersion < 14) {
+            db.execSQL("""
+        CREATE TABLE IF NOT EXISTS geo_records (
+            id      INTEGER PRIMARY KEY AUTOINCREMENT,
+            type    TEXT NOT NULL,
+            inputs  TEXT NOT NULL,
+            results TEXT NOT NULL,
+            date    TEXT DEFAULT (datetime('now','localtime'))
+        )
+    """)
+        }
+        if (oldVersion < 15) {
+            db.execSQL("""
+        CREATE TABLE IF NOT EXISTS geo_records (
+            id      INTEGER PRIMARY KEY AUTOINCREMENT,
+            type    TEXT NOT NULL,
+            inputs  TEXT NOT NULL,
+            results TEXT NOT NULL,
+            date    TEXT DEFAULT (datetime('now','localtime'))
+        )
+    """)
+        }
+        if (oldVersion < 17) {
+            // احذف الجدول القديم أولاً
+            db.execSQL("DROP TABLE IF EXISTS concrete_history")
+            // أنشئ الجديد
+            db.execSQL("""
+        CREATE TABLE IF NOT EXISTS concrete_history (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            date TEXT,
+            element TEXT,
+            grade TEXT,
+            volume REAL,
+            cement_bags INTEGER,
+            sand_m3 REAL,
+            gravel_m3 REAL,
+            steel_kg REAL,
+            mix_ratio TEXT
+        )
+    """)
+        }
+
     }
 
     // ================= USERS =================
@@ -1316,6 +1374,119 @@ class DatabaseHelper(context: Context) :
             "email=?",
             arrayOf(email)
         ) > 0
+    }
+    fun saveGeoRecord(type: String, inputs: String, results: String) {
+        val db = writableDatabase
+        val cv = ContentValues().apply {
+            put("type",    type)
+            put("inputs",  inputs)
+            put("results", results)
+        }
+        db.insert("geo_records", null, cv)
+    }
+
+    // استرجاع السجلات حسب النوع
+    fun getGeoHistory(type: String): List<String> {
+        val list = mutableListOf<String>()
+        val db   = readableDatabase
+        val c    = db.rawQuery(
+            "SELECT date, inputs, results FROM geo_records WHERE type=? ORDER BY id DESC",
+            arrayOf(type)
+        )
+        while (c.moveToNext()) {
+            list.add(
+                "📅 Date    : ${c.getString(0)}\n" +
+                        "📥 Inputs  : ${c.getString(1)}\n" +
+                        "📤 Results : ${c.getString(2)}"
+            )
+        }
+        c.close()
+        return list
+    }
+
+    // عد السجلات حسب النوع
+    fun countGeoByType(type: String): Int {
+        val db = readableDatabase
+        val c  = db.rawQuery(
+            "SELECT COUNT(*) FROM geo_records WHERE type=?",
+            arrayOf(type)
+        )
+        val count = if (c.moveToFirst()) c.getInt(0) else 0
+        c.close()
+        return count
+    }
+
+    // حذف سجل واحد
+    fun deleteGeoById(id: Int) {
+        writableDatabase.delete("geo_records", "id=?", arrayOf(id.toString()))
+    }
+
+    // حذف كل سجلات نوع معين
+    fun clearGeoByType(type: String) {
+        writableDatabase.delete("geo_records", "type=?", arrayOf(type))
+    }
+
+    // حذف كل السجلات
+    fun clearAllGeo() {
+        writableDatabase.delete("geo_records", null, null)
+    }
+    fun getAllStairHistory(): List<Map<String, String>> {
+        val list = mutableListOf<Map<String, String>>()
+        val db   = readableDatabase
+        val cursor = db.rawQuery(
+            "SELECT * FROM stair_history ORDER BY id DESC", null)
+        while (cursor.moveToNext()) {
+            val map = mutableMapOf<String, String>()
+            for (i in 0 until cursor.columnCount)
+                map[cursor.getColumnName(i)] = cursor.getString(i) ?: ""
+            list.add(map)
+        }
+        cursor.close()
+        return list
+    }
+
+    fun clearStairHistory() {
+        writableDatabase.execSQL("DELETE FROM stair_history")
+    }
+
+    fun clearTileHistory() {
+        writableDatabase.execSQL("DELETE FROM tile_history")
+    }
+    fun insertConcreteHistory(
+        element: String, grade: String, volume: Double,
+        cementBags: Int, sandM3: Double, gravelM3: Double,
+        steelKg: Double, mixRatio: String, date: String
+    ) {
+        val cv = ContentValues().apply {
+            put("date",        date)
+            put("element",     element)
+            put("grade",       grade)
+            put("volume",      volume)
+            put("cement_bags", cementBags)
+            put("sand_m3",     sandM3)
+            put("gravel_m3",   gravelM3)
+            put("steel_kg",    steelKg)
+            put("mix_ratio",   mixRatio)
+        }
+        writableDatabase.insert("concrete_history", null, cv)
+    }
+
+    fun getAllConcreteHistory(): List<Map<String, String>> {
+        val list   = mutableListOf<Map<String, String>>()
+        val cursor = readableDatabase.rawQuery(
+            "SELECT * FROM concrete_history ORDER BY id DESC", null)
+        while (cursor.moveToNext()) {
+            val map = mutableMapOf<String, String>()
+            for (i in 0 until cursor.columnCount)
+                map[cursor.getColumnName(i)] = cursor.getString(i) ?: ""
+            list.add(map)
+        }
+        cursor.close()
+        return list
+    }
+
+    fun clearConcreteHistory() {
+        writableDatabase.execSQL("DELETE FROM concrete_history")
     }
 
 }

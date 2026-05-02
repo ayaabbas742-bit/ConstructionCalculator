@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">construction calculator</string>
+    <string name="geotechnical">الهندسة الجيوتقنية</string>
+    <string name="tab_soil">التربة</string>
+    <string name="tab_bearing">قدرة التحمل</string>
+    <string name="tab_settlement">الهبوط</string>
+    <string name="tab_slope">الانحدار</string>
+    <string name="tab_lateral">الضغط الجانبي</string>
+    <string name="calculate">احسب</string>
+    <string name="results">النتائج</string>
 </resources>

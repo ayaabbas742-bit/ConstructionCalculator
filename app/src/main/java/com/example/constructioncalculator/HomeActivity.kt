@@ -101,13 +101,13 @@ class HomeActivity : AppCompatActivity() {
         return listOf(
             Feature("Construction Calculator", R.drawable.ic_calc),
             Feature("Area Calculator", R.drawable.ic_area),
-            Feature("Bubble Level", R.drawable.ic_level),
             Feature("Tank Calculator", R.drawable.ic_tank),
             Feature("Plan Drawing", R.drawable.ic_draw),
             Feature("Floor Plan", R.drawable.ic_floor),
             Feature("Create Invoice", R.drawable.ic_invoice),
             Feature("Construction Notes", R.drawable.ic_notes),
-            Feature("Geotechnical Engineering", R.drawable.ic_geo)
+            Feature("Geotechnical Engineering", R.drawable.ic_geo),
+            Feature("Timeline", R.drawable.ic_time)
         )
     }
 }

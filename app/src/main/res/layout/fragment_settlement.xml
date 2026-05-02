@@ -1,0 +1,86 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent" android:layout_height="match_parent" android:background="@color/background">
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
+    <Button android:id="@+id/btnHistory" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="📄 History"/>
+    <androidx.cardview.widget.CardView android:layout_width="match_parent" android:layout_height="wrap_content" app:cardCornerRadius="16dp" app:cardElevation="3dp" app:cardBackgroundColor="@color/card_bg" android:layout_marginBottom="12dp">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="📉 Settlement" style="@style/SectionTitle" android:layout_marginBottom="6dp"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Immediate + Consolidation Settlement" android:textSize="11sp" android:textColor="@color/text_hint" android:layout_marginBottom="14dp"/>
+            <!--  q + B  -->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginBottom="10dp">
+                <com.google.android.material.textfield.TextInputLayout style="@style/GeoInput" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:hint="Stress q" app:suffixText="kPa" android:layout_marginEnd="6dp">
+                    <com.google.android.material.textfield.TextInputEditText android:id="@+id/etPressure" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="numberDecimal" android:text="100"/>
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout style="@style/GeoInput" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:hint="Width B" app:suffixText="m">
+                    <com.google.android.material.textfield.TextInputEditText android:id="@+id/etWidth" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="numberDecimal" android:text="1.5"/>
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+            <!--  Es + v  -->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginBottom="10dp">
+                <com.google.android.material.textfield.TextInputLayout style="@style/GeoInput" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:hint="Elasticity Modulus Es" app:suffixText="kPa" android:layout_marginEnd="6dp">
+                    <com.google.android.material.textfield.TextInputEditText android:id="@+id/etEs" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="numberDecimal" android:text="15000"/>
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout style="@style/GeoInput" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:hint="Poisson's Ratio ν">
+                    <com.google.android.material.textfield.TextInputEditText android:id="@+id/etPoisson" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="numberDecimal" android:text="0.3"/>
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+            <!--  H + e0  -->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginBottom="10dp">
+                <com.google.android.material.textfield.TextInputLayout style="@style/GeoInput" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:hint="Layer Thickness H" app:suffixText="m" android:layout_marginEnd="6dp">
+                    <com.google.android.material.textfield.TextInputEditText android:id="@+id/etH" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="numberDecimal" android:text="5.0"/>
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout style="@style/GeoInput" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:hint="Void Ratio e₀">
+                    <com.google.android.material.textfield.TextInputEditText android:id="@+id/etE0" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="numberDecimal" android:text="0.8"/>
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+            <!--  Cc + Cs  -->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginBottom="10dp">
+                <com.google.android.material.textfield.TextInputLayout style="@style/GeoInput" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:hint="Compression Index Cc" android:layout_marginEnd="6dp">
+                    <com.google.android.material.textfield.TextInputEditText android:id="@+id/etCc" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="numberDecimal" android:text="0.3"/>
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout style="@style/GeoInput" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:hint="Swelling Index Cs">
+                    <com.google.android.material.textfield.TextInputEditText android:id="@+id/etCs" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="numberDecimal" android:text="0.05"/>
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+            <!--  sigma0 + sigmaC  -->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginBottom="16dp">
+                <com.google.android.material.textfield.TextInputLayout style="@style/GeoInput" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:hint="Effective Stress σ'₀" app:suffixText="kPa" android:layout_marginEnd="6dp">
+                    <com.google.android.material.textfield.TextInputEditText android:id="@+id/etSigma0" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="numberDecimal" android:text="50"/>
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout style="@style/GeoInput" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:hint="Preconsolidation Pressure σ'c" app:suffixText="kPa">
+                    <com.google.android.material.textfield.TextInputEditText android:id="@+id/etSigmaC" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="numberDecimal" android:text="80"/>
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+            <com.google.android.material.button.MaterialButton android:id="@+id/btnCalc" style="@style/GeoButton" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/calculate"/>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+    <!--  Result  -->
+    <LinearLayout android:id="@+id/layoutResult" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:background="@drawable/bg_result_card" android:padding="16dp" android:visibility="gone">
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="📊 Settlement Results" style="@style/SectionTitle" android:layout_marginBottom="10dp"/>
+        <TextView android:id="@+id/tvOCStatus" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Normally Consolidated (NC)" android:textSize="12sp" android:textStyle="bold" android:textColor="@color/blue_start" android:background="@drawable/bg_result_card" android:paddingStart="10dp" android:paddingEnd="10dp" android:paddingTop="4dp" android:paddingBottom="4dp" android:layout_marginBottom="12dp"/>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:paddingTop="6dp" android:paddingBottom="6dp">
+            <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Immediate Settlement Si" style="@style/ResultLabel"/>
+            <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="horizontal">
+                <TextView android:id="@+id/tvSi" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="—" style="@style/ResultValue"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text=" mm" android:textSize="11sp" android:textColor="@color/text_hint"/>
+            </LinearLayout>
+        </LinearLayout>
+        <View android:layout_width="match_parent" android:layout_height="0.5dp" android:background="@color/divider"/>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:paddingTop="6dp" android:paddingBottom="6dp">
+            <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Consolidation Settlement Sc" style="@style/ResultLabel"/>
+            <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="horizontal">
+                <TextView android:id="@+id/tvSc" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="—" style="@style/ResultValue"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text=" mm" android:textSize="11sp" android:textColor="@color/text_hint"/>
+            </LinearLayout>
+        </LinearLayout>
+        <View android:layout_width="match_parent" android:layout_height="0.5dp" android:background="@color/divider"/>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:paddingTop="10dp">
+            <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Total Settlement St" style="@style/ResultLabel"/>
+            <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="horizontal">
+                <TextView android:id="@+id/tvSt" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="—" style="@style/ResultHighlight"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text=" mm" android:textSize="11sp" android:textColor="@color/text_hint"/>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+    <View android:layout_width="match_parent" android:layout_height="32dp"/>
+</LinearLayout>
+</ScrollView>

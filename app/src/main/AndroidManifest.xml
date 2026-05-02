@@ -16,6 +16,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".ProjectTimelineActivity"
+            android:exported="false" />
+        <activity
+            android:name=".GeotechnicalActivity"
+            android:exported="false" />
+        <activity
             android:name=".AdminUsersActivity"
             android:exported="false" />
         <activity

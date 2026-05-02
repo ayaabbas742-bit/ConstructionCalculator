@@ -10,5 +10,19 @@
     <color name="blue_start">#1E3C72</color>
     <color name="blue_end">#2A5298</color>
     <color name="bg">#F4F7FC</color>
+    <color name="green_primary">#2E7D32</color>
+    <color name="green_dark">#1B5E20</color>
+    <color name="green_light">#4CAF50</color>
+    <color name="green_surface">#E8F5E9</color>
+    <color name="background">#F9FBF9</color>
+    <color name="card_bg">#FFFFFF</color>
+    <color name="text_primary">#1A2E1A</color>
+    <color name="text_secondary">#4A6D4A</color>
+    <color name="text_hint">#90A490</color>
+    <color name="divider">#C8E6C9</color>
+    <color name="stroke">#A5D6A7</color>
+    <color name="status_safe">#2E7D32</color>
+    <color name="status_warn">#F57F17</color>
+    <color name="status_danger">#C62828</color>
 
 </resources>

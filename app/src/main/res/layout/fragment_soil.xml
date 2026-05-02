@@ -1,0 +1,57 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent" android:layout_height="match_parent" android:background="@color/background">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
+        <!--  Input Card  -->
+        <androidx.cardview.widget.CardView android:layout_width="match_parent" android:layout_height="wrap_content" app:cardCornerRadius="16dp" app:cardElevation="3dp" app:cardBackgroundColor="@color/card_bg" android:layout_marginBottom="12dp">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="🪨 Soil Classification — USCS" style="@style/SectionTitle" android:layout_marginBottom="16dp"/>
+                <com.google.android.material.textfield.TextInputLayout style="@style/GeoInput" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Liquid Limit LL" app:suffixText="%" android:layout_marginBottom="10dp">
+                    <com.google.android.material.textfield.TextInputEditText android:id="@+id/etLL" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="numberDecimal" android:text="40"/>
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout style="@style/GeoInput" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Plastic Limit PL" app:suffixText="%" android:layout_marginBottom="10dp">
+                    <com.google.android.material.textfield.TextInputEditText android:id="@+id/etPL" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="numberDecimal" android:text="20"/>
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout style="@style/GeoInput" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Natural Moisture w" app:suffixText="%" android:layout_marginBottom="10dp">
+                    <com.google.android.material.textfield.TextInputEditText android:id="@+id/etMoisture" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="numberDecimal" android:text="25"/>
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout style="@style/GeoInput" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Fine Content — Sieve #200" app:suffixText="%" android:layout_marginBottom="16dp">
+                    <com.google.android.material.textfield.TextInputEditText android:id="@+id/etFine" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="numberDecimal" android:text="60"/>
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.button.MaterialButton android:id="@+id/btnClassify" style="@style/GeoButton" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/calculate"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+        <!--  Result Card  -->
+        <LinearLayout android:id="@+id/layoutResult" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:background="@drawable/bg_result_card" android:padding="16dp" android:visibility="gone">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="📊 Result" style="@style/SectionTitle" android:layout_marginBottom="12dp"/>
+            <!--  Symbol big  -->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginBottom="12dp">
+                <LinearLayout android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:orientation="vertical">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Classification Symbol" android:textSize="12sp" android:textColor="@color/earth_brown"/>
+                    <TextView android:id="@+id/tvSymbol" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="—" android:textSize="36sp" android:textStyle="bold" android:textColor="@color/blue_start"/>
+                </LinearLayout>
+                <TextView android:id="@+id/tvGroup" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Fine" android:textSize="13sp" android:textStyle="bold" android:textColor="@color/blue_start" android:background="@drawable/bg_result_card" android:paddingStart="12dp" android:paddingEnd="12dp" android:paddingTop="6dp" android:paddingBottom="6dp"/>
+            </LinearLayout>
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/divider" android:layout_marginBottom="8dp"/>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:paddingTop="6dp" android:paddingBottom="6dp">
+                <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Description" style="@style/ResultLabel"/>
+                <TextView android:id="@+id/tvDescription" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="—" style="@style/ResultValue"/>
+            </LinearLayout>
+            <View android:layout_width="match_parent" android:layout_height="0.5dp" android:background="@color/divider"/>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:paddingTop="6dp" android:paddingBottom="6dp">
+                <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Plasticity Index PI" style="@style/ResultLabel"/>
+                <TextView android:id="@+id/tvPI" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="—" style="@style/ResultValue"/>
+            </LinearLayout>
+            <View android:layout_width="match_parent" android:layout_height="0.5dp" android:background="@color/divider"/>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:paddingTop="6dp" android:paddingBottom="6dp">
+                <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Liquidity Index LI" style="@style/ResultLabel"/>
+                <TextView android:id="@+id/tvLI" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="—" style="@style/ResultValue"/>
+            </LinearLayout>
+            <View android:layout_width="match_parent" android:layout_height="0.5dp" android:background="@color/divider"/>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:paddingTop="6dp" android:paddingBottom="6dp">
+                <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Consistency Index CI" style="@style/ResultLabel"/>
+                <TextView android:id="@+id/tvCI" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="—" style="@style/ResultValue"/>
+            </LinearLayout>
+        </LinearLayout>
+        <View android:layout_width="match_parent" android:layout_height="32dp"/>
+        <Button android:id="@+id/btnHistory" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="📄 History"/>
+    </LinearLayout>
+</ScrollView>

@@ -1,0 +1,15 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:background="@color/background">
+    <!--  Toolbar  -->
+    <LinearLayout android:layout_width="match_parent" android:layout_height="70dp" android:background="@drawable/bg_toolbar" android:orientation="horizontal" android:gravity="center_vertical" android:paddingStart="8dp" android:paddingEnd="16dp">
+        <ImageButton android:id="@+id/btnBack" android:layout_width="40dp" android:layout_height="40dp" android:background="?attr/selectableItemBackgroundBorderless" android:src="@drawable/ic_arrow_back" app:tint="@color/white" android:contentDescription="back"/>
+        <View android:layout_width="0dp" android:layout_height="0dp" android:layout_weight="1"/>
+        <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="vertical" android:gravity="end">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/geotechnical" android:textColor="@color/white" android:textSize="17sp" android:textStyle="bold"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Geotechnical Engineering" android:textColor="#B2DFDB" android:textSize="20sp"/>
+        </LinearLayout>
+    </LinearLayout>
+    <!--  TabLayout  -->
+    <com.google.android.material.tabs.TabLayout android:id="@+id/tabLayout" android:layout_width="match_parent" android:layout_height="wrap_content" android:background="@color/green_dark" app:tabTextColor="#80FFFFFF" app:tabSelectedTextColor="@color/white" app:tabIndicatorColor="@color/green_light" app:tabIndicatorHeight="3dp" app:tabMode="scrollable" app:tabTextAppearance="@style/TabText" app:tabPaddingStart="4dp" app:tabPaddingEnd="4dp"/>
+    <!--  ViewPager2  -->
+    <androidx.viewpager2.widget.ViewPager2 android:id="@+id/viewPager" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1"/>
+</LinearLayout>

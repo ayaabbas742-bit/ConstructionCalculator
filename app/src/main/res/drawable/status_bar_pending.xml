@@ -1,0 +1,9 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- لون الحالة: Pending (رمادي) -->
+    <solid android:color="#95A5A6"/>
+
+    <!-- شكل بسيط مستطيل -->
+    <corners android:radius="6dp"/>
+
+</shape>
