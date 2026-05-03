@@ -66,7 +66,7 @@ class ProfileActivity : AppCompatActivity() {
 
         // ================= LOGOUT =================
         logoutBtn.setOnClickListener {
-            getSharedPreferences("SESSION", MODE_PRIVATE)
+            getSharedPreferences("app_prefs", MODE_PRIVATE)
                 .edit()
                 .clear()
                 .apply()

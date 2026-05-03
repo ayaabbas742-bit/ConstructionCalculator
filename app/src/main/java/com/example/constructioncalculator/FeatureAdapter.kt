@@ -12,18 +12,22 @@ import androidx.recyclerview.widget.RecyclerView
 
 class FeatureAdapter(private val list: List<Feature>) :
     RecyclerView.Adapter<FeatureAdapter.ViewHolder>() {
-
-    private val colors = listOf(
-        "#B0BEC5", // رمادي زيتوني
-        "#B0BEC5",
-        "#B0BEC5",
-        "#B0BEC5",
-        "#B0BEC5",
-        "#B0BEC5",
-        "#B0BEC5",
-        "#B0BEC5",
-        "#B0BEC5"
+    // 🔹 ألوان فاتحة وناعمة للبطاقات
+    // 🔹 ألوان فاتحة قليلاً (متوازنة)
+    val colors = listOf(
+        "#B0BEC5", // Cyan فاتح شوية
+        "#B0BEC5", // Pink فاتح شوية
+        "#B0BEC5", // Purple فاتح
+        "#B0BEC5", // Green فاتح
+        "#B0BEC5", // Orange فاتح
+        "#B0BEC5", // Yellow فاتح
+        "#B0BEC5", // Brown Gray فاتح
+        "#B0BEC5", // Lime فاتح
+        "#B0BEC5", // Gray Blue فاتح
+        "#B0BEC5", // Lavender فاتح
+        "#B0BEC5" // Red فاتح
     )
+
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val title: TextView = view.findViewById(R.id.title)
         val icon: ImageView = view.findViewById(R.id.icon)

@@ -29,9 +29,9 @@ class HomeActivity : AppCompatActivity() {
         val title = findViewById<TextView>(R.id.title)
 
         title.text = if (name.isNotEmpty())
-            "Welcome Engineer $name 👷"
+            "Welcome Engineer $name "
         else
-            "Welcome Engineer 👷"
+            "Welcome Engineer "
 
         // ================= SETTINGS BUTTON =================
         val settings = findViewById<ImageView>(R.id.ic_settings)
@@ -54,7 +54,7 @@ class HomeActivity : AppCompatActivity() {
                         startActivity(intent)
                     }
 
-                    // ⭐ FEEDBACK
+                    // ⭐️ FEEDBACK
                     1 -> {
                         showFeedbackDialog(email)
                     }

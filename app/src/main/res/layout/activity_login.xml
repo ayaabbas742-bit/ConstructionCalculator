@@ -55,7 +55,6 @@
                 android:background="@android:drawable/editbox_background"
                 android:layout_marginBottom="10dp"/>
 
-            <!-- Password -->
             <TextView
                 android:text="Password"
                 android:textStyle="bold"
@@ -63,15 +62,31 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
-            <EditText
-                android:id="@+id/password"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
-                android:hint="Enter your password"
-                android:inputType="textPassword"
+                android:orientation="horizontal"
                 android:background="@android:drawable/editbox_background"
-                android:layout_marginBottom="10dp"/>
+                android:layout_marginBottom="10dp">
 
+                <EditText
+                    android:id="@+id/password"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:hint="Enter your password"
+                    android:inputType="textPassword"
+                    android:background="@null"
+                    android:paddingStart="8dp"/>
+
+                <ImageView
+                    android:id="@+id/togglePassword"
+                    android:layout_width="48dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_eye_off"
+                    android:padding="12dp"
+                    android:layout_gravity="center"/>
+            </LinearLayout>
             <CheckBox
                 android:id="@+id/remember"
                 android:text="Remember me"
@@ -97,7 +112,6 @@
                 android:textColor="#FFFFFF"
                 android:backgroundTint="#1FA7A5"
                 android:layout_marginTop="15dp"/>
-
 
             <!-- Create Account -->
             <Button
