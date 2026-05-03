@@ -4,8 +4,20 @@
         <!-- Customize your dark theme here. -->
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
     </style>
-    <style name="AlertDialogTheme" parent="Theme.MaterialComponents.DayNight.Dialog.Alert">
-        <item name="android:background">@color/white</item>
-        <item name="android:textColor">@color/black</item>
+    <style name="AlertDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">#E05C2A</item>
+        <item name="android:textColorPrimary">#1B2A4A</item>
+        <item name="android:background">#FFFFFF</item>
+        <item name="android:windowMinWidthMajor">92%</item>
+        <item name="android:windowMinWidthMinor">92%</item>
+    </style>
+    <style name="Theme.ConstructionApp" parent="Theme.Material3.Dark.NoActionBar">
+
+        <item name="colorPrimary">#4DA3FF</item>
+        <item name="colorSecondary">#38BDF8</item>
+
+        <item name="android:statusBarColor">#0B1220</item>
+        <item name="android:navigationBarColor">#0B1220</item>
+
     </style>
 </resources>

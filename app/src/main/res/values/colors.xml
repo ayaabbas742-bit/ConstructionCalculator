@@ -24,5 +24,10 @@
     <color name="status_safe">#2E7D32</color>
     <color name="status_warn">#F57F17</color>
     <color name="status_danger">#C62828</color>
+        <color name="bg_primary">#0B1220</color>
+        <color name="bg_secondary">#111C33</color>
+        <color name="surface">#16243D</color>
 
+        <color name="primary">#4DA3FF</color>
+        <color name="accent">#38BDF8</color>
 </resources>
