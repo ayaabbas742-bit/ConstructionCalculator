@@ -15,10 +15,22 @@ class ForgotPasswordActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_forgot_password)
 
-        val emailEt = findViewById<EditText>(R.id.email)
-        val sendBtn = findViewById<Button>(R.id.sendBtn)
+        val emailEt   = findViewById<EditText>(R.id.email)
+        val sendBtn   = findViewById<Button>(R.id.sendBtn)
+        val backBtn   = findViewById<ImageView>(R.id.backBtn)
+        val backLogin = findViewById<TextView>(R.id.backToLogin)
 
         auth = FirebaseAuth.getInstance()
+
+        // ← زر الرجوع في الأعلى
+        backBtn.setOnClickListener {
+            finish()
+        }
+
+        // ← رجوع لتسجيل الدخول
+        backLogin.setOnClickListener {
+            finish()
+        }
 
         sendBtn.setOnClickListener {
             val email = emailEt.text.toString().trim()
@@ -28,16 +40,14 @@ class ForgotPasswordActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            // ← Firebase يرسل إيميل حقيقي لإعادة تعيين كلمة السر
             auth.sendPasswordResetEmail(email)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         Toast.makeText(
                             this,
-                            "Email sent to $email ! Check your inbox and Spam folder 📧",
+                            "Reset link sent to $email 📧 Check your inbox!",
                             Toast.LENGTH_LONG
                         ).show()
-                        startActivity(Intent(this, LoginActivity::class.java))
                         finish()
                     } else {
                         Toast.makeText(

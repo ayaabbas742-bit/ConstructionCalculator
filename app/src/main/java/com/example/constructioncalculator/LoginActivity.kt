@@ -10,6 +10,9 @@ class LoginActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
 
+    // ✅ ضع إيميل الـ Admin هنا
+    private val ADMIN_EMAIL = "admin@gmail.com"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -17,7 +20,7 @@ class LoginActivity : AppCompatActivity() {
         val etEmail    = findViewById<EditText>(R.id.email)
         val etPassword = findViewById<EditText>(R.id.password)
         val loginBtn   = findViewById<Button>(R.id.loginBtn)
-        val signupBtn  = findViewById<Button>(R.id.signupBtn)
+        val signupBtn = findViewById<com.google.android.material.button.MaterialButton>(R.id.signupBtn)
         val forgot     = findViewById<TextView>(R.id.forgot)
         val rememberMe = findViewById<CheckBox>(R.id.remember)
         val togglePassword = findViewById<ImageView>(R.id.togglePassword)
@@ -35,7 +38,6 @@ class LoginActivity : AppCompatActivity() {
             etPassword.setSelection(etPassword.text.length)
         }
 
-        val db   = DatabaseHelper(this)
         val pref = getSharedPreferences("app_prefs", MODE_PRIVATE)
         auth     = FirebaseAuth.getInstance()
 
@@ -43,7 +45,7 @@ class LoginActivity : AppCompatActivity() {
         if (pref.getBoolean("isLogged", false)) {
             val savedEmail = pref.getString("logged_email", "") ?: ""
             if (savedEmail.isNotEmpty()) {
-                goToCorrectScreen(savedEmail, db)
+                goToCorrectScreen(savedEmail)
                 return
             }
         }
@@ -58,20 +60,15 @@ class LoginActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            // ← Firebase يتحقق من الإيميل وكلمة السر
             auth.signInWithEmailAndPassword(e, p)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         Toast.makeText(this, "Login successful", Toast.LENGTH_SHORT).show()
                         val editor = pref.edit()
                         editor.putString("logged_email", e)
-                        if (rememberMe.isChecked) {
-                            editor.putBoolean("isLogged", true)
-                        } else {
-                            editor.putBoolean("isLogged", false)
-                        }
+                        editor.putBoolean("isLogged", rememberMe.isChecked)
                         editor.apply()
-                        goToCorrectScreen(e, db)
+                        goToCorrectScreen(e)
                         finish()
                     } else {
                         Toast.makeText(this, "Incorrect email or password", Toast.LENGTH_SHORT).show()
@@ -96,9 +93,9 @@ class LoginActivity : AppCompatActivity() {
             startActivity(intent)
         }
     }
-
-    private fun goToCorrectScreen(email: String, db: DatabaseHelper) {
-        if (db.isAdmin(email)) {
+    // ✅ التحقق من Admin عن طريق الإيميل مباشرة
+    private fun goToCorrectScreen(email: String) {
+        if (email == ADMIN_EMAIL) {
             startActivity(Intent(this, AdminDashboardActivity::class.java))
         } else {
             val intent = Intent(this, HomeActivity::class.java)

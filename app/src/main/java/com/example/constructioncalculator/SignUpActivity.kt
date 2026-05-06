@@ -20,10 +20,16 @@ class SignUpActivity : AppCompatActivity() {
         val password        = findViewById<EditText>(R.id.password)
         val confirmPassword = findViewById<EditText>(R.id.confirmPassword)
         val signupBtn       = findViewById<Button>(R.id.signupBtn)
-        val togglePassword = findViewById<ImageView>(R.id.togglePassword)
-        val toggleConfirm = findViewById<ImageView>(R.id.toggleConfirmPassword)
-        var isPassVisible = false
+        val togglePassword  = findViewById<ImageView>(R.id.togglePassword)
+        val toggleConfirm   = findViewById<ImageView>(R.id.toggleConfirmPassword)
+        val loginLink       = findViewById<TextView>(R.id.loginLink) // ✅ جديد
+        var isPassVisible    = false
         var isConfirmVisible = false
+
+        // ✅ رجوع لتسجيل الدخول
+        loginLink.setOnClickListener {
+            finish()
+        }
 
         togglePassword.setOnClickListener {
             isPassVisible = !isPassVisible
@@ -65,17 +71,15 @@ class SignUpActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            // Firebase ينشئ الحساب
             auth.createUserWithEmailAndPassword(e, p)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         db.insertUser(f, l, e, p)
-                        Toast.makeText(this, "Account Created", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "Account Created ✅", Toast.LENGTH_SHORT).show()
                         startActivity(Intent(this, LoginActivity::class.java))
                         finish()
                     } else {
-                        Toast.makeText(this, task.exception?.message ?: "Error", Toast.LENGTH_SHORT)
-                            .show()
+                        Toast.makeText(this, task.exception?.message ?: "Error", Toast.LENGTH_SHORT).show()
                     }
                 }
         }
