@@ -18,6 +18,7 @@ class FloorPlanView(context: Context, attrs: AttributeSet?) : View(context, attr
     var currentTool: Tool = Tool.DRAW_LINE
     var pendingShapeType: String = "door1"
     var onShapeAdded: (() -> Unit)? = null
+    var onDimensionDrawn: ((Float, Float, Float, Float) -> Unit)? = null
     private var drawColor: Int = Color.BLACK
     private var showGrid: Boolean = true
 
@@ -221,8 +222,12 @@ class FloorPlanView(context: Context, attrs: AttributeSet?) : View(context, attr
                         }
                     }
                     if (distance(startX, startY, currentX, currentY) > 10f) {
-                        saveState(); shapes.add(createShape())
-                        redoStack.clear(); onShapeAdded?.invoke()
+                        if (currentTool == Tool.ADD_DIMENSION) {
+                            onDimensionDrawn?.invoke(startX, startY, currentX, currentY)
+                        } else {
+                            saveState(); shapes.add(createShape())
+                            redoStack.clear(); onShapeAdded?.invoke()
+                        }
                     }
                     invalidate()
                 } else { isDragging = false }
@@ -403,6 +408,13 @@ class FloorPlanView(context: Context, attrs: AttributeSet?) : View(context, attr
         override fun contains(px: Float, py: Float) = false
         override fun moveTo(nx: Float, ny: Float) {}
         override fun getBounds() = RectF(x1, y1, x2, y2)
+    }
+    fun addCustomDimension(x1: Float, y1: Float, x2: Float, y2: Float, label: String) {
+        saveState()
+        shapes.add(CustomDimensionShape(x1, y1, x2, y2, label))
+        redoStack.clear()
+        onShapeAdded?.invoke()
+        invalidate()
     }
     fun scaleSelected(factor: Float) {
         val shape = selectedShape

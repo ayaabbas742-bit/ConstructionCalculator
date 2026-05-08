@@ -49,7 +49,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="Engineering Dashboard"
-                android:textColor="#7FA7C9"
+                android:textColor="#ECF0F4"
                 android:textSize="12sp"/>
         </LinearLayout>
 

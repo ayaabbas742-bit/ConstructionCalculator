@@ -168,21 +168,64 @@ class DimensionShape(
         x1+=dx; y1+=dy; x2+=dx; y2+=dy
     }
     override fun contains(px: Float, py: Float) = getBounds()!!.contains(px, py)
-}
+    }
 
-class LabelShape(
+    class LabelShape(
     var x: Float, var y: Float,
     val text: String,
     private val color: Int = Color.parseColor("#212121")
-) : FloorPlanShape() {
+     ) : FloorPlanShape() {
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         textSize = 32f; typeface = Typeface.DEFAULT_BOLD; textAlign = Paint.Align.CENTER
     }
-    override fun draw(canvas: Canvas) { paint.color = color; canvas.drawText(text, x, y, paint) }
+
+    override fun draw(canvas: Canvas) {
+        paint.color = color; canvas.drawText(text, x, y, paint)
+    }
+
     override fun getBounds(): RectF {
         val w = paint.measureText(text)
-        return RectF(x-w/2-5f, y-35f, x+w/2+5f, y+5f)
+        return RectF(x - w / 2 - 5f, y - 35f, x + w / 2 + 5f, y + 5f)
     }
-    override fun moveTo(nx: Float, ny: Float) { x=nx; y=ny }
+
+    override fun moveTo(nx: Float, ny: Float) {
+        x = nx; y = ny
+    }
+
     override fun contains(px: Float, py: Float) = getBounds()!!.contains(px, py)
-}
+    }
+
+    class CustomDimensionShape(
+        var x1: Float, var y1: Float,
+        var x2: Float, var y2: Float,
+        val label: String
+    ) : FloorPlanShape() {
+        private val linePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+            color = Color.parseColor("#E53935"); strokeWidth = 2f; style = Paint.Style.STROKE
+        }
+        private val textPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+            color = Color.parseColor("#E53935"); textSize = 28f
+            textAlign = Paint.Align.CENTER; typeface = Typeface.DEFAULT_BOLD
+        }
+        private val bgPaint = Paint().apply { color = Color.WHITE; style = Paint.Style.FILL }
+
+        override fun draw(canvas: Canvas) {
+            canvas.drawLine(x1, y1, x2, y2, linePaint)
+            val dx = x2-x1; val dy = y2-y1
+            val len = sqrt((dx*dx+dy*dy).toDouble()).toFloat()
+            if (len < 1f) return
+            val nx = -dy/len*10f; val ny = dx/len*10f
+            canvas.drawLine(x1+nx, y1+ny, x1-nx, y1-ny, linePaint)
+            canvas.drawLine(x2+nx, y2+ny, x2-nx, y2-ny, linePaint)
+            val mx = (x1+x2)/2; val my = (y1+y2)/2
+            val tw = textPaint.measureText(label)
+            canvas.drawRect(mx-tw/2-4f, my-28f, mx+tw/2+4f, my+6f, bgPaint)
+            canvas.drawText(label, mx, my, textPaint)
+        }
+        override fun getBounds() = RectF(minOf(x1,x2)-10f, minOf(y1,y2)-30f, maxOf(x1,x2)+10f, maxOf(y1,y2)+10f)
+        override fun moveTo(nx: Float, ny: Float) {
+            val dx = nx-minOf(x1,x2); val dy = ny-minOf(y1,y2)
+            x1+=dx; y1+=dy; x2+=dx; y2+=dy
+        }
+        override fun contains(px: Float, py: Float) = getBounds()!!.contains(px, py)
+    }

@@ -36,6 +36,23 @@ class PlanDrawingActivity : AppCompatActivity() {
 
         tvPlanName.text = currentPlanName
         floorPlanView.onShapeAdded = { updateShapeCount() }
+        floorPlanView.onDimensionDrawn = { x1, y1, x2, y2 ->
+            val input = EditText(this)
+            input.hint = "e.g. 3.5"
+            input.inputType = android.text.InputType.TYPE_CLASS_NUMBER or
+                    android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL
+            AlertDialog.Builder(this)
+                .setTitle("Enter Dimension (meters)")
+                .setView(input)
+                .setPositiveButton("Add") { _, _ ->
+                    val value = input.text.toString().trim()
+                    if (value.isNotEmpty()) {
+                        floorPlanView.addCustomDimension(x1, y1, x2, y2, value)
+                    }
+                }
+                .setNegativeButton("Cancel", null)
+                .show()
+        }
 
         setupShapeToolbar()
         setupBottomToolbar()

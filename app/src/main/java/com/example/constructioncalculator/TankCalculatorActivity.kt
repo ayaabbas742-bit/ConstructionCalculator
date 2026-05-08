@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.LinearLayoutManager
 
 class TankCalculatorActivity : AppCompatActivity() {
 
@@ -20,7 +21,7 @@ class TankCalculatorActivity : AppCompatActivity() {
             Shape("Cube Tank", R.drawable.ic_cube)
         )
 
-        recycler.layoutManager = GridLayoutManager(this, 2)
+        recycler.layoutManager = LinearLayoutManager(this)
         recycler.adapter = TankAdapter(this, list)
     }
 }

@@ -360,7 +360,7 @@ class ProjectTimelineActivity : AppCompatActivity() {
         }
         c.close()
         if (projects.isEmpty()) {
-            Toast.makeText(this, "لا توجد مشاريع بعد", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "No projects yet", Toast.LENGTH_SHORT).show()
             return
         }
         val dialogView = LinearLayout(this).apply {
@@ -433,13 +433,13 @@ class ProjectTimelineActivity : AppCompatActivity() {
                 text = "🗑"; textSize = 20f; setPadding(16, 0, 0, 0)
                 setOnClickListener {
                     AlertDialog.Builder(this@ProjectTimelineActivity)
-                        .setTitle("حذف المشروع؟")
-                        .setMessage("سيتم حذف \"${project.name}\" وكل مراحله.")
-                        .setPositiveButton("حذف") { _, _ ->
+                        .setTitle("Delete project?")
+                        .setMessage(" \"${project.name}\"and all its phases will be deleted.")
+                        .setPositiveButton("Delete") { _, _ ->
                             openDialog?.dismiss()
                             deleteProject(project.id)
                         }
-                        .setNegativeButton("إلغاء", null)
+                        .setNegativeButton("Cancel", null)
                         .show()
                 }
             }
@@ -456,7 +456,7 @@ class ProjectTimelineActivity : AppCompatActivity() {
         dialogView.addView(header); dialogView.addView(scroll)
         openDialog = AlertDialog.Builder(this)
             .setView(dialogView)
-            .setPositiveButton("إغلاق", null)
+            .setPositiveButton("Close", null)
             .create()
         openDialog?.show()
     }
@@ -546,8 +546,25 @@ class ProjectTimelineActivity : AppCompatActivity() {
             tvHumidity.text    = "💧 $humidity%"
             tvWind.text        = "🌬 $wind km/h"
             tvWeatherIcon.text = weatherEmoji(iconCode)
+
+            // ✅ أضف هذا السطر
+            findViewById<TextView>(R.id.tvWeatherAdvice).text =
+                getConstructionAdvice(temp, humidity, wind, iconCode)
+
         } catch (e: Exception) {
             setDefaultWeather()
+        }
+    }
+    private fun getConstructionAdvice(temp: Int, humidity: Int, wind: Int, icon: String): String {
+        return when {
+            icon.startsWith("11") -> "⛈ Storm! Stop all outdoor work immediately"
+            icon.startsWith("09") || icon.startsWith("10") -> "🌧 Rain expected, delay outdoor work"
+            wind > 50 -> "🌬 High winds, avoid crane operations"
+            wind > 30 -> "💨 Strong winds, secure loose materials"
+            temp > 40 -> "🥵 Extreme heat, limit work hours"
+            temp < 0  -> "🥶 Freezing temps, protect materials"
+            humidity > 85 -> "💧 High humidity, avoid concrete pouring"
+            else -> "✅ Good conditions for outdoor construction"
         }
     }
 
