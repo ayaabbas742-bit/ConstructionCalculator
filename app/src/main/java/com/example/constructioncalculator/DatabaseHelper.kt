@@ -1489,5 +1489,107 @@ class DatabaseHelper(context: Context) :
         writableDatabase.execSQL("DELETE FROM concrete_history")
     }
 
+    // جلب متوسط تقييم مهندس معين من جدول feedback
+    fun getEngineerRating(email: String): Float? {
+        val cursor = readableDatabase.rawQuery(
+            "SELECT AVG(rating) FROM feedback WHERE email = ?",
+            arrayOf(email)
+        )
+        var rating: Float? = null
+        if (cursor.moveToFirst()) {
+            val value = cursor.getDouble(0)
+            if (!value.isNaN()) rating = value.toFloat()
+        }
+        cursor.close()
+        return rating
+    }
+
+    // جلب عدد تقييمات مهندس معين من جدول feedback
+    fun getReviewCount(email: String): Int? {
+        val cursor = readableDatabase.rawQuery(
+            "SELECT COUNT(*) FROM feedback WHERE email = ?",
+            arrayOf(email)
+        )
+        var count: Int? = null
+        if (cursor.moveToFirst()) {
+            count = cursor.getInt(0)
+        }
+        cursor.close()
+        return count
+    }
+    // ═══════════════════════════════════════════════════════
+// أضف هذه الدوال الأربع قبل آخر } في DatabaseHelper.kt
+// ═══════════════════════════════════════════════════════
+
+    // 1. جلب كل المشاريع من Timeline
+    fun getAllProjects(): List<Map<String, String>> {
+        val list = mutableListOf<Map<String, String>>()
+        try {
+            val cursor = readableDatabase.rawQuery(
+                "SELECT name, end_date FROM projects ORDER BY end_date ASC", null
+            )
+            while (cursor.moveToNext()) {
+                list.add(mapOf(
+                    "name"     to (cursor.getString(0) ?: ""),
+                    "end_date" to (cursor.getString(1) ?: "")
+                ))
+            }
+            cursor.close()
+        } catch (_: Exception) {}
+        return list
+    }
+
+    // 2. جلب الفواتير المنتهية الصلاحية
+    fun getOverdueInvoices(): List<Map<String, String>> {
+        val list = mutableListOf<Map<String, String>>()
+        try {
+            val today = java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault())
+                .format(java.util.Date())
+            val cursor = readableDatabase.rawQuery(
+                "SELECT invoice_number, due_date FROM invoices WHERE due_date < ? ORDER BY due_date ASC",
+                arrayOf(today)
+            )
+            while (cursor.moveToNext()) {
+                list.add(mapOf(
+                    "invoice_number" to (cursor.getString(0) ?: ""),
+                    "due_date"       to (cursor.getString(1) ?: "")
+                ))
+            }
+            cursor.close()
+        } catch (_: Exception) {}
+        return list
+    }
+
+    // 3. عدد التقييمات الجديدة للمهندس
+    fun getNewFeedbackCount(email: String): Int {
+        var count = 0
+        try {
+            val cursor = readableDatabase.rawQuery(
+                "SELECT COUNT(*) FROM feedback WHERE email = ?",
+                arrayOf(email)
+            )
+            if (cursor.moveToFirst()) count = cursor.getInt(0)
+            cursor.close()
+        } catch (_: Exception) {}
+        return count
+    }
+
+    // 4. عدد الملاحظات المضافة في آخر 7 أيام
+    fun getRecentNotesCount(): Int {
+        var count = 0
+        try {
+            val sevenDaysAgo = System.currentTimeMillis() - (7 * 24 * 60 * 60 * 1000L)
+            val sdf = java.text.SimpleDateFormat("dd/MM/yyyy", java.util.Locale.getDefault())
+            val dateStr = sdf.format(java.util.Date(sevenDaysAgo))
+            val cursor = readableDatabase.rawQuery(
+                "SELECT COUNT(*) FROM construction_notes WHERE date >= ?",
+                arrayOf(dateStr)
+            )
+            if (cursor.moveToFirst()) count = cursor.getInt(0)
+            cursor.close()
+        } catch (_: Exception) {}
+        return count
+    }
+
 }
 

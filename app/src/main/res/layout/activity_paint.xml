@@ -73,9 +73,18 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
         <!--  CALCULATE + HISTORY BUTTONS  -->
-        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:weightSum="2" android:layout_marginTop="14dp">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:weightSum="3" android:layout_marginTop="14dp">
             <com.google.android.material.button.MaterialButton android:id="@+id/btnCalc" android:layout_width="0dp" android:layout_weight="1" android:layout_height="55dp" android:layout_marginEnd="5dp" android:text="📊 CALCULATE" app:backgroundTint="#A0B7BA"/>
             <com.google.android.material.button.MaterialButton android:id="@+id/btnHistory" android:layout_width="0dp" android:layout_weight="1" android:layout_height="55dp" android:layout_marginStart="5dp" android:text="📜 HISTORY" app:backgroundTint="#7B7089"/>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnShare"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="55dp"
+                android:text="📤 SHARE RESULT"
+                android:backgroundTint="#1FA7A5"
+                android:textColor="#FFFFFF"
+                android:layout_margin="16dp"/>
         </LinearLayout>
         <!--  RESULTS CARD  -->
         <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="14dp" app:cardCornerRadius="16dp" app:cardElevation="8dp" app:cardBackgroundColor="#E2F4F6">

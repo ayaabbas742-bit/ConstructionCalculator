@@ -6,9 +6,9 @@
         <FrameLayout android:layout_width="match_parent" android:layout_height="160dp" android:background="@drawable/header_gradient">
             <!--  back / settings row  -->
             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:paddingStart="16dp" android:paddingEnd="16dp" android:paddingTop="16dp" android:layout_gravity="top">
-                <ImageButton android:id="@+id/btnBack" android:layout_width="36dp" android:layout_height="36dp" android:background="@drawable/circle_white_alpha" android:src="@drawable/ic_arrow_back" android:tint="#FFFFFF" android:contentDescription="Back"/>
+                <ImageButton android:id="@+id/btnBack" android:layout_width="36dp" android:layout_height="36dp" android:background="@drawable/circle_white_alpha" android:src="@drawable/ic_arrow_back" app:tint="#FFFFFF" android:contentDescription="Back"/>
                 <View android:layout_width="0dp" android:layout_height="1dp" android:layout_weight="1"/>
-                <ImageButton android:id="@+id/btnEdit" android:layout_width="36dp" android:layout_height="36dp" android:background="@drawable/circle_white_alpha" android:src="@drawable/ic_edit" android:tint="#FFFFFF" android:contentDescription="Edit Profile"/>
+
             </LinearLayout>
             <!--  Title centered  -->
             <TextView android:text="Engineer Profile" android:textSize="22sp" android:textStyle="bold" android:textColor="#FFFFFF" android:letterSpacing="0.05" android:gravity="center" android:layout_gravity="center" android:layout_width="match_parent" android:layout_height="wrap_content"/>
@@ -16,19 +16,45 @@
         <!--  ═══════════════════════════════════════  -->
         <!--  PROFILE IMAGE  (overlaps header)  -->
         <!--  ═══════════════════════════════════════  -->
-        <FrameLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="-55dp" android:paddingBottom="8dp">
-            <!--  Shadow ring  -->
-            <com.google.android.material.imageview.ShapeableImageView android:id="@+id/profileImageShadow" android:layout_width="118dp" android:layout_height="118dp" android:layout_gravity="center" android:elevation="6dp" android:background="@drawable/circle_shadow"/>
-            <!--  Actual photo  -->
-            <com.google.android.material.imageview.ShapeableImageView android:id="@+id/profileImage" android:layout_width="110dp" android:layout_height="110dp" android:layout_gravity="center" android:src="@drawable/ic_engineer_avatar" android:scaleType="centerCrop" android:elevation="8dp" app:shapeAppearanceOverlay="@style/CircleImageView" app:strokeColor="#FFFFFF" app:strokeWidth="3dp"/>
-            <!--  Camera badge  -->
-            <com.google.android.material.imageview.ShapeableImageView android:id="@+id/cameraIcon" android:layout_width="30dp" android:layout_height="30dp" android:layout_gravity="center" android:layout_marginStart="70dp" android:layout_marginTop="70dp" android:background="#1FA7A5" android:padding="6dp" android:src="@drawable/ic_camera" android:tint="#FFFFFF" android:elevation="10dp" app:shapeAppearanceOverlay="@style/CircleImageView"/>
+        <!-- PROFILE IMAGE -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-55dp"
+            android:paddingBottom="8dp">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/profileImage"
+                android:layout_width="110dp"
+                android:layout_height="110dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_engineer_avatar"
+                android:scaleType="centerCrop"
+                android:elevation="8dp"
+                app:shapeAppearanceOverlay="@style/CircleImageView"
+                app:strokeColor="#FFFFFF"
+                app:strokeWidth="3dp"/>
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/cameraIcon"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="70dp"
+                android:layout_marginTop="70dp"
+                android:background="#1FA7A5"
+                android:padding="6dp"
+                android:src="@drawable/ic_camera"
+                android:tint="#FFFFFF"
+                android:elevation="10dp"
+                app:shapeAppearanceOverlay="@style/CircleImageView"/>
+
         </FrameLayout>
         <!--  Name display under photo  -->
         <TextView android:id="@+id/tvFullName" android:text="Manel Abbas" android:textSize="20sp" android:textStyle="bold" android:textColor="#1A1A2E" android:gravity="center" android:layout_width="match_parent" android:layout_height="wrap_content"/>
         <!--  Rating badge inline under name  -->
         <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center" android:orientation="horizontal" android:background="@drawable/badge_teal_rounded" android:paddingStart="12dp" android:paddingEnd="12dp" android:paddingTop="4dp" android:paddingBottom="4dp" android:layout_marginTop="6dp" android:layout_marginBottom="20dp">
-            <ImageView android:layout_width="14dp" android:layout_height="14dp" android:src="@drawable/ic_star_filled" android:tint="#FFD700"/>
+            <ImageView android:layout_width="14dp" android:layout_height="14dp" android:src="@drawable/ic_star_filled" app:tint="#FFD700"/>
             <TextView android:id="@+id/tvRatingBadge" android:text=" 4.5 · Certified Engineer" android:textSize="12sp" android:textColor="#FFFFFF" android:textStyle="bold" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
         </LinearLayout>
         <!--  ═══════════════════════════════════════  -->
@@ -41,7 +67,7 @@
                 <!--  First Name row  -->
                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginBottom="16dp">
                     <FrameLayout android:layout_width="40dp" android:layout_height="40dp" android:background="@drawable/icon_bg_teal_light">
-                        <ImageView android:layout_width="20dp" android:layout_height="20dp" android:layout_gravity="center" android:src="@drawable/ic_person" android:tint="#1FA7A5"/>
+                        <ImageView android:layout_width="20dp" android:layout_height="20dp" android:layout_gravity="center" android:src="@drawable/ic_person" app:tint="#1FA7A5"/>
                     </FrameLayout>
                     <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:layout_marginStart="14dp">
                         <TextView android:text="First Name" android:textSize="11sp" android:textColor="#9E9E9E" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
@@ -52,7 +78,7 @@
                 <!--  Last Name row  -->
                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginBottom="16dp">
                     <FrameLayout android:layout_width="40dp" android:layout_height="40dp" android:background="@drawable/icon_bg_teal_light">
-                        <ImageView android:layout_width="20dp" android:layout_height="20dp" android:layout_gravity="center" android:src="@drawable/ic_person" android:tint="#1FA7A5"/>
+                        <ImageView android:layout_width="20dp" android:layout_height="20dp" android:layout_gravity="center" android:src="@drawable/ic_person" app:tint="#1FA7A5"/>
                     </FrameLayout>
                     <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:layout_marginStart="14dp">
                         <TextView android:text="Last Name" android:textSize="11sp" android:textColor="#9E9E9E" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
@@ -63,7 +89,7 @@
                 <!--  Email row  -->
                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
                     <FrameLayout android:layout_width="40dp" android:layout_height="40dp" android:background="@drawable/icon_bg_teal_light">
-                    <ImageView android:layout_width="20dp" android:layout_height="20dp" android:layout_gravity="center" android:src="@drawable/ic_email" android:tint="#1FA7A5"/>
+                    <ImageView android:layout_width="20dp" android:layout_height="20dp" android:layout_gravity="center" android:src="@drawable/ic_email" />
                 </FrameLayout>
                     <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:layout_marginStart="14dp">
                         <TextView android:text="Email" android:textSize="11sp" android:textColor="#9E9E9E" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
@@ -94,9 +120,8 @@
         <!--  ACTION BUTTONS  -->
         <!--  ═══════════════════════════════════════  -->
         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:paddingStart="16dp" android:paddingEnd="16dp" android:layout_marginBottom="32dp">
-            <!--  Edit Profile  -->
-            <com.google.android.material.button.MaterialButton android:id="@+id/btnEditProfile" android:layout_width="0dp" android:layout_height="52dp" android:layout_weight="1" android:text="Edit Profile" android:textColor="#1FA7A5" android:textSize="14sp" android:textStyle="bold" app:strokeColor="#1FA7A5" app:strokeWidth="2dp" app:cornerRadius="14dp" app:backgroundTint="@android:color/transparent" android:layout_marginEnd="8dp"/>
-            [10/05/2026 01:57] .. Aya: <!--  Logout  -->
+
+            <!--  Logout  -->
             <com.google.android.material.button.MaterialButton android:id="@+id/logoutBtn" android:layout_width="0dp" android:layout_height="52dp" android:layout_weight="1" android:text="Logout" android:textColor="#FFFFFF" android:textSize="14sp" android:textStyle="bold" app:cornerRadius="14dp" app:backgroundTint="#E53935" android:layout_marginStart="8dp"/>
         </LinearLayout>
     </LinearLayout>

@@ -7,6 +7,7 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import java.text.SimpleDateFormat
 import java.util.*
+import android.content.Intent
 
 class PaintActivity : AppCompatActivity() {
 
@@ -399,6 +400,35 @@ class PaintActivity : AppCompatActivity() {
                     Toast.makeText(this, "History cleared", Toast.LENGTH_SHORT).show()
                 }
                 .show()
+        }
+        // ═══════════════════════════════════════════════════════════════
+// أضف هذا الكود بعد btnHistory.setOnClickListener { ... }
+// ═══════════════════════════════════════════════════════════════
+
+        // ── Share ────────────────────────────────────────────────────────
+        val btnShare = findViewById<Button>(R.id.btnShare)
+
+        btnShare.setOnClickListener {
+            val result = tvResult.text.toString()
+
+            if (result.isEmpty()) {
+                Toast.makeText(this, "Calculate first before sharing!", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            val shareIntent = Intent(Intent.ACTION_SEND).apply {
+                type = "text/plain"
+                putExtra(Intent.EXTRA_SUBJECT, "🎨 Paint Calculation Result")
+                putExtra(
+                    Intent.EXTRA_TEXT,
+                    "🎨 Paint Calculation Result\n" +
+                            "━━━━━━━━━━━━━━━━━━━━━━━━━━\n" +
+                            result +
+                            "\n━━━━━━━━━━━━━━━━━━━━━━━━━━\n" +
+                            "📱 Calculated by Construction Calculator"
+                )
+            }
+            startActivity(Intent.createChooser(shareIntent, "Share via"))
         }
     }
 
