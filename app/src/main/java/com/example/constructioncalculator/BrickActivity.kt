@@ -7,6 +7,7 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import java.text.SimpleDateFormat
 import java.util.*
+import android.content.Intent
 
 class BrickActivity : AppCompatActivity() {
 
@@ -337,6 +338,23 @@ class BrickActivity : AppCompatActivity() {
                     Toast.makeText(this, "History cleared", Toast.LENGTH_SHORT).show()
                 }
                 .show()
+        }
+        val btnShare = findViewById<Button>(R.id.btnShare)
+
+        btnShare.setOnClickListener {
+            val result = tvResult.text.toString()
+            if (result.isEmpty()) {
+                Toast.makeText(this,
+                    "⚠️ Calculate first!",
+                    Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            val intent = Intent(Intent.ACTION_SEND).apply {
+                type = "text/plain"
+                putExtra(Intent.EXTRA_TEXT, result)
+                putExtra(Intent.EXTRA_SUBJECT, "Brick Calculation - EC App")
+            }
+            startActivity(Intent.createChooser(intent, "Share via"))
         }
     }
 

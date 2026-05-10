@@ -1,11 +1,14 @@
 package com.example.constructioncalculator
 
 import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.toString
+
 
 class ConcreteActivity : AppCompatActivity() {
 
@@ -254,6 +257,42 @@ class ConcreteActivity : AppCompatActivity() {
         }
             .show()
         }
+        val btnShare = findViewById<Button>(R.id.btnShare)
+        val btnReset = findViewById<Button>(R.id.btnReset)
+
+// ── SHARE ──
+        btnShare.setOnClickListener {
+            val result = tvResult.text.toString()
+            if (result.isEmpty()) {
+                Toast.makeText(this,
+                    "⚠️ Calculate first!",
+                    Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            val intent = Intent(Intent.ACTION_SEND).apply {
+                type = "text/plain"
+                putExtra(Intent.EXTRA_TEXT, result)
+                putExtra(Intent.EXTRA_SUBJECT, "Concrete Calculation - EC App")
+            }
+            startActivity(Intent.createChooser(intent, "Share via"))
+        }
+
+// ── RESET ──
+        btnReset.setOnClickListener {
+            etLength.setText("")
+            etWidth.setText("")
+            etHeight.setText("")
+            etOpenings.setText("")
+            tvResult.text = ""
+            wasteBar.progress = 5
+            tvWaste.text = "5%"
+            spinnerEl.setSelection(0)
+            spinnerGrade.setSelection(0)
+            Toast.makeText(this,
+                "🔄 Reset done!",
+                Toast.LENGTH_SHORT).show()
+        }
+
 
         restoreLastResult(tvResult)
     }
@@ -299,4 +338,5 @@ class ConcreteActivity : AppCompatActivity() {
             }
         }
     }
+
 }

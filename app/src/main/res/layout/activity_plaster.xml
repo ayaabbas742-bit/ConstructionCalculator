@@ -63,9 +63,19 @@
         <!--  ════════════════════════════════════  -->
         <!--    CALCULATE + HISTORY BUTTONS         -->
         <!--  ════════════════════════════════════  -->
-        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:weightSum="2" android:layout_marginTop="14dp">
-            <com.google.android.material.button.MaterialButton android:id="@+id/btnCalcPlaster" android:layout_width="0dp" android:layout_weight="1" android:layout_height="55dp" android:layout_marginEnd="5dp" android:text="📊 CALCULATE" app:backgroundTint="#077F8E"/>
-            <com.google.android.material.button.MaterialButton android:id="@+id/btnHistory" android:layout_width="0dp" android:layout_weight="1" android:layout_height="55dp" android:layout_marginStart="5dp" android:text="📜 HISTORY" app:backgroundTint="#4A148C"/>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:weightSum="3" android:layout_marginTop="14dp">
+            <com.google.android.material.button.MaterialButton android:id="@+id/btnCalcPlaster" android:layout_width="0dp" android:layout_weight="1" android:layout_height="55dp" android:layout_marginEnd="5dp" android:text="📊 CALCULATE" app:backgroundTint="#3C4749"/>
+            <com.google.android.material.button.MaterialButton android:id="@+id/btnHistory" android:layout_width="0dp" android:layout_weight="1" android:layout_height="55dp" android:layout_marginStart="5dp" android:text="📜 HISTORY" app:backgroundTint="#52400B"/>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnShare"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="56dp"
+                android:layout_marginStart="4dp"
+                android:text="📤 Share"
+                app:backgroundTint="#009688"
+                android:textColor="#FFFFFF"
+                app:cornerRadius="10dp"/>
         </LinearLayout>
         <!--  ════════════════════════════════════  -->
         <!--           RESULTS CARD                 -->

@@ -6,6 +6,7 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import java.text.SimpleDateFormat
 import java.util.*
+import android.content.Intent
 
 class PlasterActivity : AppCompatActivity() {
 
@@ -330,6 +331,34 @@ class PlasterActivity : AppCompatActivity() {
                     Toast.makeText(this, "History cleared", Toast.LENGTH_SHORT).show()
                 }
                 .show()
+        }
+        val btnShare = findViewById<Button>(R.id.btnShare)
+
+        btnShare.setOnClickListener {
+            // جمع كل النتائج
+            val result = buildString {
+                append(tvArea.text)
+                append("\n\n")
+                append(tvVolume.text)
+                append("\n\n")
+                append(tvCement.text)
+                append("\n\n")
+                append(tvSand.text)
+            }
+
+            if (result.isBlank()) {
+                Toast.makeText(this,
+                    "⚠️ Calculate first!",
+                    Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            val intent = Intent(Intent.ACTION_SEND).apply {
+                type = "text/plain"
+                putExtra(Intent.EXTRA_TEXT, result)
+                putExtra(Intent.EXTRA_SUBJECT, "Plaster Calculation - EC App")
+            }
+            startActivity(Intent.createChooser(intent, "Share via"))
         }
     }
     // ── Helpers ─────────────────────────────────────────────────────────

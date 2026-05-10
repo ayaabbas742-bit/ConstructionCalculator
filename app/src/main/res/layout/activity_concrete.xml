@@ -46,8 +46,62 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
         <!--  BUTTONS  -->
-        <Button android:id="@+id/btnCalc" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="🧮 CALCULATE" android:backgroundTint="#454545" android:textColor="#FFFFFF" android:textStyle="bold" android:layout_marginTop="14dp"/>
-        <Button android:id="@+id/btnHistory" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="📋 HISTORY" android:backgroundTint="#37474F" android:textColor="#FFFFFF" android:layout_marginTop="6dp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="14dp">
+
+            <Button
+                android:id="@+id/btnCalc"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="🧮 CALCULATE"
+                android:backgroundTint="#454545"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                android:layout_marginEnd="4dp"/>
+
+            <Button
+                android:id="@+id/btnHistory"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="📋 HISTORY"
+                android:backgroundTint="#37474F"
+                android:textColor="#FFFFFF"
+                android:layout_marginStart="4dp"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:spacing="8dp">
+
+            <Button
+                android:id="@+id/btnShare"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="📤 Share"
+                android:backgroundTint="#009688"
+                android:textColor="#FFFFFF"
+                android:layout_marginEnd="4dp"/>
+
+            <Button
+                android:id="@+id/btnReset"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="🔄 Reset"
+                android:backgroundTint="#F44336"
+                android:textColor="#FFFFFF"
+                android:layout_marginStart="4dp"/>
+
+        </LinearLayout>
         <!--  RESULT  -->
         <TextView android:id="@+id/tvResult" android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="14dp" android:text="Result will appear here…" android:textSize="13sp" android:fontFamily="monospace" android:layout_marginTop="14dp" android:background="#FFFFFF" android:textColor="#111827"/>
     </LinearLayout>

@@ -86,9 +86,18 @@
         </com.google.android.material.card.MaterialCardView>
         <!--  ══════════════════════════════════════  -->
         <!--  CALCULATE + HISTORY                     -->
-        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:weightSum="2" android:layout_marginBottom="12dp">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:weightSum="3" android:layout_marginBottom="12dp">
             <com.google.android.material.button.MaterialButton android:id="@+id/btnCalc" android:layout_width="0dp" android:layout_weight="1" android:layout_height="56dp" android:layout_marginEnd="6dp" android:text="📊 CALCULATE" android:textSize="14sp" android:textStyle="bold" app:backgroundTint="#E8C97A" android:textColor="#2C1810" app:cornerRadius="10dp"/>
             <com.google.android.material.button.MaterialButton android:id="@+id/btnHistory" android:layout_width="0dp" android:layout_weight="1" android:layout_height="56dp" android:layout_marginStart="6dp" android:text="📜 HISTORY" android:textSize="14sp" app:backgroundTint="#2C1810" app:cornerRadius="10dp"/>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnShare"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:layout_weight="1"
+                android:text="📤 Share"
+                android:backgroundTint="#928C55"
+                android:textColor="#FFFFFF"
+                android:layout_marginStart="4dp"/>
         </LinearLayout>
 
         <!--  RESULTS CARD                            -->

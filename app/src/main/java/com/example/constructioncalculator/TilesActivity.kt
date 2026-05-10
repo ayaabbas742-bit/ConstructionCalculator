@@ -8,6 +8,8 @@ import androidx.appcompat.app.AppCompatActivity
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.ceil
+import android.content.Intent
+import android.content.Context
 
 class TilesActivity : AppCompatActivity() {
 
@@ -244,6 +246,43 @@ class TilesActivity : AppCompatActivity() {
                     Toast.makeText(this, "History cleared", Toast.LENGTH_SHORT).show()
                 }
                 .show()
+        }
+        val btnShare = findViewById<Button>(R.id.btnShare)
+        val btnReset = findViewById<Button>(R.id.btnReset)
+
+// ── SHARE ──
+        btnShare.setOnClickListener {
+            val result = tvResult.text.toString()
+            if (result.isEmpty()) {
+                Toast.makeText(this,
+                    "⚠️ Calculate first!",
+                    Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            val intent = Intent(Intent.ACTION_SEND).apply {
+                type = "text/plain"
+                putExtra(Intent.EXTRA_TEXT, result)
+                putExtra(Intent.EXTRA_SUBJECT, "Tiles Calculation - EC App")
+            }
+            startActivity(Intent.createChooser(intent, "Share via"))
+        }
+
+// ── RESET ──
+        btnReset.setOnClickListener {
+            // مسح الحقول
+            etFL.setText("")
+            etFW.setText("")
+            etTL.setText("")
+            etTW.setText("")
+            tvResult.text = ""
+
+            // رجوع للـ Spinner الأول
+            spType.setSelection(0)
+            spInstall.setSelection(0)
+
+            Toast.makeText(this,
+                "🔄 Reset done!",
+                Toast.LENGTH_SHORT).show()
         }
     }
 }
