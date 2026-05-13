@@ -36,12 +36,12 @@ class BrickActivity : AppCompatActivity() {
     )
 
     companion object {
-        const val MORTAR_JOINT_CM        = 1.5
-        const val BRICK_WASTE            = 1.05
-        const val MORTAR_RATIO_OF_WALL   = 0.30
-        const val DRY_VOLUME_FACTOR      = 1.33
-        const val CEMENT_DENSITY         = 1500.0
-        const val MORTAR_WASTE           = 1.10
+        const val MORTAR_JOINT_CM      = 1.5
+        const val BRICK_WASTE          = 1.05
+        const val MORTAR_RATIO_OF_WALL = 0.30
+        const val DRY_VOLUME_FACTOR    = 1.33
+        const val CEMENT_DENSITY       = 1500.0
+        const val MORTAR_WASTE         = 1.10
     }
 
     private val walls       = mutableListOf<Wall>()
@@ -57,40 +57,44 @@ class BrickActivity : AppCompatActivity() {
 
         db = DatabaseHelper(this)
 
-        // ── Brick types (Algeria standard) ─────────────────────────────
+        // ── Brick types (Algeria standard 30cm) ────────────────────────
         bricks = listOf(
-            BrickType("Brique 8 trous  (40×20×8 cm)",  40.0, 20.0,  8.0, R.drawable.brick8),
-            BrickType("Brique 12 trous (40×20×12 cm)", 40.0, 20.0, 12.0, R.drawable.brick12),
-            BrickType("Brique 15 trous (40×20×15 cm)", 40.0, 20.0, 15.0, R.drawable.brick15),
-            BrickType("Brique 20 trous (40×20×20 cm)", 40.0, 20.0, 20.0, R.drawable.brick8),
+            BrickType("Brique 8 trous  (30×20×8 cm)",  30.0, 20.0,  8.0, R.drawable.brick8),
+            BrickType("Brique 12 trous (30×20×12 cm)", 30.0, 20.0, 12.0, R.drawable.brick12),
+            BrickType("Brique 15 trous (30×20×15 cm)", 30.0, 20.0, 15.0, R.drawable.brick15),
+            BrickType("Brique 20 trous (30×20×20 cm)", 30.0, 20.0, 20.0, R.drawable.brick8),
             BrickType("Parpaing 20     (40×20×20 cm)", 40.0, 20.0, 20.0, R.drawable.brick12)
         )
 
         // ── Views ───────────────────────────────────────────────────────
-        val imgWall      = findViewById<ImageView>(R.id.wallimage)
-        val imgBrick     = findViewById<ImageView>(R.id.brickImage)
-        val spBrick      = findViewById<Spinner>(R.id.spinnerBrick)
-        val spLayers     = findViewById<Spinner>(R.id.spinnerThickness)
-        val spRatio      = findViewById<Spinner>(R.id.spinnerRatio)
-        val etL          = findViewById<EditText>(R.id.etLength)
-        val etH          = findViewById<EditText>(R.id.etHeight)
-        val etDL         = findViewById<EditText>(R.id.etDoorL)
-        val etDW         = findViewById<EditText>(R.id.etDoorW)
-        val etWL         = findViewById<EditText>(R.id.etWindowL)
-        val etWW         = findViewById<EditText>(R.id.etWindowW)
-        val etPrice      = findViewById<EditText>(R.id.price)
-        val tvWalls      = findViewById<TextView>(R.id.tvWalls)
-        val tvDoors      = findViewById<TextView>(R.id.tvDoors)
-        val tvWindows    = findViewById<TextView>(R.id.tvWindows)
-        val tvResult     = findViewById<TextView>(R.id.result)
-        val btnAddDoor   = findViewById<Button>(R.id.btnAddDoor)
-        val btnAddWindow = findViewById<Button>(R.id.btnAddWindow)
-        val btnAddWall   = findViewById<Button>(R.id.btnAddWall)
-        val btnModify    = findViewById<Button>(R.id.btnModifyWall)
-        val btnDelete    = findViewById<Button>(R.id.btnDeleteWall)
-        val btnReset     = findViewById<Button>(R.id.btnReset)
-        val btnCalc      = findViewById<Button>(R.id.btnCalc)
-        val btnHistory   = findViewById<Button>(R.id.btnHistory)
+        val imgWall       = findViewById<ImageView>(R.id.wallimage)
+        val imgBrick      = findViewById<ImageView>(R.id.brickImage)
+        val spBrick       = findViewById<Spinner>(R.id.spinnerBrick)
+        val spLayers      = findViewById<Spinner>(R.id.spinnerThickness)
+        val spRatio       = findViewById<Spinner>(R.id.spinnerRatio)
+        val etL           = findViewById<EditText>(R.id.etLength)
+        val etH           = findViewById<EditText>(R.id.etHeight)
+        val etDL          = findViewById<EditText>(R.id.etDoorL)
+        val etDW          = findViewById<EditText>(R.id.etDoorW)
+        val etWL          = findViewById<EditText>(R.id.etWindowL)
+        val etWW          = findViewById<EditText>(R.id.etWindowW)
+        val etPrice       = findViewById<EditText>(R.id.price)
+        val etCementPrice = findViewById<EditText>(R.id.cementPrice)
+        val etSandPrice   = findViewById<EditText>(R.id.sandPrice)
+        val tvWalls       = findViewById<TextView>(R.id.tvWalls)
+        val tvDoors       = findViewById<TextView>(R.id.tvDoors)
+        val tvWindows     = findViewById<TextView>(R.id.tvWindows)
+        val tvResult      = findViewById<TextView>(R.id.result)
+        val btnAddDoor    = findViewById<Button>(R.id.btnAddDoor)
+        val btnAddWindow  = findViewById<Button>(R.id.btnAddWindow)
+        val btnAddWall    = findViewById<Button>(R.id.btnAddWall)
+        val btnModify     = findViewById<Button>(R.id.btnModifyWall)
+        val btnDelete     = findViewById<Button>(R.id.btnDeleteWall)
+        val btnReset      = findViewById<Button>(R.id.btnReset)
+        val btnCalc       = findViewById<Button>(R.id.btnCalc)
+        val btnHistory    = findViewById<Button>(R.id.btnHistory)
+        val btnShare      = findViewById<Button>(R.id.btnShare)
+
         // ── Spinners ────────────────────────────────────────────────────
         spBrick.adapter = ArrayAdapter(
             this, android.R.layout.simple_spinner_dropdown_item,
@@ -118,11 +122,42 @@ class BrickActivity : AppCompatActivity() {
             override fun onNothingSelected(p: AdapterView<*>) {}
         }
 
+        // ── تنبيه عند التركيز على حقل السعر ✅ ────────────────────────
+        etPrice.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                Toast.makeText(
+                    this,
+                    "ℹ️ Enter the price of ONE brick in DZD",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }
+
+        etCementPrice.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                Toast.makeText(
+                    this,
+                    "ℹ️ Enter the price of ONE cement bag in DZD",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }
+
+        etSandPrice.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                Toast.makeText(
+                    this,
+                    "ℹ️ Enter the price of ONE m³ of sand in DZD",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }
+
         // ── Add Door ────────────────────────────────────────────────────
         btnAddDoor.setOnClickListener {
             val l = etDL.text.toString().toDoubleOrNull()
             val w = etDW.text.toString().toDoubleOrNull()
-            if (l == null ||w == null  ||l <= 0 || w <= 0) {
+            if (l == null || w == null || l <= 0 || w <= 0) {
             Toast.makeText(this, "Enter valid door dimensions", Toast.LENGTH_SHORT).show()
             return@setOnClickListener
         }
@@ -148,7 +183,7 @@ class BrickActivity : AppCompatActivity() {
         btnAddWall.setOnClickListener {
             val length = etL.text.toString().toDoubleOrNull()
             val height = etH.text.toString().toDoubleOrNull()
-            if (length == null||  length <= 0 || height == null || height <= 0) {
+            if (length == null || length <= 0  ||height == null || height <= 0) {
             Toast.makeText(this, "Enter valid wall Length and Height", Toast.LENGTH_SHORT).show()
             return@setOnClickListener
         }
@@ -176,7 +211,7 @@ class BrickActivity : AppCompatActivity() {
             updateWallsDisplay(tvWalls)
         }
 
-// ── Modify Wall ─────────────────────────────────────────────────
+        // ── Modify Wall ─────────────────────────────────────────────────
         btnModify.setOnClickListener {
             if (walls.isEmpty()) {
                 Toast.makeText(this, "No walls to modify", Toast.LENGTH_SHORT).show()
@@ -228,13 +263,15 @@ class BrickActivity : AppCompatActivity() {
             walls.clear(); tempDoors.clear(); tempWindows.clear()
             modifyIndex = -1; btnAddWall.text = "ADD WALL"
             clearInputs(etL, etH, etDL, etDW, etWL, etWW)
+            etCementPrice.text.clear()
+            etSandPrice.text.clear()
             updateWallsDisplay(tvWalls)
             updateOpeningsDisplay(tvDoors, tvWindows)
             tvResult.text = ""
         }
 
         // ═══════════════════════════════════════════════════════════════
-        // CALCULATE — ALGERIAN ENGINEERING STANDARD
+        // CALCULATE
         // ═══════════════════════════════════════════════════════════════
         btnCalc.setOnClickListener {
             if (walls.isEmpty()) {
@@ -242,31 +279,33 @@ class BrickActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            val brick    = bricks[spBrick.selectedItemPosition]
-            val price    = etPrice.text.toString().toDoubleOrNull() ?: 0.0
-            val layerStr = spLayers.selectedItem.toString()
-            val ratioStr = spRatio.selectedItem.toString()
+            val brick       = bricks[spBrick.selectedItemPosition]
+            val brickPrice  = etPrice.text.toString().toDoubleOrNull() ?: 0.0
+            val cementPrice = etCementPrice.text.toString().toDoubleOrNull() ?: 0.0
+            val sandPrice   = etSandPrice.text.toString().toDoubleOrNull() ?: 0.0
+            val layerStr    = spLayers.selectedItem.toString()
+            val ratioStr    = spRatio.selectedItem.toString()
 
             // ── 1. Total net area ──────────────────────────────────────
             val totalNetArea = walls.sumOf { it.netArea }
 
             // ── 2. Brick calculation ───────────────────────────────────
-            val lEff = (brick.lengthCm + MORTAR_JOINT_CM) / 100.0
-            val hEff = (brick.heightCm + MORTAR_JOINT_CM) / 100.0
+            val lEff        = (brick.lengthCm + MORTAR_JOINT_CM) / 100.0
+            val hEff        = (brick.heightCm + MORTAR_JOINT_CM) / 100.0
             val bricksPerM2 = 1.0 / (lEff * hEff)
 
             val layerMultiplier = when {
-                layerStr.contains("Half")   -> 0.5
+                layerStr.contains("Half")   -> 1.0
                 layerStr.contains("Double") -> 2.0
                 else                        -> 1.0
             }
             val totalBricks = (totalNetArea * bricksPerM2 * layerMultiplier * BRICK_WASTE).toInt()
-            // ── 3. Mortar volume ───────────────────────────────────────
-            val mortarVolume        = totalNetArea * MORTAR_RATIO_OF_WALL
-            val dryMortar           = mortarVolume * DRY_VOLUME_FACTOR
-            val dryMortarWithWaste  = dryMortar * MORTAR_WASTE
 
-            // Read ratio from spinner e.g. "1:4" → sandPart = 4
+            // ── 3. Mortar volume ───────────────────────────────────────
+            val mortarVolume       = totalNetArea * MORTAR_RATIO_OF_WALL
+            val dryMortar          = mortarVolume * DRY_VOLUME_FACTOR
+            val dryMortarWithWaste = dryMortar * MORTAR_WASTE
+
             val sandPart   = ratioStr.removePrefix("1:").toIntOrNull() ?: 4
             val totalParts = 1 + sandPart
 
@@ -274,19 +313,28 @@ class BrickActivity : AppCompatActivity() {
             val sandVol      = dryMortarWithWaste * (sandPart.toDouble() / totalParts)
             val cementBags   = cementVolume * CEMENT_DENSITY / 50.0
 
-            // ── 4. Cost ────────────────────────────────────────────────
-            val cost = totalBricks * price
+            // ── 4. Cost شاملة ✅ ────────────────────────────────────────
+            val brickCost  = totalBricks * brickPrice
+            val cementCost = cementBags * cementPrice
+            val sandCost   = sandVol * sandPrice
+            val totalCost  = brickCost + cementCost + sandCost
 
             // ── 5. Display result ──────────────────────────────────────
             val sb = StringBuilder()
             sb.append("📐 Net Area = %.3f m²\n".format(totalNetArea))
-            sb.append("🧱 Bricks = $totalBricks pcs\n\n")
+            sb.append("🧱 Bricks   = $totalBricks pcs\n\n")
             sb.append("🧪 Mortar ($ratioStr)\n")
             sb.append("   Cement = %.2f bags\n".format(cementBags))
             sb.append("   Sand   = %.3f m³\n\n".format(sandVol))
-            if (price > 0) sb.append("💰 Cost = %.2f DZD\n".format(cost))
+            if (brickPrice > 0 || cementPrice > 0 || sandPrice > 0) {
+            sb.append("━━━━━━━━━━━━━━━━━━━━━━\n")
+            if (brickPrice  > 0) sb.append("💰 Brick Cost   = %.2f DZD\n".format(brickCost))
+            if (cementPrice > 0) sb.append("💰 Cement Cost  = %.2f DZD\n".format(cementCost))
+            if (sandPrice   > 0) sb.append("💰 Sand Cost    = %.2f DZD\n".format(sandCost))
+            sb.append("━━━━━━━━━━━━━━━━━━━━━━\n")
+            sb.append("💵 Total Cost   = %.2f DZD\n".format(totalCost))
+        }
             tvResult.text = sb.toString()
-
             // ── 6. Save to DB ──────────────────────────────────────────
             val dateStr = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault()).format(Date())
             db.insertBrickHistory(
@@ -315,20 +363,18 @@ class BrickActivity : AppCompatActivity() {
                 Toast.makeText(this, "No calculations yet", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-
             val sb = StringBuilder()
             records.forEachIndexed { i, h ->
                 sb.append("━━━━━━━━━━━━━━━━━━━━━━━━\n")
                 sb.append("#${i + 1}  📅 ${h["date"]}\n")
-                sb.append("Area     : ${h["wall_area"]} m²\n")
-                sb.append("Brick    : ${h["brick_l"]}×${h["brick_h"]}×${h["brick_w"]} cm\n")
-                sb.append("Ratio    : ${h["mortar_ratio"]}\n")
-                sb.append("Layers   : ${h["status"]}\n")
-                sb.append("Bricks   : ${h["bricks"]} pcs\n")
-                sb.append("Cement   : ${"%.2f".format(h["cement_bags"]?.toDoubleOrNull() ?: 0.0)} bags\n")
-                sb.append("Sand     : ${"%.3f".format(h["sand_m3"]?.toDoubleOrNull() ?: 0.0)} m³\n")
+                sb.append("Area   : ${h["wall_area"]} m²\n")
+                sb.append("Brick  : ${h["brick_l"]}×${h["brick_h"]}×${h["brick_w"]} cm\n")
+                sb.append("Ratio  : ${h["mortar_ratio"]}\n")
+                sb.append("Layers : ${h["status"]}\n")
+                sb.append("Bricks : ${h["bricks"]} pcs\n")
+                sb.append("Cement : ${"%.2f".format(h["cement_bags"]?.toDoubleOrNull() ?: 0.0)} bags\n")
+                sb.append("Sand   : ${"%.3f".format(h["sand_m3"]?.toDoubleOrNull() ?: 0.0)} m³\n")
             }
-
             AlertDialog.Builder(this)
                 .setTitle("📜 Calculation History")
                 .setMessage(sb.toString())
@@ -339,14 +385,12 @@ class BrickActivity : AppCompatActivity() {
                 }
                 .show()
         }
-        val btnShare = findViewById<Button>(R.id.btnShare)
 
+        // ── Share ────────────────────────────────────────────────────────
         btnShare.setOnClickListener {
             val result = tvResult.text.toString()
             if (result.isEmpty()) {
-                Toast.makeText(this,
-                    "⚠️ Calculate first!",
-                    Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "⚠️ Calculate first!", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
             val intent = Intent(Intent.ACTION_SEND).apply {
@@ -358,11 +402,12 @@ class BrickActivity : AppCompatActivity() {
         }
     }
 
-    // ── Helpers ─────────────────────────────────────────────────────────
+    // ── Helpers ──────────────────────────────────────────────────────────
 
     private fun wallLabels() = walls.mapIndexed { i, w ->
         "Wall ${i + 1}: ${w.length}×${w.height} m  |  Net: %.3f m²".format(w.netArea)
     }.toTypedArray()
+
     private fun clearInputs(vararg fields: EditText) = fields.forEach { it.text.clear() }
 
     private fun updateWallsDisplay(tv: TextView) {
@@ -373,7 +418,6 @@ class BrickActivity : AppCompatActivity() {
             "W${i + 1}: ${w.length}×${w.height}m$d$win  →  Net: %.3f m²".format(w.netArea)
         }.joinToString("\n")
     }
-
     private fun updateOpeningsDisplay(tvDoors: TextView, tvWindows: TextView) {
         tvDoors.text = if (tempDoors.isEmpty()) "Doors: none"
         else tempDoors.mapIndexed { i, d ->

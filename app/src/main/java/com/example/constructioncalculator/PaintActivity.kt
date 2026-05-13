@@ -28,24 +28,27 @@ class PaintActivity : AppCompatActivity() {
     }
 
     companion object {
-        const val WASTE_FACTOR = 1.15
+        // ✅ هدر 10% معيار هندسي صحيح للجدار العادي
+        const val WASTE_FACTOR = 1.10
 
+        // ✅ التغطية الحقيقية لكل نوع دهان (m²/L)
         val PAINT_COVERAGE = mapOf(
-            "Acrylic"       to 8.5,
-            "Oil"           to 6.5,
-            "Decorative"    to 4.5,
-            "Anti-Moisture" to 6.5,
-            "Exterior"      to 7.5,
-            "Epoxy"         to 4.5,
-            "Primer"        to 10.5
+            "Acrylic"       to 11.0,  // دهان أكريليك عادي
+            "Oil"           to 9.0,   // دهان زيتي
+            "Decorative"    to 1.5,   // دهان زخرفي سميك جداً
+            "Anti-Moisture" to 1.2,   // مانع رطوبة كثيف جداً
+            "Exterior"      to 9.0,   // دهان خارجي
+            "Epoxy"         to 5.0,   // إيبوكسي
+            "Primer"        to 11.0   // أستار
         )
 
+        // ✅ عدد الطبقات الصحيح لكل نوع
         val PAINT_COATS = mapOf(
-            "Acrylic"       to 3,
+            "Acrylic"       to 2,
             "Oil"           to 2,
-            "Decorative"    to 3,
+            "Decorative"    to 2,
             "Anti-Moisture" to 2,
-            "Exterior"      to 3,
+            "Exterior"      to 2,
             "Epoxy"         to 2,
             "Primer"        to 1
         )
@@ -76,31 +79,35 @@ class PaintActivity : AppCompatActivity() {
         db = DatabaseHelper(this)
 
         // ── Views ───────────────────────────────────────────────────────
-        val imgPaint     = findViewById<ImageView>(R.id.imgPaint)
-        val spType1      = findViewById<Spinner>(R.id.spPaintType)
-        val spType2      = findViewById<Spinner>(R.id.spPaintType2)
-        val rg           = findViewById<RadioGroup>(R.id.rgPaintMode)
-        val tvMsg        = findViewById<TextView>(R.id.tvModeMsg)
-        val etL          = findViewById<EditText>(R.id.etLength)
-        val etH          = findViewById<EditText>(R.id.etHeight)
-        val etDL         = findViewById<EditText>(R.id.etDoorL)
-        val etDW         = findViewById<EditText>(R.id.etDoorW)
-        val etWL         = findViewById<EditText>(R.id.etWindowL)
-        val etWW         = findViewById<EditText>(R.id.etWindowW)
-        val etP1         = findViewById<EditText>(R.id.etPercent1)
-        val etP2         = findViewById<EditText>(R.id.etPercent2)
-        val tvWalls      = findViewById<TextView>(R.id.tvWalls)
-        val tvDoors      = findViewById<TextView>(R.id.tvDoors)
-        val tvWindows    = findViewById<TextView>(R.id.tvWindows)
-        val tvResult     = findViewById<TextView>(R.id.tvResult)
-        val btnAddDoor   = findViewById<Button>(R.id.btnAddDoor)
-        val btnAddWindow = findViewById<Button>(R.id.btnAddWindow)
-        val btnAddWall   = findViewById<Button>(R.id.btnAddWall)
-        val btnModify    = findViewById<Button>(R.id.btnModifyWall)
-        val btnDelete    = findViewById<Button>(R.id.btnDeleteWall)
-        val btnReset     = findViewById<Button>(R.id.btnReset)
-        val btnCalc      = findViewById<Button>(R.id.btnCalc)
-        val btnHistory   = findViewById<Button>(R.id.btnHistory)
+        val imgPaint      = findViewById<ImageView>(R.id.imgPaint)
+        val spType1       = findViewById<Spinner>(R.id.spPaintType)
+        val spType2       = findViewById<Spinner>(R.id.spPaintType2)
+        val rg            = findViewById<RadioGroup>(R.id.rgPaintMode)
+        val tvMsg         = findViewById<TextView>(R.id.tvModeMsg)
+        val etL           = findViewById<EditText>(R.id.etLength)
+        val etH           = findViewById<EditText>(R.id.etHeight)
+        val etDL          = findViewById<EditText>(R.id.etDoorL)
+        val etDW          = findViewById<EditText>(R.id.etDoorW)
+        val etWL          = findViewById<EditText>(R.id.etWindowL)
+        val etWW          = findViewById<EditText>(R.id.etWindowW)
+        val etP1          = findViewById<EditText>(R.id.etPercent1)
+        val etP2          = findViewById<EditText>(R.id.etPercent2)
+        val etPaintPrice  = findViewById<EditText>(R.id.etPaintPrice)
+        val etPaintPrice2 = findViewById<EditText>(R.id.etPaintPrice2)
+        val tvPaintPrice2Label = findViewById<TextView>(R.id.tvPaintPrice2Label)
+        val tvWalls       = findViewById<TextView>(R.id.tvWalls)
+        val tvDoors       = findViewById<TextView>(R.id.tvDoors)
+        val tvWindows     = findViewById<TextView>(R.id.tvWindows)
+        val tvResult      = findViewById<TextView>(R.id.tvResult)
+        val btnAddDoor    = findViewById<Button>(R.id.btnAddDoor)
+        val btnAddWindow  = findViewById<Button>(R.id.btnAddWindow)
+        val btnAddWall    = findViewById<Button>(R.id.btnAddWall)
+        val btnModify     = findViewById<Button>(R.id.btnModifyWall)
+        val btnDelete     = findViewById<Button>(R.id.btnDeleteWall)
+        val btnReset      = findViewById<Button>(R.id.btnReset)
+        val btnCalc       = findViewById<Button>(R.id.btnCalc)
+        val btnHistory    = findViewById<Button>(R.id.btnHistory)
+        val btnShare      = findViewById<Button>(R.id.btnShare)
 
         val paintTypes = arrayOf(
             "Acrylic", "Oil", "Decorative",
@@ -111,9 +118,11 @@ class PaintActivity : AppCompatActivity() {
         spType1.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, paintTypes)
         spType2.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, paintTypes)
 
-        spType2.visibility = View.GONE
-        etP1.visibility    = View.GONE
-        etP2.visibility    = View.GONE
+        spType2.visibility          = View.GONE
+        etP1.visibility             = View.GONE
+        etP2.visibility             = View.GONE
+        tvPaintPrice2Label.visibility = View.GONE
+        etPaintPrice2.visibility    = View.GONE
 
         spType1.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p: AdapterView<*>, v: View?, pos: Int, id: Long) {
@@ -125,15 +134,40 @@ class PaintActivity : AppCompatActivity() {
         // ── Paint Mode ──────────────────────────────────────────────────
         rg.setOnCheckedChangeListener { _, id ->
             if (id == R.id.rbDual) {
-                tvMsg.text         = "Dual Mode: p1% + p2% must = 100"
-                spType2.visibility = View.VISIBLE
-                etP1.visibility    = View.VISIBLE
-                etP2.visibility    = View.VISIBLE
+                tvMsg.text                    = "Dual Mode: p1% + p2% must = 100"
+                spType2.visibility            = View.VISIBLE
+                etP1.visibility               = View.VISIBLE
+                etP2.visibility               = View.VISIBLE
+                tvPaintPrice2Label.visibility = View.VISIBLE
+                etPaintPrice2.visibility      = View.VISIBLE
             } else {
-                tvMsg.text         = "Single Mode: One paint"
-                spType2.visibility = View.GONE
-                etP1.visibility    = View.GONE
-                etP2.visibility    = View.GONE
+                tvMsg.text                    = "Single Mode: One paint"
+                spType2.visibility            = View.GONE
+                etP1.visibility               = View.GONE
+                etP2.visibility               = View.GONE
+                tvPaintPrice2Label.visibility = View.GONE
+                etPaintPrice2.visibility      = View.GONE
+            }
+        }
+
+        // ── تنبيه عند التركيز على حقل السعر ────────────────────────────
+        etPaintPrice.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                Toast.makeText(
+                    this,
+                    "ℹ️ Enter the price of ONE liter in DZD",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }
+
+        etPaintPrice2.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                Toast.makeText(
+                    this,
+                    "ℹ️ Enter the price of ONE liter of Paint 2 in DZD",
+                    Toast.LENGTH_LONG
+                ).show()
             }
         }
 
@@ -142,9 +176,9 @@ class PaintActivity : AppCompatActivity() {
             val l = etDL.text.toString().toDoubleOrNull()
             val w = etDW.text.toString().toDoubleOrNull()
             if (l == null || w == null || l <= 0 || w <= 0) {
-                Toast.makeText(this, "Enter valid door dimensions", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
+            Toast.makeText(this, "Enter valid door dimensions", Toast.LENGTH_SHORT).show()
+            return@setOnClickListener
+        }
             tempDoors.add(Opening(l, w))
             etDL.text.clear(); etDW.text.clear()
             updateOpeningsDisplay(tvDoors, tvWindows)
@@ -155,9 +189,9 @@ class PaintActivity : AppCompatActivity() {
             val l = etWL.text.toString().toDoubleOrNull()
             val w = etWW.text.toString().toDoubleOrNull()
             if (l == null || w == null || l <= 0 || w <= 0) {
-                Toast.makeText(this, "Enter valid window dimensions", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
+            Toast.makeText(this, "Enter valid window dimensions", Toast.LENGTH_SHORT).show()
+            return@setOnClickListener
+        }
             tempWindows.add(Opening(l, w))
             etWL.text.clear(); etWW.text.clear()
             updateOpeningsDisplay(tvDoors, tvWindows)
@@ -168,9 +202,9 @@ class PaintActivity : AppCompatActivity() {
             val length = etL.text.toString().toDoubleOrNull()
             val height = etH.text.toString().toDoubleOrNull()
             if (length == null || length <= 0 || height == null || height <= 0) {
-                Toast.makeText(this, "Enter valid wall Length and Height", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
+            Toast.makeText(this, "Enter valid wall Length and Height", Toast.LENGTH_SHORT).show()
+            return@setOnClickListener
+        }
             val openingsArea = tempDoors.sumOf { it.area } + tempWindows.sumOf { it.area }
             if (openingsArea >= length * height) {
                 Toast.makeText(
@@ -247,13 +281,15 @@ class PaintActivity : AppCompatActivity() {
             walls.clear(); tempDoors.clear(); tempWindows.clear()
             modifyIndex = -1; btnAddWall.text = "ADD WALL"
             clearInputs(etL, etH, etDL, etDW, etWL, etWW)
+            etPaintPrice.text.clear()
+            etPaintPrice2.text.clear()
             updateWallsDisplay(tvWalls)
             updateOpeningsDisplay(tvDoors, tvWindows)
             tvResult.text = ""
         }
 
         // ═══════════════════════════════════════════════════════════════
-        // CALCULATE
+        // CALCULATE — دقيق
         // ═══════════════════════════════════════════════════════════════
         btnCalc.setOnClickListener {
             if (walls.isEmpty()) {
@@ -293,10 +329,13 @@ class PaintActivity : AppCompatActivity() {
 
             // ── STEP 2: Paint 1 ─────────────────────────────────────────
             val type1     = spType1.selectedItem.toString()
-            val coverage1 = PAINT_COVERAGE[type1] ?: 8.5
+            val coverage1 = PAINT_COVERAGE[type1] ?: 11.0
             val coats1    = PAINT_COATS[type1]    ?: 2
 
             val area1     = totalNetArea * (p1 / 100.0)
+
+            // ✅ الحساب الدقيق:
+            // كمية الدهان = (المساحة / التغطية) × عدد الطبقات × هدر
             val baseVol1  = (area1 / coverage1) * coats1
             val finalVol1 = baseVol1 * WASTE_FACTOR
 
@@ -306,15 +345,15 @@ class PaintActivity : AppCompatActivity() {
             var coats2    = 0
             var baseVol2  = 0.0
             var finalVol2 = 0.0
-
+            var area2     = 0.0
             if (isDual) {
-                type2     = spType2.selectedItem.toString()
-                coverage2 = PAINT_COVERAGE[type2] ?: 8.5
-                coats2    = PAINT_COATS[type2]    ?: 2
-                val area2 = totalNetArea * (p2 / 100.0)
-                baseVol2  = (area2 / coverage2) * coats2
-                finalVol2 = baseVol2 * WASTE_FACTOR
-            }
+            type2     = spType2.selectedItem.toString()
+            coverage2 = PAINT_COVERAGE[type2] ?: 11.0
+            coats2    = PAINT_COATS[type2]    ?: 2
+            area2     = totalNetArea * (p2 / 100.0)
+            baseVol2  = (area2 / coverage2) * coats2
+            finalVol2 = baseVol2 * WASTE_FACTOR
+        }
 
             val totalLiters = finalVol1 + finalVol2
 
@@ -323,7 +362,14 @@ class PaintActivity : AppCompatActivity() {
             val cansMap2  = if (isDual) optimalCans(finalVol2) else emptyMap()
             val cansTotal = optimalCans(totalLiters)
 
-            // ── STEP 5: Build result ────────────────────────────────────
+            // ── STEP 5: Cost ✅ ──────────────────────────────────────────
+            val paintPrice1 = etPaintPrice.text.toString().toDoubleOrNull() ?: 0.0
+            val paintPrice2 = etPaintPrice2.text.toString().toDoubleOrNull() ?: 0.0
+            val cost1       = finalVol1 * paintPrice1
+            val cost2       = if (isDual) finalVol2 * paintPrice2 else 0.0
+            val totalCost   = cost1 + cost2
+
+            // ── STEP 6: Build result ────────────────────────────────────
             val sb = StringBuilder()
             sb.append("🧱  Walls: ${walls.size}\n")
             walls.forEachIndexed { i, w ->
@@ -336,38 +382,47 @@ class PaintActivity : AppCompatActivity() {
             sb.append("    Coats    : $coats1\n")
             if (isDual) sb.append("    Area     : %.4f × %.0f%% = %.4f m²\n".format(totalNetArea, p1, area1))
             sb.append("    Base Vol : (%.4f ÷ %.1f) × %d = %.4f L\n".format(area1, coverage1, coats1, baseVol1))
-            sb.append("    +15%% waste: %.4f × 1.15 = %.4f L\n".format(baseVol1, finalVol1))
+            sb.append("    +10%% waste: %.4f × 1.10 = %.4f L\n".format(baseVol1, finalVol1))
             sb.append("    Cans     : ${formatCans(cansMap1)}\n")
 
             if (isDual) {
-                val area2 = totalNetArea * (p2 / 100.0)
                 sb.append("━━━━━━━━━━━━━━━━━━━━━━━━━━\n")
                 sb.append("🎨  Paint 2: $type2\n")
                 sb.append("    Coverage : %.1f m²/L\n".format(coverage2))
                 sb.append("    Coats    : $coats2\n")
                 sb.append("    Area     : %.4f × %.0f%% = %.4f m²\n".format(totalNetArea, p2, area2))
                 sb.append("    Base Vol : (%.4f ÷ %.1f) × %d = %.4f L\n".format(area2, coverage2, coats2, baseVol2))
-                sb.append("    +15%% waste: %.4f × 1.15 = %.4f L\n".format(baseVol2, finalVol2))
+                sb.append("    +10%% waste: %.4f × 1.10 = %.4f L\n".format(baseVol2, finalVol2))
                 sb.append("    Cans     : ${formatCans(cansMap2)}\n")
                 sb.append("━━━━━━━━━━━━━━━━━━━━━━━━━━\n")
                 sb.append("✅  Total = %.4f + %.4f\n".format(finalVol1, finalVol2))
             }
 
             sb.append("✅  TOTAL PAINT = %.3f L\n".format(totalLiters))
-            sb.append("🛒  Total Cans  : ${formatCans(cansTotal)}")
+            sb.append("🛒  Total Cans  : ${formatCans(cansTotal)}\n")
+
+            // ✅ التكلفة
+            if (paintPrice1 > 0 || paintPrice2 > 0) {
+                sb.append("━━━━━━━━━━━━━━━━━━━━━━━━━━\n")
+                if (paintPrice1 > 0) sb.append("💰 Paint 1 Cost = %.2f DZD\n".format(cost1))
+                if (isDual && paintPrice2 > 0) sb.append("💰 Paint 2 Cost = %.2f DZD\n".format(cost2))
+                sb.append("━━━━━━━━━━━━━━━━━━━━━━━━━━\n")
+                sb.append("💵 Total Cost   = %.2f DZD\n".format(totalCost))
+            }
+
             tvResult.text = sb.toString()
 
-            // ── STEP 6: Save to DB ──────────────────────────────────────
+            // ── STEP 7: Save to DB ──────────────────────────────────────
             val dateStr = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault()).format(Date())
             db.insertPaintHistory(
-                 paintType  = if (isDual) "$type1 + $type2" else type1,
-            surface    = "Walls: ${walls.size}",
-            area       = totalNetArea,
-            coats      = coats1,
+                paintType   = if (isDual) "$type1 + $type2" else type1,
+                surface     = "Walls: ${walls.size}",
+            area        = totalNetArea,
+            coats       = coats1,
             paintLiters = totalLiters,
-            cansNeeded = cansTotal.values.sum(),
-            primerL    = 0.0,
-            date       = dateStr
+            cansNeeded  = cansTotal.values.sum(),
+            primerL     = 0.0,
+            date        = dateStr
             )
             Toast.makeText(this, "✅ Saved to history", Toast.LENGTH_SHORT).show()
         }
@@ -379,7 +434,6 @@ class PaintActivity : AppCompatActivity() {
                 Toast.makeText(this, "No calculations yet", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-
             val sb = StringBuilder()
             records.forEachIndexed { i, h ->
                 sb.append("━━━━━━━━━━━━━━━━━━━━━━━━\n")
@@ -390,7 +444,6 @@ class PaintActivity : AppCompatActivity() {
                 sb.append("Total    : ${"%.3f".format(h["paint_liters"]?.toDoubleOrNull() ?: 0.0)} L\n")
                 sb.append("Cans     : ${h["cans_needed"]}\n")
             }
-
             AlertDialog.Builder(this)
                 .setTitle("📜 Calculation History")
                 .setMessage(sb.toString())
@@ -401,21 +454,14 @@ class PaintActivity : AppCompatActivity() {
                 }
                 .show()
         }
-        // ═══════════════════════════════════════════════════════════════
-// أضف هذا الكود بعد btnHistory.setOnClickListener { ... }
-// ═══════════════════════════════════════════════════════════════
 
         // ── Share ────────────────────────────────────────────────────────
-        val btnShare = findViewById<Button>(R.id.btnShare)
-
         btnShare.setOnClickListener {
             val result = tvResult.text.toString()
-
             if (result.isEmpty()) {
                 Toast.makeText(this, "Calculate first before sharing!", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-
             val shareIntent = Intent(Intent.ACTION_SEND).apply {
                 type = "text/plain"
                 putExtra(Intent.EXTRA_SUBJECT, "🎨 Paint Calculation Result")
@@ -461,7 +507,6 @@ class PaintActivity : AppCompatActivity() {
     }.toTypedArray()
 
     private fun clearInputs(vararg fields: EditText) = fields.forEach { it.text.clear() }
-
     private fun updateWallsDisplay(tv: TextView) {
         tv.text = if (walls.isEmpty()) "Walls: none"
         else walls.mapIndexed { i, w ->

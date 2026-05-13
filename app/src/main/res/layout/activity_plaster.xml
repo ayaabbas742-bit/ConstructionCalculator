@@ -9,6 +9,77 @@
         <com.google.android.material.card.MaterialCardView android:layout_width="220dp" android:layout_height="180dp" android:layout_gravity="center" app:cardCornerRadius="25dp" app:cardElevation="10dp">
             <ImageView android:id="@+id/imgPlaster" android:layout_width="match_parent" android:layout_height="match_parent" android:src="@drawable/plaster" android:scaleType="centerCrop"/>
         </com.google.android.material.card.MaterialCardView>
+
+        <!-- Cement Price -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="🧱 Price per cement bag (DZD)"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:textColor="#5C3D2E"
+            android:paddingTop="10dp"
+            android:paddingBottom="4dp"/>
+
+        <EditText
+            android:id="@+id/etCementPrice"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="0.00 DZD"
+            android:inputType="numberDecimal"
+            android:background="@drawable/edittext_bg"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp" />
+
+        <!-- Sand Price -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="🪣 Price per m³ sand (DZD)"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:textColor="#5C3D2E"
+            android:paddingTop="10dp"
+            android:paddingBottom="4dp"/>
+
+        <EditText
+            android:id="@+id/etSandPrice"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="0.00 DZD"
+            android:inputType="numberDecimal"
+            android:background="@drawable/edittext_bg"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="👷 Labor Price per m² (DZD)"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:textColor="#5C3D2E"
+            android:paddingTop="10dp"
+            android:paddingBottom="4dp"/>
+        <EditText
+            android:id="@+id/etLaborPrice"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="0.00 DZD"
+            android:inputType="numberDecimal"
+            android:background="@drawable/edittext_bg"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"/>
+
+
+        <!-- نتيجة التكلفة -->
+        <TextView
+            android:id="@+id/tvCost"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="monospace"
+            android:textSize="13sp"
+            android:padding="8dp"
+            android:layout_marginBottom="8dp"/>
         <!--  ════════════════════════════════════  -->
         <!--           INPUT CARD                   -->
         <!--  ════════════════════════════════════  -->

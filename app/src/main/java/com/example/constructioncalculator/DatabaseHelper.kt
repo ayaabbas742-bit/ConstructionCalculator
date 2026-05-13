@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
 class DatabaseHelper(context: Context) :
-    SQLiteOpenHelper(context, "ConstructionDB", null, 17) {
+    SQLiteOpenHelper(context, "ConstructionDB", null, 18) {
 
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL("""
@@ -428,6 +428,12 @@ class DatabaseHelper(context: Context) :
         )
     """)
         }
+        if (oldVersion < 18) {
+            db.execSQL("ALTER TABLE plaster_history ADD COLUMN cement_price REAL DEFAULT 0")
+            db.execSQL("ALTER TABLE plaster_history ADD COLUMN sand_price   REAL DEFAULT 0")
+            db.execSQL("ALTER TABLE plaster_history ADD COLUMN labor_price  REAL DEFAULT 0")
+            db.execSQL("ALTER TABLE plaster_history ADD COLUMN total_cost   REAL DEFAULT 0")
+        }
 
     }
 
@@ -593,7 +599,12 @@ class DatabaseHelper(context: Context) :
         surface: String,
         area: Double,     thickness: Double, ratio: String,
         cementBags: Double, sandM3: Double,  waterL: Double,
-        volumeM3: Double, coats: Int,        date: String
+        volumeM3: Double, coats: Int,        date: String,
+        // أضف هذه الأسطر بعد:  coats: Int, date: String
+        cementPrice: Double = 0.0,
+        sandPrice: Double   = 0.0,
+        laborPrice: Double  = 0.0,
+        totalCost: Double   = 0.0
     ): Long {
         val cv = ContentValues().apply {
             put("surface",     surface)
@@ -606,6 +617,10 @@ class DatabaseHelper(context: Context) :
             put("volume_m3",   volumeM3)
             put("coats",       coats)
             put("date",        date)
+            put("cement_price", cementPrice)
+            put("sand_price",   sandPrice)
+            put("labor_price",  laborPrice)
+            put("total_cost",   totalCost)
         }
         return writableDatabase.insert("plaster_history", null, cv)
     }

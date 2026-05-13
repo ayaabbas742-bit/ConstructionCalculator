@@ -20,6 +20,47 @@
                 <Spinner android:id="@+id/spinnerBrick" android:layout_width="match_parent" android:layout_height="50dp" android:background="@drawable/spinner_bg" android:layout_marginBottom="10dp"/>
                 <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="💰 Price per brick (DZD)" android:textSize="13sp" android:textStyle="bold" android:textColor="#5C3D2E" android:paddingBottom="4dp"/>
                 <EditText android:id="@+id/price" android:layout_width="match_parent" android:layout_height="50dp" android:hint="0.00 DZD" android:inputType="numberDecimal" android:background="@drawable/edittext_bg" android:paddingStart="12dp" android:paddingEnd="12dp"/>
+                <!-- Cement Price -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="🧱 Price per cement bag (DZD)"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:textColor="#5C3D2E"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="4dp"/>
+
+                <EditText
+                    android:id="@+id/cementPrice"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:hint="0.00 DZD"
+                    android:inputType="numberDecimal"
+                    android:background="@drawable/edittext_bg"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"/>
+
+                <!-- Sand Price -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="🪣 Price per m³ sand (DZD)"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:textColor="#5C3D2E"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="4dp"/>
+
+                <EditText
+                    android:id="@+id/sandPrice"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:hint="0.00 DZD"
+                    android:inputType="numberDecimal"
+                    android:background="@drawable/edittext_bg"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"/>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
         <!--  ══════════════════════════════════════  -->
