@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
 class DatabaseHelper(context: Context) :
-    SQLiteOpenHelper(context, "ConstructionDB", null, 18) {
+    SQLiteOpenHelper(context, "ConstructionDB", null, 19) {
 
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL("""
@@ -174,6 +174,16 @@ class DatabaseHelper(context: Context) :
         gravel_m3   REAL,
         steel_kg    REAL,
         mix_ratio   TEXT
+    )
+""")
+        db.execSQL("""
+    CREATE TABLE IF NOT EXISTS tank_history (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        type TEXT,
+        volume_m3 REAL,
+        volume_liters REAL,
+        safety TEXT,
+        date TEXT
     )
 """)
     }
@@ -433,6 +443,18 @@ class DatabaseHelper(context: Context) :
             db.execSQL("ALTER TABLE plaster_history ADD COLUMN sand_price   REAL DEFAULT 0")
             db.execSQL("ALTER TABLE plaster_history ADD COLUMN labor_price  REAL DEFAULT 0")
             db.execSQL("ALTER TABLE plaster_history ADD COLUMN total_cost   REAL DEFAULT 0")
+        }
+        if (oldVersion < 19) {
+            db.execSQL("""
+        CREATE TABLE IF NOT EXISTS tank_history (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            type TEXT,
+            volume_m3 REAL,
+            volume_liters REAL,
+            safety TEXT,
+            date TEXT
+        )
+    """)
         }
 
     }
@@ -1604,6 +1626,40 @@ class DatabaseHelper(context: Context) :
             cursor.close()
         } catch (_: Exception) {}
         return count
+    }
+    fun insertTankHistory(
+        type: String,
+        volumeM3: Double,
+        volumeLiters: Double,
+        safety: String,
+        date: String
+    ) {
+        val cv = ContentValues().apply {
+            put("type", type)
+            put("volume_m3", volumeM3)
+            put("volume_liters", volumeLiters)
+            put("safety", safety)
+            put("date", date)
+        }
+        writableDatabase.insert("tank_history", null, cv)
+    }
+    fun getAllTankHistory(): List<Map<String, String>> {
+        val list = mutableListOf<Map<String, String>>()
+        val cursor = readableDatabase.rawQuery(
+            "SELECT * FROM tank_history ORDER BY id DESC", null
+        )
+        while (cursor.moveToNext()) {
+            val map = mutableMapOf<String, String>()
+            for (i in 0 until cursor.columnCount)
+                map[cursor.getColumnName(i)] = cursor.getString(i) ?: ""
+            list.add(map)
+        }
+        cursor.close()
+        return list
+    }
+
+    fun clearTankHistory() {
+        writableDatabase.execSQL("DELETE FROM tank_history")
     }
 
 }

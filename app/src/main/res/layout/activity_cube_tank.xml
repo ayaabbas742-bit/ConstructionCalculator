@@ -80,6 +80,14 @@ android:background="#F5F7FA">
         android:layout_height="50dp"
         android:backgroundTint="#0D47A1"
         android:textColor="@android:color/white"/>
+    <Button
+        android:id="@+id/btnHistory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="📋 History"
+        android:backgroundTint="#607D8B"
+        android:textColor="#FFFFFF"
+        android:layout_marginTop="8dp"/>
 
     <!-- RESULT -->
     <TextView
