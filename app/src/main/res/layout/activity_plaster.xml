@@ -145,8 +145,7 @@
                 android:layout_marginStart="4dp"
                 android:text="📤 Share"
                 app:backgroundTint="#009688"
-                android:textColor="#FFFFFF"
-                app:cornerRadius="10dp"/>
+                android:textColor="#FFFFFF" />
         </LinearLayout>
         <!--  ════════════════════════════════════  -->
         <!--           RESULTS CARD                 -->

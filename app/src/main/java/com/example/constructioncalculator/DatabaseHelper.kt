@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
 class DatabaseHelper(context: Context) :
-    SQLiteOpenHelper(context, "ConstructionDB", null, 19) {
+    SQLiteOpenHelper(context, "ConstructionDB", null, 21) {
 
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL("""
@@ -184,6 +184,25 @@ class DatabaseHelper(context: Context) :
         volume_liters REAL,
         safety TEXT,
         date TEXT
+    )
+""")
+        db.execSQL("""
+    CREATE TABLE IF NOT EXISTS plaster_history (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        surface TEXT,
+        area REAL,
+        thickness REAL,
+        ratio TEXT,
+        cement_bags REAL,
+        sand_m3 REAL,
+        water_l REAL,
+        volume_m3 REAL,
+        coats INTEGER,
+        date TEXT,
+        cement_price REAL DEFAULT 0,
+        sand_price REAL DEFAULT 0,
+        labor_price REAL DEFAULT 0,
+        total_cost REAL DEFAULT 0
     )
 """)
     }
@@ -456,6 +475,24 @@ class DatabaseHelper(context: Context) :
         )
     """)
         }
+        if (oldVersion < 20) {
+            db.execSQL("""
+        CREATE TABLE IF NOT EXISTS plaster_history (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            surface TEXT, area REAL, thickness REAL,
+            ratio TEXT, cement_bags REAL, sand_m3 REAL,
+            water_l REAL, volume_m3 REAL, coats INTEGER,
+            date TEXT, cement_price REAL DEFAULT 0,
+            sand_price REAL DEFAULT 0, labor_price REAL DEFAULT 0,
+            total_cost REAL DEFAULT 0
+        )
+    """)
+        }
+        if (oldVersion < 21) {
+            db.execSQL("ALTER TABLE tile_history ADD COLUMN tile_price REAL DEFAULT 0.0")
+            db.execSQL("ALTER TABLE tile_history ADD COLUMN labor_price REAL DEFAULT 0.0")
+            db.execSQL("ALTER TABLE tile_history ADD COLUMN total_cost REAL DEFAULT 0.0")
+        }
 
     }
 
@@ -647,36 +684,12 @@ class DatabaseHelper(context: Context) :
         return writableDatabase.insert("plaster_history", null, cv)
     }
 
-    fun getAllPlasterHistory(): List<Map<String, String>> {
-        val list = mutableListOf<Map<String, String>>()
-        val c = readableDatabase.rawQuery(
-            "SELECT * FROM plaster_history ORDER BY id DESC", null)
-        c.use {
-            while (it.moveToNext()) {
-                list.add(mapOf(
-                    "id"          to it.getString(it.getColumnIndexOrThrow("id")),
-                    "surface"     to it.getString(it.getColumnIndexOrThrow("surface")),
-                    "area"        to it.getString(it.getColumnIndexOrThrow("area")),
-                    "thickness"   to it.getString(it.getColumnIndexOrThrow("thickness")),
-                    "ratio"       to it.getString(it.getColumnIndexOrThrow("ratio")),
-                    "cement_bags" to it.getString(it.getColumnIndexOrThrow("cement_bags")),
-                    "sand_m3"     to it.getString(it.getColumnIndexOrThrow("sand_m3")),
-                    "water_l"     to it.getString(it.getColumnIndexOrThrow("water_l")),
-                    "volume_m3"   to it.getString(it.getColumnIndexOrThrow("volume_m3")),
-                    "coats"       to it.getString(it.getColumnIndexOrThrow("coats")),
-                    "date"        to it.getString(it.getColumnIndexOrThrow("date"))
-                ))
-            }
-        }
-        return list
-    }
+
 
     fun deletePlasterHistory(id: Int) {
         writableDatabase.delete("plaster_history", "id=?", arrayOf(id.toString()))
     }
-    fun clearPlasterHistory() {
-        writableDatabase.execSQL("DELETE FROM plaster_history")
-    }
+
 
     // ================= PAINT =================
     fun insertPaint(type: String, area: Double, coats: Int, paint: Double, date: String) {
@@ -769,28 +782,7 @@ class DatabaseHelper(context: Context) :
         return writableDatabase.insert("tile_history", null, cv)
     }
 
-    fun getAllTileHistory(): List<Map<String, String>> {
-        val list = mutableListOf<Map<String, String>>()
-        val c = readableDatabase.rawQuery(
-            "SELECT * FROM tile_history ORDER BY id DESC", null)
-        c.use {
-            while (it.moveToNext()) {
-                list.add(mapOf(
-                    "id"           to it.getString(it.getColumnIndexOrThrow("id")),
-                    "tile_type"    to it.getString(it.getColumnIndexOrThrow("tile_type")),
-                    "floor_area"   to it.getString(it.getColumnIndexOrThrow("floor_area")),
-                    "tile_l_cm"    to it.getString(it.getColumnIndexOrThrow("tile_l_cm")),
-                    "tile_w_cm"    to it.getString(it.getColumnIndexOrThrow("tile_w_cm")),
-                    "base_tiles"   to it.getString(it.getColumnIndexOrThrow("base_tiles")),
-                    "total_tiles"  to it.getString(it.getColumnIndexOrThrow("total_tiles")),
-                    "waste_pct"    to it.getString(it.getColumnIndexOrThrow("waste_pct")),
-                    "install_type" to it.getString(it.getColumnIndexOrThrow("install_type")),
-                    "date"         to it.getString(it.getColumnIndexOrThrow("date"))
-                ))
-            }
-        }
-        return list
-    }
+
 
     fun deleteTileHistory(id: Int) {
         writableDatabase.delete("tile_history", "id=?", arrayOf(id.toString()))
@@ -1681,6 +1673,64 @@ class DatabaseHelper(context: Context) :
         } catch (e: Exception) {
             false
         }
+    }
+
+
+    fun getAllPlasterHistory(): List<Map<String, String>> {
+        val list = mutableListOf<Map<String, String>>()
+        val cursor = readableDatabase.rawQuery(
+            "SELECT * FROM plaster_history ORDER BY id DESC", null
+        )
+        while (cursor.moveToNext()) {
+            val map = mutableMapOf<String, String>()
+            for (i in 0 until cursor.columnCount)
+                map[cursor.getColumnName(i)] = cursor.getString(i) ?: ""
+            list.add(map)
+        }
+        cursor.close()
+        return list
+    }
+
+    fun clearPlasterHistory() {
+        writableDatabase.execSQL("DELETE FROM plaster_history")
+    }
+    fun getAllTileHistory(): List<Map<String, String>> {
+        val list = mutableListOf<Map<String, String>>()
+        val cursor = readableDatabase.rawQuery(
+            "SELECT * FROM tile_history ORDER BY id DESC", null
+        )
+        while (cursor.moveToNext()) {
+            val map = mutableMapOf<String, String>()
+            for (i in 0 until cursor.columnCount)
+                map[cursor.getColumnName(i)] = cursor.getString(i) ?: ""
+            list.add(map)
+        }
+        cursor.close()
+        return list
+    }
+    fun insertTileHistory(
+        tileType: String, floorArea: Double, tileLcm: Double,
+        tileWcm: Double, baseTiles: Int, totalTiles: Int,
+        wastePct: Double, installType: String, date: String,
+        tilePrice: Double = 0.0,
+        laborPrice: Double = 0.0,
+        totalCost: Double = 0.0
+    ) {
+        val cv = ContentValues().apply {
+            put("tile_type",    tileType)
+            put("floor_area",   floorArea)
+            put("tile_l_cm",    tileLcm)
+            put("tile_w_cm",    tileWcm)
+            put("base_tiles",   baseTiles)
+            put("total_tiles",  totalTiles)
+            put("waste_pct",    wastePct)
+            put("install_type", installType)
+            put("date",         date)
+            put("tile_price",   tilePrice)
+            put("labor_price",  laborPrice)
+            put("total_cost",   totalCost)
+        }
+        writableDatabase.insert("tile_history", null, cv)
     }
 
 }
