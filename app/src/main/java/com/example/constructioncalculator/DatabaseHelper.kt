@@ -1661,6 +1661,27 @@ class DatabaseHelper(context: Context) :
     fun clearTankHistory() {
         writableDatabase.execSQL("DELETE FROM tank_history")
     }
+    fun addUser(
+        firstName: String,
+        lastName: String,
+        email: String,
+        password: String,
+        role: String
+    ): Boolean {
+        return try {
+            val cv = ContentValues().apply {
+                put("firstName", firstName)
+                put("lastName", lastName)
+                put("email", email)
+                put("password", password)
+                put("role", role)
+            }
+            writableDatabase.insertOrThrow("users", null, cv)
+            true
+        } catch (e: Exception) {
+            false
+        }
+    }
 
 }
 
