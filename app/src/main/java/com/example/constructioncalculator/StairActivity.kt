@@ -32,7 +32,6 @@ class StairActivity : AppCompatActivity() {
         const val SPIRAL_TREAD_COMFORT = 0.25
     }
 
-    // ── فرمتة الأرقام بـ Locale.US دائماً ──
     private fun Double.f(d: Int = 2) = String.format(Locale.US, "%.${d}f", this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,18 +40,21 @@ class StairActivity : AppCompatActivity() {
 
         db = DatabaseHelper(this)
 
-        val spinner      = findViewById<Spinner>(R.id.spinnerType)
-        val img          = findViewById<ImageView>(R.id.imgStair)
-        val etH          = findViewById<EditText>(R.id.etH)
-        val etW          = findViewById<EditText>(R.id.etW)
-        val etL          = findViewById<EditText>(R.id.etL)
-        val etD1         = findViewById<EditText>(R.id.etD1)
-        val etD2         = findViewById<EditText>(R.id.etD2)
-        val etA          = findViewById<EditText>(R.id.etAlpha)
-        val layoutSpiral = findViewById<LinearLayout>(R.id.layoutSpiral)
-        val btnCalc      = findViewById<Button>(R.id.btnCalc)
-        val btnHistory   = findViewById<Button>(R.id.btnHistory)
-        val tvResult     = findViewById<TextView>(R.id.tvResult)
+        val spinner          = findViewById<Spinner>(R.id.spinnerType)
+        val img              = findViewById<ImageView>(R.id.imgStair)
+        val etH              = findViewById<EditText>(R.id.etH)
+        val etW              = findViewById<EditText>(R.id.etW)
+        val etL              = findViewById<EditText>(R.id.etL)
+        val etD1             = findViewById<EditText>(R.id.etD1)
+        val etD2             = findViewById<EditText>(R.id.etD2)
+        val etA              = findViewById<EditText>(R.id.etAlpha)
+        val layoutSpiral     = findViewById<LinearLayout>(R.id.layoutSpiral)
+        val btnCalc          = findViewById<Button>(R.id.btnCalc)
+        val btnHistory       = findViewById<Button>(R.id.btnHistory)
+        val tvResult         = findViewById<TextView>(R.id.tvResult)
+        // ── حقول السعر الجديدة ──
+        val etConcretePrice  = findViewById<EditText>(R.id.etConcretePrice)
+        val etFinishingPrice = findViewById<EditText>(R.id.etFinishingPrice)
 
         val types = arrayOf(
             "Straight / مستقيم",
@@ -90,17 +92,20 @@ class StairActivity : AppCompatActivity() {
             val Lavailable = etL.text.toString().toDoubleOrNull()
 
             if (H == null || W == null || Lavailable == null ||
-                H <= 0.0 || W <= 0.0 || Lavailable <= 0.0) {
+                H <= 0.0  ||W <= 0.0 || Lavailable <= 0.0) {
             Toast.makeText(this,
                 "⚠️ يرجى ملء جميع الحقول بقيم صحيحة وموجبة",
                 Toast.LENGTH_SHORT).show()
             return@setOnClickListener
         }
+            // ── قراءة الأسعار ──
+            val concretePrice  = etConcretePrice.text.toString().toDoubleOrNull()  ?: 0.0
+            val finishingPrice = etFinishingPrice.text.toString().toDoubleOrNull() ?: 0.0
 
             val pos  = spinner.selectedItemPosition
             val date = SimpleDateFormat("dd/MM/yyyy HH:mm",
                 Locale.getDefault()).format(Date())
-            // ── اختيار N الأمثل ──
+
             val N = chooseBestN(H)
             val R = H / N
             val T_ideal = BLONDEL_IDEAL - 2.0 * R
@@ -146,25 +151,25 @@ class StairActivity : AppCompatActivity() {
                     sb.append("📐  Step 2 — Riser Height\n")
                     sb.append("    R = H ÷ N = ${H.f(2)} ÷ $N\n")
                     sb.append("    R = ${R.f(3)} m  (${(R*100).f(1)} cm)\n")
-                    sb.append("    ✔ Range: 15 – 18 cm  →  " +
+                    sb.append("    ✔️ Range: 15 – 18 cm  →  " +
                             if (riserOk) "✅ OK" else "❌ OUT" + "\n")
                     sb.append("━━━━━━━━━━━━━━━━━━━━━━━━━━\n")
                     sb.append("📐  Step 3 — Tread Depth (Blondel)\n")
                     sb.append("    T = 0.63 - 2×R = 0.63 - 2×${R.f(3)}\n")
                     sb.append("    T = ${T.f(3)} m  (${(T*100).f(1)} cm)\n")
-                    sb.append("    ✔ Range: 27 – 33 cm  →  " +
+                    sb.append("    ✔️ Range: 27 – 33 cm  →  " +
                             if (treadOk) "✅ OK" else "❌ OUT" + "\n")
                     sb.append("━━━━━━━━━━━━━━━━━━━━━━━━━━\n")
                     sb.append("📐  Step 4 — Blondel Rule\n")
                     sb.append("    2R + T = 2×${R.f(3)} + ${T.f(3)}\n")
                     sb.append("    2R + T = ${blondel.f(3)} m\n")
-                    sb.append("    ✔ Range: 0.60 – 0.64 m  →  " +
+                    sb.append("    ✔️ Range: 0.60 – 0.64 m  →  " +
                             if (blondelOk) "✅ OK" else "❌ OUT" + "\n")
                     sb.append("━━━━━━━━━━━━━━━━━━━━━━━━━━\n")
                     sb.append("📐  Step 5 — Slope Angle\n")
                     sb.append("    θ = arctan(R ÷ T) = arctan(${R.f(3)} ÷ ${T.f(3)})\n")
                     sb.append("    θ = ${angleDeg.f(1)}°\n")
-                    sb.append("    ✔ Range: 25° – 38°  →  " +
+                    sb.append("    ✔️ Range: 25° – 38°  →  " +
                             if (angleOk) "✅ OK" else "⚠️ OUT" + "\n")
                     sb.append("━━━━━━━━━━━━━━━━━━━━━━━━━━\n")
                     sb.append("📏  Step 6 — Space\n")
@@ -172,8 +177,8 @@ class StairActivity : AppCompatActivity() {
                     sb.append("    L_needed = ${Lneeded.f(2)} m\n")
                     sb.append("    L_available = ${Lavailable.f(2)} m\n")
                     sb.append("    →  " +
-                    if (Lneeded <= Lavailable) "✅ Space OK"
-                    else "❌ Need +${(Lneeded - Lavailable).f(2)} m" + "\n")
+                            if (Lneeded <= Lavailable) "✅ Space OK"
+                            else "❌ Need +${(Lneeded - Lavailable).f(2)} m" + "\n")
                     sb.append("━━━━━━━━━━━━━━━━━━━━━━━━━━\n")
                     sb.append("📦  Results\n")
                     sb.append("    Width (W)          : ${W.f(2)} m\n")
@@ -234,7 +239,6 @@ class StairActivity : AppCompatActivity() {
                     val l3 = (n3 - 1) * T
                     length = l1 + l2 + l3
                     area   = (l1 * W) + (l2 * W) + (l3 * W) + (2 * W * W)
-
                     sb.append("🪜  Stair Type: U-Shape\n")
                     sb.append("━━━━━━━━━━━━━━━━━━━━━━━━━━\n")
                     sb.append("📥  Inputs\n")
@@ -288,10 +292,10 @@ class StairActivity : AppCompatActivity() {
                         return@setOnClickListener
                     }
 
-                    val Rext      = D1 / 2.0
-                    val Rint      = D2 / 2.0
-                    val Rwalk     = (Rint + SPIRAL_WALK_OFFSET).coerceAtMost(Rext - 0.05)
-                    val stepAngle = alpha / N
+                    val Rext       = D1 / 2.0
+                    val Rint       = D2 / 2.0
+                    val Rwalk      = (Rint + SPIRAL_WALK_OFFSET).coerceAtMost(Rext - 0.05)
+                    val stepAngle  = alpha / N
                     val treadWalk  = 2.0 * PI * Rwalk * (stepAngle / 360.0)
                     val treadInner = 2.0 * PI * Rint  * (stepAngle / 360.0)
                     val treadOuter = 2.0 * PI * Rext  * (stepAngle / 360.0)
@@ -306,6 +310,14 @@ class StairActivity : AppCompatActivity() {
                         else ->
                             "✅ Tread comfortable (${(treadWalk*100).f(1)} cm ≥ 25 cm)"
                     }
+
+                    // ── حساب التكلفة ──
+                    val slabThickness = 0.15
+                    val slabVolume    = area * slabThickness
+                    val concreteCost  = slabVolume * concretePrice
+                    val finishCost    = area * finishingPrice
+                    val totalCost     = concreteCost + finishCost
+
                     sb.append("🌀  Stair Type: Spiral\n")
                     sb.append("━━━━━━━━━━━━━━━━━━━━━━━━━━\n")
                     sb.append("📥  Inputs\n")
@@ -348,42 +360,77 @@ class StairActivity : AppCompatActivity() {
                         else
                             "❌ Width ${(Rext-Rint).f(2)} m < 0.90 m"
                     )
+                    // ── عرض التكلفة إن وُجدت ──
+                    if (totalCost > 0) {
+                        sb.append("\n━━━━━━━━━━━━━━━━━━━━━━━━━━\n")
+                        if (concretePrice > 0)
+                            sb.append("💰 Concrete Cost = ${"%.2f".format(concreteCost)} DZD\n")
+                        if (finishingPrice > 0) {
+                            sb.append("💰 Finishing Cost= ${"%.2f".format(finishCost)} DZD\n")
+                        }
+                        sb.append("━━━━━━━━━━━━━━━━━━━━━━━━━━\n")
+                        sb.append("💵 Total Cost    = ${"%.2f".format(totalCost)} DZD\n")
+                    }
                     sb.append("\n💾 Saved ($date)")
 
                     tvResult.text = sb.toString()
 
                     db.insertStair(
-                        type    = "Spiral",
-                        height  = H,
-                        steps   = N,
-                        riser   = R,
-                        tread   = treadWalk,
-                        blondel = 0.0,
-                        length  = length,
-                        area    = area,
-                        status  = treadStatus,
-                        date    = date
+                        type           = "Spiral",
+                        height         = H,
+                        steps          = N,
+                        riser          = R,
+                        tread          = treadWalk,
+                        blondel        = 0.0,
+                        length         = length,
+                        area           = area,
+                        status         = treadStatus,
+                        date           = date,
+                        concretePrice  = concretePrice,
+                        finishingPrice = finishingPrice,
+                        totalCost      = totalCost
                     )
                     return@setOnClickListener
                 }
             }
 
+            // ── حساب التكلفة للأنواع الأخرى ──
+            val slabThickness = 0.15
+            val slabVolume    = area * slabThickness
+            val concreteCost  = slabVolume * concretePrice
+            val finishCost    = area * finishingPrice
+            val totalCost     = concreteCost + finishCost
+
+            if (totalCost > 0) {
+                sb.append("\n━━━━━━━━━━━━━━━━━━━━━━━━━━\n")
+                if (concretePrice > 0)
+                    sb.append("💰 Concrete Cost = ${"%.2f".format(concreteCost)} DZD\n")
+                if (finishingPrice > 0)
+                    sb.append("💰 Finishing Cost= ${"%.2f".format(finishCost)} DZD\n")
+                sb.append("━━━━━━━━━━━━━━━━━━━━━━━━━━\n")
+                sb.append("💵 Total Cost    = ${"%.2f".format(totalCost)} DZD\n")
+            }
+
             db.insertStair(
-                type    = types[pos],
-                height  = H,
-                steps   = N,
-                riser   = R,
-                tread   = T,
-                blondel = blondel,
-                length  = length,
-                area    = area,
-                status  = conformityStatus,
-                date    = date
+                type           = types[pos],
+                height         = H,
+                steps          = N,
+                riser          = R,
+                tread          = T,
+                blondel        = blondel,
+                length         = length,
+                area           = area,
+                status         = conformityStatus,
+                date           = date,
+                concretePrice  = concretePrice,
+                finishingPrice = finishingPrice,
+                totalCost      = totalCost
             )
             tvResult.text = sb.toString()
         }
-         // ════════════════════════════════════════════════════════════════
-        //  زر History — مثل Paint (AlertDialog)
+
+        // ════════════════════════════════════════════════════════════════
+        //  زر History
         // ════════════════════════════════════════════════════════════════
         btnHistory.setOnClickListener {
             val records = db.getAllStairHistory()
@@ -404,28 +451,30 @@ class StairActivity : AppCompatActivity() {
                 sb.append("Length  : ${h["length"]} m\n")
                 sb.append("Area    : ${h["area"]} m²\n")
                 sb.append("Status  : ${h["status"]}\n")
+                // ── عرض التكلفة ──
+                val cost = h["total_cost"]?.toDoubleOrNull() ?: 0.0
+                if (cost > 0)
+                    sb.append("Cost    : ${"%.2f".format(cost)} DZD\n")
             }
-
             AlertDialog.Builder(this)
-                .setTitle("📜 Stair History")
-                .setMessage(sb.toString())
-                .setPositiveButton("OK", null)
-                .setNegativeButton("🗑 Clear History") { _, _ ->
-                    db.clearStairHistory()
-                    Toast.makeText(this, "History cleared", Toast.LENGTH_SHORT).show()
-                }
-                .show()
+            .setTitle("📜 Stair History")
+            .setMessage(sb.toString())
+            .setPositiveButton("OK", null)
+            .setNegativeButton("🗑 Clear History") { _, _ ->
+                db.clearStairHistory()
+                Toast.makeText(this, "History cleared", Toast.LENGTH_SHORT).show()
+            }
+            .show()
         }
+
         val btnShare = findViewById<Button>(R.id.btnShare)
         val btnReset = findViewById<Button>(R.id.btnReset)
 
-// ── SHARE ──
+        // ── SHARE ──
         btnShare.setOnClickListener {
             val result = tvResult.text.toString()
             if (result.isEmpty()) {
-                Toast.makeText(this,
-                    "⚠️ Calculate first!",
-                    Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "⚠️ Calculate first!", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
             val intent = Intent(Intent.ACTION_SEND).apply {
@@ -436,7 +485,7 @@ class StairActivity : AppCompatActivity() {
             startActivity(Intent.createChooser(intent, "Share via"))
         }
 
-// ── RESET ──
+        // ── RESET ──
         btnReset.setOnClickListener {
             etH.setText("")
             etW.setText("")
@@ -444,11 +493,11 @@ class StairActivity : AppCompatActivity() {
             etD1.setText("")
             etD2.setText("")
             etA.setText("")
+            etConcretePrice.setText("")
+            etFinishingPrice.setText("")
             tvResult.text = ""
             spinner.setSelection(0)
-            Toast.makeText(this,
-                "🔄 Reset done!",
-                Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "🔄 Reset done!", Toast.LENGTH_SHORT).show()
         }
     }
 

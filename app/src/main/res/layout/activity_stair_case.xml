@@ -1,189 +1,106 @@
-<?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#EEF8FA">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="20dp">
-
-        <!--  HEADER                                  -->
-        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:background="#CCE7EB" android:padding="20dp" android:layout_marginBottom="16dp">
-            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="STAIR" android:textSize="32sp" android:textStyle="bold" android:textColor="#716F6B" android:letterSpacing="0.15" android:gravity="center"/>
-            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="CALCULATOR PRO · 🇩🇿 Algerian Standard" android:textSize="12sp" android:textColor="#000000" android:gravity="center" android:letterSpacing="0.1" android:layout_marginTop="4dp"/>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent" android:layout_height="match_parent" android:background="#F0F4F8" android:fillViewport="true">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical">
+        <!--  ══════════════════════════════════════════════  -->
+        <!--   HEADER GRADIENT                                -->
+        <!--  ══════════════════════════════════════════════  -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:background="#B19264" android:paddingTop="28dp" android:paddingBottom="24dp" android:paddingStart="24dp" android:paddingEnd="24dp" android:gravity="center">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="🪜 STAIR" android:textSize="34sp" android:textStyle="bold" android:textColor="#FFFFFF" android:letterSpacing="0.15"/>
+            <View android:layout_width="60dp" android:layout_height="3dp" android:layout_marginTop="8dp" android:layout_marginBottom="8dp" android:background="#FFD54F"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="CALCULATOR PRO · 🇩🇿 Algerian Standard DTR" android:textSize="11sp" android:textColor="#B3C5FF" android:letterSpacing="0.08"/>
         </LinearLayout>
-
-        <!-- IMAGE CARD -->
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:layout_marginTop="15dp"
-            app:cardCornerRadius="20dp"
-            app:cardElevation="12dp">
-
-            <ImageView
-                android:id="@+id/imgStair"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/straight"
-                android:scaleType="centerCrop"/>
+        <!--  ══════════════════════════════════════════════  -->
+        <!--   IMAGE CARD                                     -->
+        <!--  ══════════════════════════════════════════════  -->
+        <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="180dp" android:layout_marginStart="16dp" android:layout_marginEnd="16dp" android:layout_marginTop="16dp" app:cardCornerRadius="16dp" app:cardElevation="8dp" app:strokeColor="#C5CAE9" app:strokeWidth="1dp">
+            <ImageView android:id="@+id/imgStair" android:layout_width="match_parent" android:layout_height="match_parent" android:src="@drawable/straight" android:scaleType="centerCrop"/>
+            <!--  overlay badge  -->
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="bottom|start" android:layout_margin="12dp" android:background="#B19264" android:paddingStart="10dp" android:paddingEnd="10dp" android:paddingTop="4dp" android:paddingBottom="4dp" android:text="STAIR PREVIEW" android:textColor="#FFFFFF" android:textSize="10sp" android:textStyle="bold" android:letterSpacing="0.12"/>
         </com.google.android.material.card.MaterialCardView>
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="12dp"
-            app:cardBackgroundColor="#DFF6F8"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="6dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="12dp">
-
-                <!-- TYPE -->
-                <TextView
-                    android:text="Type of Stair"
-                    android:textStyle="bold"
-                    android:layout_marginTop="10dp"
-                    android:textColor="#333"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-                <Spinner
-                    android:id="@+id/spinnerType"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="5dp"/>
-
-                <!-- COMMON INPUTS -->
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Main Dimensions"
-                    android:textStyle="bold"
-                    android:textSize="18sp"
-                    android:layout_marginTop="12dp"
-                    android:textColor="#222"/>
-
-                <EditText
-                    android:id="@+id/etH"
-                    android:hint="Total Height H (m)"
-                    android:inputType="numberDecimal"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"/>
-
-                <EditText
-                    android:id="@+id/etW"
-                    android:hint="Width W (m)"
-                    android:inputType="numberDecimal"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"/>
-
-                <EditText
-                    android:id="@+id/etL"
-                    android:hint="Available Length (m)"
-                    android:inputType="numberDecimal"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"/>
-
-                <!-- 🌀 SPIRAL SECTION -->
-                <LinearLayout
-                    android:id="@+id/layoutSpiral"
-                    android:orientation="vertical"
-                    android:visibility="gone"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="10dp">
-
-                    <TextView
-                        android:text="Spiral Stair Parameters"
-                        android:textStyle="bold"
-                        android:textColor="#444"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-
-                    <EditText
-                        android:id="@+id/etD1"
-                        android:hint="External Diameter D1 (m)"
-                        android:inputType="numberDecimal"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"/>
-
-                    <EditText
-                        android:id="@+id/etD2"
-                        android:hint="Internal Diameter D2 (m)"
-                        android:inputType="numberDecimal"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"/>
-
-                    <EditText
-                        android:id="@+id/etAlpha"
-                        android:hint="Angle α (degrees)"
-                        android:inputType="numberDecimal"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"/>
+        <!--  ══════════════════════════════════════════════  -->
+        <!--   SECTION: TYPE & DIMENSIONS                     -->
+        <!--  ══════════════════════════════════════════════  -->
+        <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_margin="16dp" app:cardCornerRadius="16dp" app:cardElevation="4dp" app:strokeColor="#C5CAE9" app:strokeWidth="1dp" app:cardBackgroundColor="#FFFFFF">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
+                <!--  Section label  -->
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="⚙️ STAIR TYPE" android:textSize="12sp" android:textStyle="bold" android:textColor="#5C6BC0" android:letterSpacing="0.1" android:layout_marginBottom="8dp"/>
+                <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox" app:boxCornerRadiusTopStart="10dp" app:boxCornerRadiusTopEnd="10dp" app:boxCornerRadiusBottomStart="10dp" app:boxCornerRadiusBottomEnd="10dp" app:boxStrokeColor="#7986CB" android:hint="Type of Stair">
+                    <Spinner android:id="@+id/spinnerType" android:layout_width="match_parent" android:layout_height="52dp" android:paddingStart="12dp"/>
+                </com.google.android.material.textfield.TextInputLayout>
+                <!--  Divider  -->
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#E8EAF6" android:layout_marginTop="16dp" android:layout_marginBottom="12dp"/>
+                <!--  Section label  -->
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="📐 MAIN DIMENSIONS" android:textSize="12sp" android:textStyle="bold" android:textColor="#5C6BC0" android:letterSpacing="0.1" android:layout_marginBottom="10dp"/>
+                <!--  Height  -->
+                <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox" app:boxCornerRadiusTopStart="10dp" app:boxCornerRadiusTopEnd="10dp" app:boxCornerRadiusBottomStart="10dp" app:boxCornerRadiusBottomEnd="10dp" app:boxStrokeColor="#7986CB" android:hint="Total Height H (m)" android:layout_marginBottom="10dp">
+                    <com.google.android.material.textfield.TextInputEditText android:id="@+id/etH" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="numberDecimal" android:textSize="15sp"/>
+                </com.google.android.material.textfield.TextInputLayout>
+                <!--  Width  -->
+                <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox" app:boxCornerRadiusTopStart="10dp" app:boxCornerRadiusTopEnd="10dp" app:boxCornerRadiusBottomStart="10dp" app:boxCornerRadiusBottomEnd="10dp" app:boxStrokeColor="#7986CB" android:hint="Width W (m)" android:layout_marginBottom="10dp">
+                    <com.google.android.material.textfield.TextInputEditText android:id="@+id/etW" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="numberDecimal" android:textSize="15sp"/>
+                </com.google.android.material.textfield.TextInputLayout>
+                <!--  Available Length  -->
+                <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox" app:boxCornerRadiusTopStart="10dp" app:boxCornerRadiusTopEnd="10dp" app:boxCornerRadiusBottomStart="10dp" app:boxCornerRadiusBottomEnd="10dp" app:boxStrokeColor="#7986CB" android:hint="Available Length (m)">
+                    <com.google.android.material.textfield.TextInputEditText android:id="@+id/etL" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="numberDecimal" android:textSize="15sp"/>
+                </com.google.android.material.textfield.TextInputLayout>
+                <!--  ── SPIRAL SECTION ──  -->
+                <LinearLayout android:id="@+id/layoutSpiral" android:orientation="vertical" android:visibility="gone" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp">
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#E8EAF6" android:layout_marginBottom="12dp"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="🌀 SPIRAL PARAMETERS" android:textSize="12sp" android:textStyle="bold" android:textColor="#5C6BC0" android:letterSpacing="0.1" android:layout_marginBottom="10dp"/>
+                    <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox" app:boxCornerRadiusTopStart="10dp" app:boxCornerRadiusTopEnd="10dp" app:boxCornerRadiusBottomStart="10dp" app:boxCornerRadiusBottomEnd="10dp" app:boxStrokeColor="#7986CB" android:hint="External Diameter D1 (m)" android:layout_marginBottom="10dp">
+                        <com.google.android.material.textfield.TextInputEditText android:id="@+id/etD1" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="numberDecimal"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox" app:boxCornerRadiusTopStart="10dp" app:boxCornerRadiusTopEnd="10dp" app:boxCornerRadiusBottomStart="10dp" app:boxCornerRadiusBottomEnd="10dp" app:boxStrokeColor="#7986CB" android:hint="Internal Diameter D2 (m)" android:layout_marginBottom="10dp">
+                        <com.google.android.material.textfield.TextInputEditText android:id="@+id/etD2" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="numberDecimal"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox" app:boxCornerRadiusTopStart="10dp" app:boxCornerRadiusTopEnd="10dp" app:boxCornerRadiusBottomStart="10dp" app:boxCornerRadiusBottomEnd="10dp" app:boxStrokeColor="#7986CB" android:hint="Rotation Angle α (degrees)">
+                        <com.google.android.material.textfield.TextInputEditText android:id="@+id/etAlpha" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="numberDecimal"/>
+                    </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
-
             </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
-        <!-- BUTTONS -->
-        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:weightSum="2" android:layout_marginTop="14dp">
-            <com.google.android.material.button.MaterialButton android:id="@+id/btnCalc" android:layout_width="0dp" android:layout_weight="1" android:layout_height="55dp" android:layout_marginEnd="5dp" android:text="📊 CALCULATE" app:backgroundTint="#5A5E5F"/>
-            <com.google.android.material.button.MaterialButton android:id="@+id/btnHistory" android:layout_width="0dp" android:layout_weight="1" android:layout_height="55dp" android:layout_marginStart="5dp" android:text="📜 HISTORY" app:backgroundTint="#6A696B"/>
+        </com.google.android.material.card.MaterialCardView>
+        <!--  ══════════════════════════════════════════════  -->
+        <!--   SECTION: COST (NEW)                            -->
+        <!--  ══════════════════════════════════════════════  -->
+        <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="16dp" android:layout_marginEnd="16dp" android:layout_marginBottom="16dp" app:cardCornerRadius="16dp" app:cardElevation="4dp" app:strokeColor="#FFE082" app:strokeWidth="1dp" app:cardBackgroundColor="#FFFDE7">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="💰 COST ESTIMATION (optional)" android:textSize="12sp" android:textStyle="bold" android:textColor="#F57F17" android:letterSpacing="0.1" android:layout_marginBottom="12dp"/>
+                <!--  Row: concrete + finishing  -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:weightSum="2">
+                    <com.google.android.material.textfield.TextInputLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginEnd="6dp" style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox" app:boxCornerRadiusTopStart="10dp" app:boxCornerRadiusTopEnd="10dp" app:boxCornerRadiusBottomStart="10dp" app:boxCornerRadiusBottomEnd="10dp" app:boxStrokeColor="#FFA000" android:hint="Concrete DZD/m³">
+                        <com.google.android.material.textfield.TextInputEditText android:id="@+id/etConcretePrice" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="numberDecimal" android:textSize="14sp"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="6dp" style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox" app:boxCornerRadiusTopStart="10dp" app:boxCornerRadiusTopEnd="10dp" app:boxCornerRadiusBottomStart="10dp" app:boxCornerRadiusBottomEnd="10dp" app:boxStrokeColor="#FFA000" android:hint="Finishing DZD/m²">
+                        <com.google.android.material.textfield.TextInputEditText android:id="@+id/etFinishingPrice" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="numberDecimal" android:textSize="14sp"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="ℹ️ Concrete: price per m³ of slab volume | Finishing: price per m² of stair area" android:textSize="10sp" android:textColor="#8D6E63" android:layout_marginTop="6dp"/>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+        <!--  ══════════════════════════════════════════════  -->
+        <!--   BUTTONS ROW 1                                  -->
+        <!--  ══════════════════════════════════════════════  -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:paddingStart="16dp" android:paddingEnd="16dp" android:weightSum="2">
+            <com.google.android.material.button.MaterialButton android:id="@+id/btnCalc" android:layout_width="0dp" android:layout_weight="1" android:layout_height="52dp" android:layout_marginEnd="6dp" android:text="📊 CALCULATE" android:textColor="#FFFFFF" android:textStyle="bold" android:textSize="13sp" app:backgroundTint="#B19264" app:cornerRadius="12dp"/>
+            <com.google.android.material.button.MaterialButton android:id="@+id/btnHistory" android:layout_width="0dp" android:layout_weight="1" android:layout_height="52dp" android:layout_marginStart="6dp" android:text="📜 HISTORY" android:textColor="#FFFFFF" android:textStyle="bold" android:textSize="13sp" app:backgroundTint="#37474F" app:cornerRadius="12dp"/>
         </LinearLayout>
-        <!-- ROW 2: Share + Reset -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="6dp">
-
-            <Button
-                android:id="@+id/btnShare"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="📤 Share"
-                android:backgroundTint="#009688"
-                android:textColor="#FFFFFF"
-                android:layout_marginEnd="4dp"/>
-
-            <Button
-                android:id="@+id/btnReset"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="🔄 Reset"
-                android:backgroundTint="#F44336"
-                android:textColor="#FFFFFF"
-                android:layout_marginStart="4dp"/>
-
+        <!--  ══════════════════════════════════════════════  -->
+        <!--   BUTTONS ROW 2                                  -->
+        <!--  ══════════════════════════════════════════════  -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:paddingStart="16dp" android:paddingEnd="16dp" android:paddingTop="8dp" android:weightSum="2">
+            <com.google.android.material.button.MaterialButton android:id="@+id/btnShare" android:layout_width="0dp" android:layout_weight="1" android:layout_height="48dp" android:layout_marginEnd="6dp" android:text="📤 Share" android:textColor="#FFFFFF" android:textSize="13sp" app:backgroundTint="#00897B" app:cornerRadius="12dp"/>
+            <com.google.android.material.button.MaterialButton android:id="@+id/btnReset" android:layout_width="0dp" android:layout_weight="1" android:layout_height="48dp" android:layout_marginStart="6dp" android:text="🔄 Reset" android:textColor="#FFFFFF" android:textSize="13sp" app:backgroundTint="#C62828" app:cornerRadius="12dp"/>
         </LinearLayout>
-        <!-- RESULT -->
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            app:cardCornerRadius="14dp"
-            app:cardElevation="4dp">
-
-            <TextView
-                android:id="@+id/tvResult"
-                android:text="Engineering results will appear here..."
-                android:textSize="16sp"
-                android:padding="15dp"
-                android:textColor="#000"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-        </androidx.cardview.widget.CardView>
-
+        <!--  ══════════════════════════════════════════════  -->
+        <!--   RESULT CARD                                    -->
+        <!--  ══════════════════════════════════════════════  -->
+        <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_margin="16dp" app:cardCornerRadius="16dp" app:cardElevation="6dp" app:strokeColor="#C5CAE9" app:strokeWidth="1dp" app:cardBackgroundColor="#FFFFFF">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical">
+                <!--  result header bar  -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="40dp" android:background="#B19264" android:orientation="horizontal" android:gravity="center_vertical" android:paddingStart="16dp" android:paddingEnd="16dp">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="📋 RESULTS" android:textColor="#FFFFFF" android:textSize="12sp" android:textStyle="bold" android:letterSpacing="0.1"/>
+                    </LinearLayout>
+                <TextView android:id="@+id/tvResult" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Engineering results will appear here..." android:textSize="13sp" android:padding="16dp" android:textColor="#1A1A2E" android:fontFamily="monospace" android:lineSpacingMultiplier="1.4"/>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
 </ScrollView>

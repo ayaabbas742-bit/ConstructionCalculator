@@ -33,6 +33,7 @@
                     <EditText android:id="@+id/etPercent2" android:layout_width="0dp" android:layout_weight="1" android:layout_height="50dp" android:hint="Paint 2 %" android:inputType="numberDecimal" android:layout_marginStart="4dp" android:visibility="gone"/>
                 </LinearLayout>
                 <!-- Price per liter -->
+                <TextView android:text="💰 COST ESTIMATION (optional)" android:textStyle="bold" android:textColor="#F57F17" android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingBottom="8dp" android:layout_marginTop="16dp"/>
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -76,9 +77,17 @@
                     android:paddingStart="12dp"
                     android:paddingEnd="12dp"
                     android:visibility="gone"/>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+        <com.google.android.material.card.MaterialCardView  android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="18dp" app:cardCornerRadius="16dp" app:cardElevation="8dp" app:cardBackgroundColor="#E2F4F6FF">
                 <View android:layout_width="match_parent" android:layout_height="1dp" android:layout_marginVertical="12dp" android:background="#B0BEC5"/>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
                 <!--  WALL DIMENSIONS  -->
+
                 <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="🧱 Wall Dimensions" android:textStyle="bold" android:textSize="15sp" android:textColor="#334155" android:paddingBottom="6dp"/>
+                <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="140dp" android:layout_gravity="center" android:layout_marginBottom="12dp" app:cardCornerRadius="10dp" app:cardElevation="4dp">
+                    <ImageView android:id="@+id/wallimage" android:layout_width="match_parent" android:layout_height="match_parent" android:src="@drawable/wall" android:scaleType="centerCrop"/>
+                </com.google.android.material.card.MaterialCardView>
                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:weightSum="2">
                     <EditText android:id="@+id/etLength" android:layout_width="0dp" android:layout_weight="1" android:layout_height="50dp" android:hint="Length (m)" android:inputType="numberDecimal" android:layout_marginEnd="4dp"/>
                     <EditText android:id="@+id/etHeight" android:layout_width="0dp" android:layout_weight="1" android:layout_height="50dp" android:hint="Height (m)" android:inputType="numberDecimal" android:layout_marginStart="4dp"/>
@@ -118,18 +127,17 @@
         </com.google.android.material.card.MaterialCardView>
         <!--  CALCULATE + HISTORY BUTTONS  -->
         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:weightSum="3" android:layout_marginTop="14dp">
-            <com.google.android.material.button.MaterialButton android:id="@+id/btnCalc" android:layout_width="0dp" android:layout_weight="1" android:layout_height="55dp" android:layout_marginEnd="5dp" android:text="📊 CALCULATE" app:backgroundTint="#A0B7BA"/>
-            <com.google.android.material.button.MaterialButton android:id="@+id/btnHistory" android:layout_width="0dp" android:layout_weight="1" android:layout_height="55dp" android:layout_marginStart="5dp" android:text="📜 HISTORY" app:backgroundTint="#7B7089"/>
+            <com.google.android.material.button.MaterialButton android:id="@+id/btnCalc" android:layout_width="0dp" android:layout_weight="1" android:layout_height="55dp" android:layout_marginEnd="5dp" android:text="📊 CALCULATE" app:backgroundTint="#A0B7BA" android:textSize="12sp"/>
+            <com.google.android.material.button.MaterialButton android:id="@+id/btnHistory" android:layout_width="0dp" android:layout_weight="1" android:layout_height="55dp" android:layout_marginStart="5dp" android:text="📜 HISTORY" app:backgroundTint="#52400B"/>
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnShare"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="55dp"
-                android:text="📤 SHARE RESULT"
+                android:text="📤 SHARE "
                 android:backgroundTint="#1FA7A5"
                 android:textColor="#FFFFFF"
-                android:layout_marginStart="5dp"
-                android:layout_margin="16dp"/>
+                android:layout_marginStart="5dp" />
         </LinearLayout>
         <!--  RESULTS CARD  -->
         <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="14dp" app:cardCornerRadius="16dp" app:cardElevation="8dp" app:cardBackgroundColor="#E2F4F6">

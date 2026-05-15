@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
 class DatabaseHelper(context: Context) :
-    SQLiteOpenHelper(context, "ConstructionDB", null, 21) {
+    SQLiteOpenHelper(context, "ConstructionDB", null, 23) {
 
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL("""
@@ -493,6 +493,18 @@ class DatabaseHelper(context: Context) :
             db.execSQL("ALTER TABLE tile_history ADD COLUMN labor_price REAL DEFAULT 0.0")
             db.execSQL("ALTER TABLE tile_history ADD COLUMN total_cost REAL DEFAULT 0.0")
         }
+        // بعد السطر:  if (oldVersion < 19) { ... }
+        if (oldVersion < 20) {
+            db.execSQL("ALTER TABLE brick_history ADD COLUMN brick_price  REAL DEFAULT 0")
+            db.execSQL("ALTER TABLE brick_history ADD COLUMN cement_price REAL DEFAULT 0")
+            db.execSQL("ALTER TABLE brick_history ADD COLUMN sand_price   REAL DEFAULT 0")
+            db.execSQL("ALTER TABLE brick_history ADD COLUMN total_cost   REAL DEFAULT 0")
+        }
+        if (oldVersion < 23) {
+            db.execSQL("ALTER TABLE stair_history ADD COLUMN concrete_price REAL DEFAULT 0")
+            db.execSQL("ALTER TABLE stair_history ADD COLUMN finishing_price REAL DEFAULT 0")
+            db.execSQL("ALTER TABLE stair_history ADD COLUMN total_cost REAL DEFAULT 0")
+        }
 
     }
 
@@ -583,7 +595,11 @@ class DatabaseHelper(context: Context) :
         mortarRatio: String,
         bricks: Int,        cementBags: Double, sandM3: Double,
         wallArea: Double,   wallVolume: Double,
-        status: String,     date: String
+        status: String,     date: String,
+        brickPrice: Double  = 0.0,   // ← أضف هذا
+        cementPrice: Double = 0.0,   // ← أضف هذا
+        sandPrice: Double   = 0.0,   // ← أضف هذا
+        totalCost: Double   = 0.0
     ): Long {
         val cv = ContentValues().apply {
             put("wall_length",  wallLength)
@@ -600,6 +616,10 @@ class DatabaseHelper(context: Context) :
             put("wall_volume",  wallVolume)
             put("status",       status)
             put("date",         date)
+            put("brick_price",  brickPrice)
+            put("cement_price", cementPrice)
+            put("sand_price",   sandPrice)
+            put("total_cost",   totalCost)
         }
         return writableDatabase.insert("brick_history", null, cv)
     }
@@ -610,23 +630,14 @@ class DatabaseHelper(context: Context) :
             "SELECT * FROM brick_history ORDER BY id DESC", null)
         c.use {
             while (it.moveToNext()) {
-                list.add(mapOf(
-                    "id"          to it.getString(it.getColumnIndexOrThrow("id")),
-                    "wall_length" to it.getString(it.getColumnIndexOrThrow("wall_length")),
-                    "wall_height" to it.getString(it.getColumnIndexOrThrow("wall_height")),
-                    "wall_thick"  to it.getString(it.getColumnIndexOrThrow("wall_thick")),
-                    "brick_l"     to it.getString(it.getColumnIndexOrThrow("brick_l")),
-                    "brick_h"     to it.getString(it.getColumnIndexOrThrow("brick_h")),
-                    "brick_w"     to it.getString(it.getColumnIndexOrThrow("brick_w")),
-                    "mortar_ratio" to it.getString(it.getColumnIndexOrThrow("mortar_ratio")),
-                    "bricks"      to it.getString(it.getColumnIndexOrThrow("bricks")),
-                    "cement_bags" to it.getString(it.getColumnIndexOrThrow("cement_bags")),
-                    "sand_m3"     to it.getString(it.getColumnIndexOrThrow("sand_m3")),
-                    "wall_area"   to it.getString(it.getColumnIndexOrThrow("wall_area")),
-                    "wall_volume" to it.getString(it.getColumnIndexOrThrow("wall_volume")),
-                    "status"      to it.getString(it.getColumnIndexOrThrow("status")),
-                    "date"        to it.getString(it.getColumnIndexOrThrow("date"))
-                ))
+                val map = mutableMapOf<String, String>()
+                for (i in 0 until it.columnCount)
+                    map[it.getColumnName(i)] = it.getString(i) ?: ""
+                if (!map.containsKey("brick_price"))  map["brick_price"]  = "0"
+                if (!map.containsKey("cement_price")) map["cement_price"] = "0"
+                if (!map.containsKey("sand_price"))   map["sand_price"]   = "0"
+                if (!map.containsKey("total_cost"))   map["total_cost"]   = "0"
+                list.add(map)
             }
         }
         return list
@@ -793,7 +804,10 @@ class DatabaseHelper(context: Context) :
     fun insertStair(
         type: String,   height: Double, steps: Int,
         riser: Double,  tread: Double,  blondel: Double,
-        length: Double, area: Double,   status: String, date: String
+        length: Double, area: Double,   status: String, date: String,
+        concretePrice: Double  = 0.0,  // ← جديد
+        finishingPrice: Double = 0.0,  // ← جديد
+        totalCost: Double      = 0.0   // ← جديد
     ): Long {
         val cv = ContentValues().apply {
             put("type",    type);    put("height",  height)
@@ -801,31 +815,27 @@ class DatabaseHelper(context: Context) :
             put("tread",   tread);   put("blondel", blondel)
             put("length",  length);  put("area",    area)
             put("status",  status);  put("date",    date)
+            put("concrete_price",  concretePrice)   // ← جديد
+            put("finishing_price", finishingPrice)  // ← جديد
+            put("total_cost",      totalCost)       // ← جديد
         }
         return writableDatabase.insert("stair_history", null, cv)
     }
 
-    fun getAllStairs(): List<Map<String, String>> {
+    fun getAllStairHistory(): List<Map<String, String>> {
         val list = mutableListOf<Map<String, String>>()
         val c = readableDatabase.rawQuery(
             "SELECT * FROM stair_history ORDER BY id DESC", null)
-        c.use {
-            while (it.moveToNext()) {
-                list.add(mapOf(
-                    "id"      to it.getString(it.getColumnIndexOrThrow("id")),
-                    "type"    to it.getString(it.getColumnIndexOrThrow("type")),
-                    "height"  to it.getString(it.getColumnIndexOrThrow("height")),
-                    "steps"   to it.getString(it.getColumnIndexOrThrow("steps")),
-                    "riser"   to it.getString(it.getColumnIndexOrThrow("riser")),
-                    "tread"   to it.getString(it.getColumnIndexOrThrow("tread")),
-                    "blondel" to it.getString(it.getColumnIndexOrThrow("blondel")),
-                    "length"  to it.getString(it.getColumnIndexOrThrow("length")),
-                    "area"    to it.getString(it.getColumnIndexOrThrow("area")),
-                    "status"  to it.getString(it.getColumnIndexOrThrow("status")),
-                    "date"    to it.getString(it.getColumnIndexOrThrow("date"))
-                ))
-            }
+        while (c.moveToNext()) {
+            val map = mutableMapOf<String, String>()
+            for (i in 0 until c.columnCount)
+                map[c.getColumnName(i)] = c.getString(i) ?: ""
+            if (!map.containsKey("concrete_price"))  map["concrete_price"]  = "0"
+            if (!map.containsKey("finishing_price")) map["finishing_price"] = "0"
+            if (!map.containsKey("total_cost"))      map["total_cost"]      = "0"
+            list.add(map)
         }
+        c.close()
         return list
     }
 
@@ -1459,20 +1469,6 @@ class DatabaseHelper(context: Context) :
     fun clearAllGeo() {
         writableDatabase.delete("geo_records", null, null)
     }
-    fun getAllStairHistory(): List<Map<String, String>> {
-        val list = mutableListOf<Map<String, String>>()
-        val db   = readableDatabase
-        val cursor = db.rawQuery(
-            "SELECT * FROM stair_history ORDER BY id DESC", null)
-        while (cursor.moveToNext()) {
-            val map = mutableMapOf<String, String>()
-            for (i in 0 until cursor.columnCount)
-                map[cursor.getColumnName(i)] = cursor.getString(i) ?: ""
-            list.add(map)
-        }
-        cursor.close()
-        return list
-    }
 
     fun clearStairHistory() {
         writableDatabase.execSQL("DELETE FROM stair_history")
@@ -1484,7 +1480,12 @@ class DatabaseHelper(context: Context) :
     fun insertConcreteHistory(
         element: String, grade: String, volume: Double,
         cementBags: Int, sandM3: Double, gravelM3: Double,
-        steelKg: Double, mixRatio: String, date: String
+        steelKg: Double, mixRatio: String, date: String,
+        cementPrice: Double = 0.0,
+        sandPrice:   Double = 0.0,  // ← جديد
+        gravelPrice: Double = 0.0,  // ← جديد
+        steelPrice:  Double = 0.0,  // ← جديد
+        totalCost:   Double = 0.0
     ) {
         val cv = ContentValues().apply {
             put("date",        date)
@@ -1496,6 +1497,11 @@ class DatabaseHelper(context: Context) :
             put("gravel_m3",   gravelM3)
             put("steel_kg",    steelKg)
             put("mix_ratio",   mixRatio)
+            put("cement_price",  cementPrice)
+            put("sand_price",    sandPrice)
+            put("gravel_price",  gravelPrice)
+            put("steel_price",   steelPrice)
+            put("total_cost",    totalCost)
         }
         writableDatabase.insert("concrete_history", null, cv)
     }
@@ -1508,6 +1514,11 @@ class DatabaseHelper(context: Context) :
             val map = mutableMapOf<String, String>()
             for (i in 0 until cursor.columnCount)
                 map[cursor.getColumnName(i)] = cursor.getString(i) ?: ""
+            if (!map.containsKey("cement_price"))  map["cement_price"]  = "0"
+            if (!map.containsKey("sand_price"))    map["sand_price"]    = "0"
+            if (!map.containsKey("gravel_price"))  map["gravel_price"]  = "0"
+            if (!map.containsKey("steel_price"))   map["steel_price"]   = "0"
+            if (!map.containsKey("total_cost"))    map["total_cost"]    = "0"
             list.add(map)
         }
         cursor.close()

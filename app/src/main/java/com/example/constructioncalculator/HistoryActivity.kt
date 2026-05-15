@@ -94,7 +94,7 @@ class HistoryActivity : AppCompatActivity() {
 
     // ══ STAIRS ══════════════════════════════════════════════════════════
     private fun loadStairs() {
-        val list  = db.getAllStairs()
+        val list  = db.getAllStairHistory()
         val items = list.map { r ->
             """
             🪜 ${r["type"]}  |  ${r["date"]}

@@ -7,11 +7,9 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.toString
 
 
 class ConcreteActivity : AppCompatActivity() {
-
 
     private lateinit var db: DatabaseHelper
 
@@ -50,7 +48,6 @@ class ConcreteActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_concrete)
 
-        // ✅ غيّرنا ConcreteDB إلى DatabaseHelper
         db = DatabaseHelper(this)
 
         val imgElement   = findViewById<ImageView>(R.id.imgElement)
@@ -65,6 +62,14 @@ class ConcreteActivity : AppCompatActivity() {
         val btnCalc      = findViewById<Button>(R.id.btnCalc)
         val btnHistory   = findViewById<Button>(R.id.btnHistory)
         val tvResult     = findViewById<TextView>(R.id.tvResult)
+        val btnShare     = findViewById<Button>(R.id.btnShare)
+        val btnReset     = findViewById<Button>(R.id.btnReset)
+
+        // ── حقول السعر ──
+        val etCementPrice = findViewById<EditText>(R.id.etCementPrice)
+        val etSandPrice   = findViewById<EditText>(R.id.etSandPrice)
+        val etGravelPrice = findViewById<EditText>(R.id.etGravelPrice)
+        val etSteelPrice  = findViewById<EditText>(R.id.etSteelPrice)
 
         val elements = arrayOf("Slab", "Footing")
         val grades   = mixTable.keys.toTypedArray()
@@ -103,23 +108,29 @@ class ConcreteActivity : AppCompatActivity() {
             val W = etWidth.text.toString().toDoubleOrNull()
             val H = etHeight.text.toString().toDoubleOrNull()
 
-            if (L == null ||W== null||H == null ||
-         L <=0|| W <= 0||H <= 0) {
+            if (L == null || W == null || H == null ||
+                L <= 0 || W <= 0 || H <= 0) {
             Toast.makeText(this,
                 "⚠️ Please enter valid dimensions (> 0)",
                 Toast.LENGTH_SHORT).show()
             return@setOnClickListener
         }
 
-            val openings = etOpenings.text.toString().toDoubleOrNull() ?: 0.0
-            val wastePct = wasteBar.progress
-            val wasteFac = 1.0 + (wastePct / 100.0)
-            val element  = elements[spinnerEl.selectedItemPosition]
-            val gradeKey = grades[spinnerGrade.selectedItemPosition]
-            val mix      = mixTable[gradeKey]!!
-            val steel    = steelTable[element]!!
-            val date     = SimpleDateFormat("dd/MM/yyyy HH:mm",
+            val openings    = etOpenings.text.toString().toDoubleOrNull() ?: 0.0
+            val wastePct    = wasteBar.progress
+            val wasteFac    = 1.0 + (wastePct / 100.0)
+            val element     = elements[spinnerEl.selectedItemPosition]
+            val gradeKey    = grades[spinnerGrade.selectedItemPosition]
+            val mix         = mixTable[gradeKey]!!
+            val steel       = steelTable[element]!!
+            val date        = SimpleDateFormat("dd/MM/yyyy HH:mm",
                 Locale.getDefault()).format(Date())
+
+            // ── قراءة الأسعار ──
+            val cementPrice = etCementPrice.text.toString().toDoubleOrNull() ?: 0.0
+            val sandPrice   = etSandPrice.text.toString().toDoubleOrNull()   ?: 0.0
+            val gravelPrice = etGravelPrice.text.toString().toDoubleOrNull() ?: 0.0
+            val steelPrice  = etSteelPrice.text.toString().toDoubleOrNull()  ?: 0.0
 
             val volumeGross = L * W * H
             val volumeNet   = volumeGross - openings
@@ -147,8 +158,15 @@ class ConcreteActivity : AppCompatActivity() {
             val steelTypKg  = (steel.typPct / 100.0) * volumeNet * 7850
             val steelMaxKg  = (steel.maxPct / 100.0) * volumeNet * 7850
 
+            // ── حساب التكلفة ──
+            val cementCost = bags * cementPrice
+            val sandCost   = sandM3 * sandPrice
+            val gravelCost = gravelM3 * gravelPrice
+            val steelCost  = steelTypKg * steelPrice
+            val totalCost  = cementCost + sandCost + gravelCost + steelCost
+
             val sb = StringBuilder()
-            sb.append("🏗️  Concrete Calculator\n")
+            sb.append("🏗  Concrete Calculator\n")
             sb.append("    Standard: DTR BC 2.41 / CBA93\n")
             sb.append("━━━━━━━━━━━━━━━━━━━━━━━━━━\n")
             sb.append("📥  Inputs\n")
@@ -168,7 +186,7 @@ class ConcreteActivity : AppCompatActivity() {
             sb.append("    V_order = ${volumeNet.f(3)} × ${wasteFac.f(2)}\n")
             sb.append("            = ${volumeCmd.f(3)} m³\n")
             sb.append("━━━━━━━━━━━━━━━━━━━━━━━━━━\n")
-            sb.append("🏗️  Step 3 — Cement\n")
+            sb.append("🏗  Step 3 — Cement\n")
             sb.append("    Dosage  : ${mix.cementKgPerM3.toInt()} kg/m³\n")
             sb.append("    C_total = ${mix.cementKgPerM3.toInt()} × ${volumeCmd.f(3)}\n")
             sb.append("            = ${cementKg.f(1)} kg\n")
@@ -199,21 +217,44 @@ class ConcreteActivity : AppCompatActivity() {
             sb.append("✅  Water  : ${waterLiters.f(1)} L\n")
             sb.append("✅  Steel  : ${steelTypKg.f(1)} kg (typical)\n")
             sb.append("⚠️  Steel values are indicative.\n")
-            sb.append("💾  Saved ($date)")
 
+            // ── عرض التكلفة ──
+            if (totalCost > 0) {
+                sb.append("━━━━━━━━━━━━━━━━━━━━━━━━━━\n")
+                if (cementPrice > 0) {
+                    sb.append("💰 Cement Cost = ${"%.2f".format(cementCost)} DZD\n")
+                }
+                if (sandPrice > 0) {
+                    sb.append("💰 Sand Cost   = ${"%.2f".format(sandCost)} DZD\n")
+                }
+                if (gravelPrice > 0) {
+                    sb.append("💰 Gravel Cost = ${"%.2f".format(gravelCost)} DZD\n")
+                }
+                if (steelPrice > 0) {
+                    sb.append("💰 Steel Cost  = ${"%.2f".format(steelCost)} DZD\n")
+                }
+                sb.append("━━━━━━━━━━━━━━━━━━━━━━━━━━\n")
+                sb.append("💵 Total Cost  = ${"%.2f".format(totalCost)} DZD\n")
+            }
+
+            sb.append("💾  Saved ($date)")
             tvResult.text = sb.toString()
 
-            // ✅ غيّرنا db.insert إلى db.insertConcreteHistory
             db.insertConcreteHistory(
-                element    = element,
-                grade      = gradeKey,
-                volume     = volumeNet,
-                cementBags = bags,
-                sandM3     = sandM3,
-                gravelM3   = gravelM3,
-                steelKg    = steelTypKg,
-                mixRatio   = mix.ratio,
-                date       = date
+                element     = element,
+            grade       = gradeKey,
+            volume      = volumeNet,
+            cementBags  = bags,
+            sandM3      = sandM3,
+            gravelM3    = gravelM3,
+            steelKg     = steelTypKg,
+            mixRatio    = mix.ratio,
+            date        = date,
+            cementPrice = cementPrice,
+            sandPrice   = sandPrice,
+            gravelPrice = gravelPrice,
+            steelPrice  = steelPrice,
+            totalCost   = totalCost
             )
             Toast.makeText(this, "✅ Saved to history", Toast.LENGTH_SHORT).show()
         }
@@ -222,7 +263,6 @@ class ConcreteActivity : AppCompatActivity() {
         //  HISTORY
         // ════════════════════════════════════════════════════════════════
         btnHistory.setOnClickListener {
-            // ✅ غيّرنا db.getAll() إلى db.getAllConcreteHistory()
             val records = db.getAllConcreteHistory()
             if (records.isEmpty()) {
                 Toast.makeText(this, "No calculations yet",
@@ -231,7 +271,6 @@ class ConcreteActivity : AppCompatActivity() {
             }
 
             val sb = StringBuilder()
-            // ✅ أضفنا النوع صراحةً لحل مشكلة inference
             records.forEachIndexed { i: Int, h: Map<String, String> ->
                 sb.append("━━━━━━━━━━━━━━━━━━━━━━━━\n")
                 sb.append("#${i + 1}  📅 ${h["date"]}\n")
@@ -243,24 +282,26 @@ class ConcreteActivity : AppCompatActivity() {
                 sb.append("Gravel   : ${h["gravel_m3"]} m³\n")
                 sb.append("Steel    : ${h["steel_kg"]} kg\n")
                 sb.append("Mix      : ${h["mix_ratio"]}\n")
+                // ── عرض التكلفة ──
+                val cost = h["total_cost"]?.toDoubleOrNull() ?: 0.0
+                if (cost > 0) {
+                    sb.append("Cost     : ${"%.2f".format(cost)} DZD\n")
+                }
             }
 
             AlertDialog.Builder(this)
                 .setTitle("📜 Concrete History")
                 .setMessage(sb.toString())
                 .setPositiveButton("OK", null)
-            // ✅ غيّرنا db.deleteAll() إلى db.clearConcreteHistory()
-           .setNegativeButton("🗑 Clear History") { _, _ ->
-            db.clearConcreteHistory()
-            Toast.makeText(this, "History cleared",
-                Toast.LENGTH_SHORT).show()
+                .setNegativeButton("🗑 Clear History") { _, _ ->
+                    db.clearConcreteHistory()
+                    Toast.makeText(this, "History cleared",
+                        Toast.LENGTH_SHORT).show()
+                }
+                .show()
         }
-            .show()
-        }
-        val btnShare = findViewById<Button>(R.id.btnShare)
-        val btnReset = findViewById<Button>(R.id.btnReset)
 
-// ── SHARE ──
+        // ── SHARE ──
         btnShare.setOnClickListener {
             val result = tvResult.text.toString()
             if (result.isEmpty()) {
@@ -277,35 +318,34 @@ class ConcreteActivity : AppCompatActivity() {
             startActivity(Intent.createChooser(intent, "Share via"))
         }
 
-// ── RESET ──
+        // ── RESET ──
         btnReset.setOnClickListener {
             etLength.setText("")
             etWidth.setText("")
             etHeight.setText("")
             etOpenings.setText("")
+            etCementPrice.setText("")
+            etSandPrice.setText("")
+            etGravelPrice.setText("")
+            etSteelPrice.setText("")
             tvResult.text = ""
             wasteBar.progress = 5
             tvWaste.text = "5%"
             spinnerEl.setSelection(0)
             spinnerGrade.setSelection(0)
-            Toast.makeText(this,
-                "🔄 Reset done!",
-                Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "🔄 Reset done!", Toast.LENGTH_SHORT).show()
         }
-
 
         restoreLastResult(tvResult)
     }
-
     // ════════════════════════════════════════════════════════════════════
     private fun restoreLastResult(tvResult: TextView) {
-        // ✅ غيّرنا db.getLastResult() إلى db.getAllConcreteHistory()
         val records = db.getAllConcreteHistory()
         if (records.isEmpty()) return
         val last = records.first()
 
         val sb = StringBuilder()
-        sb.append("🏗️  Last Saved Calculation\n")
+        sb.append("🏗  Last Saved Calculation\n")
         sb.append("━━━━━━━━━━━━━━━━━━━━━━━━━━\n")
         sb.append("📅  ${last["date"]}\n")
         sb.append("    Element  : ${last["element"]}\n")
@@ -316,6 +356,10 @@ class ConcreteActivity : AppCompatActivity() {
         sb.append("    Gravel   : ${last["gravel_m3"]} m³\n")
         sb.append("    Steel    : ${last["steel_kg"]} kg\n")
         sb.append("    Mix      : ${last["mix_ratio"]}\n")
+        val cost = last["total_cost"]?.toDoubleOrNull() ?: 0.0
+        if (cost > 0) {
+            sb.append("    Cost     : ${"%.2f".format(cost)} DZD\n")
+        }
         sb.append("━━━━━━━━━━━━━━━━━━━━━━━━━━\n")
         sb.append("Press CALCULATE for a new result.")
         tvResult.text = sb.toString()
@@ -338,5 +382,4 @@ class ConcreteActivity : AppCompatActivity() {
             }
         }
     }
-
 }

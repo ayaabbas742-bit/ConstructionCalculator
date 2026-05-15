@@ -18,6 +18,7 @@
                     <ImageView android:id="@+id/brickImage" android:layout_width="match_parent" android:layout_height="match_parent" android:scaleType="centerCrop"/>
                 </com.google.android.material.card.MaterialCardView>
                 <Spinner android:id="@+id/spinnerBrick" android:layout_width="match_parent" android:layout_height="50dp" android:background="@drawable/spinner_bg" android:layout_marginBottom="10dp"/>
+                <TextView android:text="💰 COST ESTIMATION (optional)" android:textStyle="bold" android:textColor="#F57F17" android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingBottom="8dp" android:layout_marginTop="16dp"/>
                 <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="💰 Price per brick (DZD)" android:textSize="13sp" android:textStyle="bold" android:textColor="#5C3D2E" android:paddingBottom="4dp"/>
                 <EditText android:id="@+id/price" android:layout_width="match_parent" android:layout_height="50dp" android:hint="0.00 DZD" android:inputType="numberDecimal" android:background="@drawable/edittext_bg" android:paddingStart="12dp" android:paddingEnd="12dp"/>
                 <!-- Cement Price -->
@@ -128,17 +129,19 @@
         <!--  ══════════════════════════════════════  -->
         <!--  CALCULATE + HISTORY                     -->
         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:weightSum="3" android:layout_marginBottom="12dp">
-            <com.google.android.material.button.MaterialButton android:id="@+id/btnCalc" android:layout_width="0dp" android:layout_weight="1" android:layout_height="56dp" android:layout_marginEnd="6dp" android:text="📊 CALCULATE" android:textSize="14sp" android:textStyle="bold" app:backgroundTint="#E8C97A" android:textColor="#2C1810" app:cornerRadius="10dp"/>
-            <com.google.android.material.button.MaterialButton android:id="@+id/btnHistory" android:layout_width="0dp" android:layout_weight="1" android:layout_height="56dp" android:layout_marginStart="6dp" android:text="📜 HISTORY" android:textSize="14sp" app:backgroundTint="#2C1810" app:cornerRadius="10dp"/>
+            <com.google.android.material.button.MaterialButton android:id="@+id/btnCalc" android:layout_width="0dp" android:layout_weight="1" android:layout_height="56dp" android:layout_marginEnd="6dp" android:text="📊 CALCULATE" android:textSize="12sp" android:textStyle="bold" app:backgroundTint="#E8C97A" android:textColor="#2C1810" app:cornerRadius="10dp"/>
+            <com.google.android.material.button.MaterialButton android:id="@+id/btnHistory" android:layout_width="0dp" android:layout_weight="1" android:layout_height="56dp" android:layout_marginStart="6dp" android:text="📜 HISTORY" android:textSize="14sp" app:backgroundTint="#52400B" app:cornerRadius="10dp"/>
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnShare"
                 android:layout_width="0dp"
                 android:layout_height="56dp"
                 android:layout_weight="1"
                 android:text="📤 Share"
-                android:backgroundTint="#928C55"
+                android:textSize="14sp"
+                android:backgroundTint="#009688"
                 android:textColor="#FFFFFF"
-                android:layout_marginStart="4dp"/>
+                android:layout_marginStart="6dp"
+                app:cornerRadius="10dp"/>
         </LinearLayout>
 
         <!--  RESULTS CARD                            -->

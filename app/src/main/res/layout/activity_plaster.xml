@@ -11,6 +11,8 @@
         </com.google.android.material.card.MaterialCardView>
 
         <!-- Cement Price -->
+        <TextView android:text="💰 COST ESTIMATION (optional)" android:textStyle="bold" android:textColor="#F57F17" android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingBottom="8dp"
+            android:layout_marginTop="16dp" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -87,6 +89,9 @@
             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
                 <!--  ── WALL DIMENSIONS ──  -->
                 <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="🧱 Wall Dimensions" android:textStyle="bold" android:textSize="15sp" android:textColor="#334155" android:paddingBottom="6dp"/>
+                <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="140dp" android:layout_gravity="center" android:layout_marginBottom="12dp" app:cardCornerRadius="10dp" app:cardElevation="4dp">
+                    <ImageView android:id="@+id/wallimage" android:layout_width="match_parent" android:layout_height="match_parent" android:src="@drawable/wall" android:scaleType="centerCrop"/>
+                </com.google.android.material.card.MaterialCardView>
                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:weightSum="2">
                     <EditText android:id="@+id/etLength" android:layout_width="0dp" android:layout_weight="1" android:layout_height="50dp" android:hint="Length (m)" android:inputType="numberDecimal" android:layout_marginEnd="4dp"/>
                     <EditText android:id="@+id/etHeight" android:layout_width="0dp" android:layout_weight="1" android:layout_height="50dp" android:hint="Height (m)" android:inputType="numberDecimal" android:layout_marginStart="4dp"/>
@@ -123,26 +128,37 @@
                 <!--  WALLS LIST  -->
                 <TextView android:id="@+id/tvWalls" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Walls: none" android:textSize="13sp" android:fontFamily="monospace" android:padding="8dp" android:background="#F0F9FF" android:textColor="#1E293B"/>
                 <View android:layout_width="match_parent" android:layout_height="1dp" android:layout_marginVertical="12dp" android:background="#B0BEC5"/>
-                <!--  THICKNESS SPINNER  -->
-                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="📐 Plaster Thickness" android:textStyle="bold" android:textSize="14sp" android:textColor="#334155"/>
-                <Spinner android:id="@+id/spinnerThickness" android:layout_width="match_parent" android:layout_height="50dp"/>
-                <!--  MORTAR SPINNER  -->
-                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="🧪 Mortar Ratio (Cement : Sand)" android:textStyle="bold" android:textSize="14sp" android:textColor="#334155" android:paddingTop="8dp"/>
-                <Spinner android:id="@+id/spinnerMortar" android:layout_width="match_parent" android:layout_height="50dp"/>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
+                <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp" app:cardCornerRadius="16dp" app:cardElevation="8dp" app:cardBackgroundColor="#E6E2DD">
+                <!--  THICKNESS SPINNER  -->
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
+                        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginBottom="12dp">
+                            <View android:layout_width="4dp" android:layout_height="24dp" android:background="#E8C97A" android:layout_marginEnd="10dp"/>
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Thickness &amp; MORTAR" android:textSize="13sp" android:textStyle="bold" android:textColor="#2C1810" android:letterSpacing="0.1"/>
+                        </LinearLayout>
+                       <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="📐 Plaster Thickness" android:textStyle="bold" android:textSize="14sp" android:textColor="#334155"/>
+                       <Spinner android:id="@+id/spinnerThickness" android:layout_width="match_parent" android:layout_height="50dp"/>
+                <!--  MORTAR SPINNER  -->
+                       <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="🧪 Mortar Ratio (Cement : Sand)" android:textStyle="bold" android:textSize="14sp" android:textColor="#334155" android:paddingTop="8dp"/>
+                       <Spinner android:id="@+id/spinnerMortar" android:layout_width="match_parent" android:layout_height="50dp"/>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+
         <!--  ════════════════════════════════════  -->
         <!--    CALCULATE + HISTORY BUTTONS         -->
         <!--  ════════════════════════════════════  -->
         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:weightSum="3" android:layout_marginTop="14dp">
-            <com.google.android.material.button.MaterialButton android:id="@+id/btnCalcPlaster" android:layout_width="0dp" android:layout_weight="1" android:layout_height="55dp" android:layout_marginEnd="5dp" android:text="📊 CALCULATE" app:backgroundTint="#3C4749"/>
+            <com.google.android.material.button.MaterialButton android:id="@+id/btnCalcPlaster" android:layout_width="0dp" android:layout_weight="1" android:layout_height="56dp" android:layout_marginEnd="5dp" android:text="📊 CALCULATE" app:backgroundTint="#3C4749"
+                android:textSize="12sp"/>
             <com.google.android.material.button.MaterialButton android:id="@+id/btnHistory" android:layout_width="0dp" android:layout_weight="1" android:layout_height="55dp" android:layout_marginStart="5dp" android:text="📜 HISTORY" app:backgroundTint="#52400B"/>
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnShare"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="56dp"
-                android:layout_marginStart="4dp"
+                android:layout_height="55dp"
+                android:layout_marginStart="5dp"
                 android:text="📤 Share"
                 app:backgroundTint="#009688"
                 android:textColor="#FFFFFF" />

@@ -13,14 +13,28 @@ class IrregularShapeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_irregular_shape)
 
-        val shapeView = findViewById<IrregularShapeView>(R.id.shapeView)
-        val result    = findViewById<TextView>(R.id.txtArea)
-        val etX       = findViewById<EditText>(R.id.etX)
-        val etY       = findViewById<EditText>(R.id.etY)
-        val tvCount   = findViewById<TextView>(R.id.tvPointCount)
+        val shapeView    = findViewById<IrregularShapeView>(R.id.shapeView)
+        val result       = findViewById<TextView>(R.id.txtArea)
+        val etX          = findViewById<EditText>(R.id.etX)
+        val etY          = findViewById<EditText>(R.id.etY)
+        val tvCount      = findViewById<TextView>(R.id.tvPointCount)
+        val tvPointsList = findViewById<TextView>(R.id.tvPointsList)
+        val etEditIndex  = findViewById<EditText>(R.id.etEditIndex)
+        val etEditX      = findViewById<EditText>(R.id.etEditX)
+        val etEditY      = findViewById<EditText>(R.id.etEditY)
 
         fun updateCount() {
             tvCount.text = "Points added: ${allPoints.size}"
+        }
+
+        fun updateList() {
+            tvPointsList.text = if (allPoints.isEmpty()) {
+                "No points yet"
+            } else {
+                allPoints.mapIndexed { i, (x, y) ->
+                    "P${i + 1}:  X = $x  |  Y = $y"
+                }.joinToString("\n")
+            }
         }
 
         // ➕ ADD
@@ -35,6 +49,7 @@ class IrregularShapeActivity : AppCompatActivity() {
             etX.text.clear()
             etY.text.clear()
             updateCount()
+            updateList()
             Toast.makeText(this, "Point ${allPoints.size} added", Toast.LENGTH_SHORT).show()
         }
 
@@ -43,6 +58,7 @@ class IrregularShapeActivity : AppCompatActivity() {
             if (allPoints.isNotEmpty()) {
                 allPoints.removeAt(allPoints.lastIndex)
                 updateCount()
+                updateList()
                 Toast.makeText(this, "Last point removed", Toast.LENGTH_SHORT).show()
             } else {
                 Toast.makeText(this, "No points to remove", Toast.LENGTH_SHORT).show()
@@ -55,8 +71,32 @@ class IrregularShapeActivity : AppCompatActivity() {
             shapeView.points = emptyList()
             result.text = "Area ="
             updateCount()
+            updateList()
         }
 
+        // ✏️ EDIT
+        findViewById<Button>(R.id.btnEditPoint).setOnClickListener {
+            val index = etEditIndex.text.toString().toIntOrNull()
+            val newX  = etEditX.text.toString().toFloatOrNull()
+            val newY  = etEditY.text.toString().toFloatOrNull()
+
+            when {
+                index == null || newX == null || newY == null ->
+                Toast.makeText(this, "Enter point number, X, and Y", Toast.LENGTH_SHORT).show()
+
+                index < 1 || index > allPoints.size ->
+                    Toast.makeText(this, "Point number must be between 1 and ${allPoints.size}", Toast.LENGTH_SHORT).show()
+
+                else -> {
+                    allPoints[index - 1] = newX to newY
+                    etEditIndex.text.clear()
+                    etEditX.text.clear()
+                    etEditY.text.clear()
+                    updateList()
+                    Toast.makeText(this, "Point $index updated ✅", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
         // 📐 CALCULATE
         findViewById<Button>(R.id.btnCalculate).setOnClickListener {
             if (allPoints.size < 3) {

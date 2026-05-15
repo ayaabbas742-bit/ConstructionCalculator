@@ -24,7 +24,7 @@ class FeatureAdapter(private val list: List<Feature>) :
         "#B0BEC5", // Brown Gray فاتح
         "#B0BEC5", // Lime فاتح
         "#B0BEC5", // Gray Blue فاتح
-        "#B0BEC5", // Lavender فاتح
+       "#B0BEC5", // Lavender فاتح
         "#B0BEC5" // Red فاتح
     )
 

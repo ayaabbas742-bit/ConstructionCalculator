@@ -10,7 +10,7 @@ android:background="#F5F9FF">
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
     android:layout_height="56dp"
-    android:background="#1A5276"
+    android:background="#7C7E80"
     android:gravity="center_vertical"
     android:orientation="horizontal"
     android:padding="16dp">
@@ -110,7 +110,7 @@ android:background="#F5F9FF">
         android:layout_width="200dp"
         android:layout_height="50dp"
         android:text="Add Invoice"
-        android:backgroundTint="#1A5276"
+        android:backgroundTint="#37474F"
         android:textColor="#FFFFFF"
         android:textSize="16sp"/>
 </LinearLayout>
@@ -135,7 +135,7 @@ android:background="#F5F9FF">
     android:layout_alignParentEnd="true"
     android:layout_margin="16dp"
     android:src="@android:drawable/ic_input_add"
-    android:backgroundTint="#2196F3"
+    android:backgroundTint="#37474F"
     android:tint="#FFFFFF"
     android:visibility="gone"/>
 

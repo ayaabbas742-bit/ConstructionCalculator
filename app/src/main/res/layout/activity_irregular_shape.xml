@@ -1,122 +1,368 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white">
+    android:background="#FFFFFF"
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="20dp">
+        android:paddingBottom="32dp">
 
-        <!-- TITLE -->
+        <!-- HEADER -->
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Irregular Shape Calculator"
-            android:textSize="22sp"
+            android:text="Area Calculator"
+            android:textSize="26sp"
             android:textStyle="bold"
-            android:layout_gravity="center_horizontal"
-            android:paddingBottom="10dp"/>
+            android:textColor="#444444"
+            android:gravity="center"
+            android:paddingTop="24dp"
+            android:paddingBottom="16dp"/>
 
         <!-- CANVAS -->
         <com.example.constructioncalculator.IrregularShapeView
             android:id="@+id/shapeView"
             android:layout_width="match_parent"
             android:layout_height="220dp"
-            android:background="#EEE"
-            android:layout_marginBottom="15dp"/>
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="#F5EDE8"/>
 
-        <!-- POINT COUNT -->
-        <TextView
-            android:id="@+id/tvPointCount"
+        <!-- RESULT ROW -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Points added: 0"
-            android:textSize="14sp"
-            android:textColor="#666666"
-            android:paddingBottom="8dp"/>
+            android:orientation="horizontal"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="12dp">
 
-        <!-- INPUT -->
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="6dp"
+                android:hint="Area ="
+                app:boxCornerRadiusTopStart="12dp"
+                app:boxCornerRadiusTopEnd="12dp"
+                app:boxCornerRadiusBottomStart="12dp"
+                app:boxCornerRadiusBottomEnd="12dp"
+                app:boxStrokeColor="#CCCCCC">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtArea"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:enabled="false"
+                    android:textColor="#222222"
+                    android:textSize="16sp"
+                    android:textStyle="bold"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:hint="Points ="
+                app:boxCornerRadiusTopStart="12dp"
+                app:boxCornerRadiusTopEnd="12dp"
+                app:boxCornerRadiusBottomStart="12dp"
+                app:boxCornerRadiusBottomEnd="12dp"
+                app:boxStrokeColor="#CCCCCC">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tvPointCount"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:enabled="false"
+                    android:text="0"
+                    android:textColor="#222222"
+                    android:textSize="16sp"
+                    android:textStyle="bold"/>
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+         <!-- POINTS LIST -->
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="8dp"
+            android:hint="Points"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusBottomEnd="12dp"
+            app:boxStrokeColor="#CCCCCC">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tvPointsList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minLines="2"
+                android:enabled="false"
+                android:text="No points yet"
+                android:textColor="#888888"
+                android:fontFamily="monospace"
+                android:textSize="13sp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- DIVIDER -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="#111111"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"/>
+
+        <!-- ADD POINT -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Add Point"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            android:paddingBottom="6dp"/>
+            android:textSize="13sp"
+            android:textColor="#888888"
+            android:layout_marginStart="30dp"
+            android:layout_marginBottom="4dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp">
 
-            <EditText
-                android:id="@+id/etX"
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="6dp"
                 android:hint="X"
-                android:inputType="numberDecimal"
-                android:layout_marginEnd="8dp"/>
+                app:suffixText="m"
+                app:boxCornerRadiusTopStart="12dp"
+                app:boxCornerRadiusTopEnd="12dp"
+                app:boxCornerRadiusBottomStart="12dp"
+                app:boxCornerRadiusBottomEnd="12dp"
+                app:boxStrokeColor="#CCCCCC">
 
-            <EditText
-                android:id="@+id/etY"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etX"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:inputType="numberDecimal"
+                    android:textSize="16sp"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
                 android:hint="Y"
-                android:inputType="numberDecimal"/>
-
+                app:suffixText="m"
+                app:boxCornerRadiusTopStart="12dp"
+                app:boxCornerRadiusTopEnd="12dp"
+                app:boxCornerRadiusBottomStart="12dp"
+                app:boxCornerRadiusBottomEnd="12dp"
+                app:boxStrokeColor="#CCCCCC">
+                <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etY"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:inputType="numberDecimal"
+                android:textSize="16sp"/>
+            </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 
-        <!-- BUTTONS -->
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnAddPoint"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:text="➕ Add Point"
-            android:backgroundTint="#2196F3"
-            android:layout_marginTop="10dp"/>
-
-        <Button
-            android:id="@+id/btnDeletePoint"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:text="❌ Delete Last Point"
-            android:backgroundTint="#5B5A5A"
-            android:layout_marginTop="6dp"/>
-
-        <Button
-            android:id="@+id/btnClearPoints"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:text="♻️ Clear All"
-            android:backgroundTint="#786969"
-            android:layout_marginTop="6dp"/>
-
-        <Button
-            android:id="@+id/btnCalculate"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="50dp"
-            android:text="📐 Calculate Area"
-            android:backgroundTint="#3C3C3C"
-            android:layout_marginTop="10dp"/>
+            android:layout_gravity="center"
+            android:layout_marginTop="12dp"
+            android:text="+ ADD POINT"
+            android:textColor="#FFFFFF"
+            android:paddingStart="40dp"
+            android:paddingEnd="40dp"
+            app:backgroundTint="#111111"
+            app:cornerRadius="8dp"/>
 
-        <!-- RESULT -->
+        <!-- DIVIDER -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="#111111"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"/>
+
+        <!-- EDIT POINT -->
         <TextView
-            android:id="@+id/txtArea"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Area ="
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:gravity="center"
-            android:padding="16dp"
-            android:layout_marginTop="10dp"
-            android:background="#F5F5F5"/>
+            android:text="Edit Point"
+            android:textSize="13sp"
+            android:textColor="#888888"
+            android:layout_marginStart="30dp"
+            android:layout_marginBottom="4dp"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:hint="Point # (e.g. 3)"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusBottomEnd="12dp"
+            app:boxStrokeColor="#CCCCCC">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etEditIndex"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:inputType="number"
+                android:textSize="16sp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp">
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="6dp"
+                android:hint="New X"
+                app:suffixText="m"
+                app:boxCornerRadiusTopStart="12dp"
+                app:boxCornerRadiusTopEnd="12dp"
+                app:boxCornerRadiusBottomStart="12dp"
+                app:boxCornerRadiusBottomEnd="12dp"
+                app:boxStrokeColor="#CCCCCC">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etEditX"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:inputType="numberDecimal"
+                    android:textSize="16sp"/>
+            </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:hint="New Y"
+            app:suffixText="m"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusBottomEnd="12dp"
+            app:boxStrokeColor="#CCCCCC">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etEditY"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:inputType="numberDecimal"
+                android:textSize="16sp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnEditPoint"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="12dp"
+            android:text="✏️ EDIT POINT"
+            android:textColor="#FFFFFF"
+            android:paddingStart="40dp"
+            android:paddingEnd="40dp"
+            app:backgroundTint="#111111"
+            app:cornerRadius="8dp"/>
+
+        <!-- DIVIDER -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="#111111"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"/>
+
+        <!-- CALCULATE -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCalculate"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:text="CALCULATE"
+            android:textColor="#FFFFFF"
+            android:paddingStart="40dp"
+            android:paddingEnd="40dp"
+            app:backgroundTint="#111111"
+            app:cornerRadius="8dp"/>
+
+        <!-- DELETE + CLEAR -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="16dp">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnDeletePoint"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="48dp"
+                android:layout_marginEnd="6dp"
+                android:text="DELETE LAST"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp"
+                app:backgroundTint="#C62828"
+                app:cornerRadius="8dp"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnClearPoints"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="48dp"
+                android:layout_marginStart="6dp"
+                android:text="CLEAR ALL"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp"
+                app:backgroundTint="#E65100"
+                app:cornerRadius="8dp"/>
+        </LinearLayout>
 
     </LinearLayout>
 </ScrollView>

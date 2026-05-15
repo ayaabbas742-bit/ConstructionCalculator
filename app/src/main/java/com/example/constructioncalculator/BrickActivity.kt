@@ -351,7 +351,11 @@ class BrickActivity : AppCompatActivity() {
                 wallArea    = totalNetArea,
                 wallVolume  = mortarVolume,
                 status      = layerStr,
-                date        = dateStr
+                date        = dateStr,
+                brickPrice  = brickPrice,
+                cementPrice = cementPrice,
+                sandPrice   = sandPrice,
+                totalCost   = totalCost
             )
             Toast.makeText(this, "✅ Saved to history", Toast.LENGTH_SHORT).show()
         }
@@ -374,6 +378,9 @@ class BrickActivity : AppCompatActivity() {
                 sb.append("Bricks : ${h["bricks"]} pcs\n")
                 sb.append("Cement : ${"%.2f".format(h["cement_bags"]?.toDoubleOrNull() ?: 0.0)} bags\n")
                 sb.append("Sand   : ${"%.3f".format(h["sand_m3"]?.toDoubleOrNull() ?: 0.0)} m³\n")
+                val cost = h["total_cost"]?.toDoubleOrNull() ?: 0.0
+                if (cost > 0)
+                    sb.append("Cost   : ${"%.2f".format(cost)} DZD\n")
             }
             AlertDialog.Builder(this)
                 .setTitle("📜 Calculation History")

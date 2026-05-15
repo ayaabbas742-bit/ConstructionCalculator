@@ -1,7 +1,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent" android:layout_height="match_parent" android:background="#EEF3F7">
     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
         <!--  HEADER                                  -->
-        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:background="#716F6B" android:padding="20dp" android:layout_marginBottom="16dp">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:background="#B3B2B1" android:padding="20dp" android:layout_marginBottom="16dp">
             <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="CONCRETE" android:textSize="32sp" android:textStyle="bold" android:textColor="#1F1F1F" android:letterSpacing="0.15" android:gravity="center"/>
             <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="CALCULATOR PRO · 🇩🇿 Algerian Standard" android:textSize="12sp" android:textColor="#000000" android:gravity="center" android:letterSpacing="0.1" android:layout_marginTop="4dp"/>
         </LinearLayout>
@@ -43,6 +43,22 @@
                     <TextView android:id="@+id/tvWasteValue" android:text="5%" android:textStyle="bold" android:textColor="#D32F2F" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
                 </LinearLayout>
                 <SeekBar android:id="@+id/wasteBar" android:layout_width="match_parent" android:layout_height="wrap_content" android:max="15" android:progress="5" android:layout_marginTop="6dp"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp" app:cardCornerRadius="12dp" app:cardElevation="4dp" app:cardBackgroundColor="#FFFDE7">
+            <LinearLayout android:padding="12dp" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content">
+                <TextView android:text="💰 COST ESTIMATION (optional)" android:textStyle="bold" android:textColor="#F57F17" android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingBottom="8dp" android:layout_marginTop="16dp"/>
+                <!--  Row 1: Cement + Sand  -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:weightSum="2">
+                    <EditText android:id="@+id/etCementPrice" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginEnd="6dp" android:hint="Cement DZD/bag" android:inputType="numberDecimal" android:textSize="13sp"/>
+                    <EditText android:id="@+id/etSandPrice" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="6dp" android:hint="Sand DZD/m³" android:inputType="numberDecimal" android:textSize="13sp"/>
+                </LinearLayout>
+                <!--  Row 2: Gravel + Steel  -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="6dp" android:weightSum="2">
+                    <EditText android:id="@+id/etGravelPrice" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginEnd="6dp" android:hint="Gravel DZD/m³" android:inputType="numberDecimal" android:textSize="13sp"/>
+                    <EditText android:id="@+id/etSteelPrice" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="6dp" android:hint="Steel DZD/kg" android:inputType="numberDecimal" android:textSize="13sp"/>
+                </LinearLayout>
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="ℹ️ All fields optional — fill only what you know" android:textSize="10sp" android:textColor="#8D6E63" android:layout_marginTop="6dp"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
         <!--  BUTTONS  -->
