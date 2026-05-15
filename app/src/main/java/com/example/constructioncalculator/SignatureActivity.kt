@@ -21,10 +21,7 @@ class SignatureActivity : AppCompatActivity() {
 
         signatureView = findViewById(R.id.signatureView)
 
-        val btnColor = findViewById<TextView>(R.id.btnColor)
-        val btnStyle = findViewById<TextView>(R.id.btnStyle)
-        val btnEraser = findViewById<TextView>(R.id.btnEraser)
-        val btnZoom = findViewById<TextView>(R.id.btnZoom)
+
 
         findViewById<ImageView>(R.id.btnBack).setOnClickListener {
             finish()
@@ -50,25 +47,7 @@ class SignatureActivity : AppCompatActivity() {
             finish()
         }
 
-        // 🎨 لون
-        btnColor.setOnClickListener {
-            signatureView.setColor(Color.RED)
-        }
 
-        // ✏️ حجم القلم
-        btnStyle.setOnClickListener {
-            signatureView.setStrokeWidth(15f)
-        }
-
-        // 🧽 ممحاة
-        btnEraser.setOnClickListener {
-            signatureView.enableEraser()
-        }
-
-        // 🔍 تكبير
-        btnZoom.setOnClickListener {
-            signatureView.zoomIn()
-        }
     }
 }
 

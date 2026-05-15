@@ -3,79 +3,95 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#ADD5AE">
+    android:background="#F4F6F8">
 
-    <!-- 🔷 Top App Bar (Professional Engineering Style) -->
-    <LinearLayout
+    <!-- Header with Image -->
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="78dp"
-        android:background="#8CB68E"
-        android:gravity="center_vertical"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:elevation="8dp">
+        android:layout_height="180dp"
+        android:elevation="10dp">
+
+        <!-- Background Image -->
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/soil_bg"
+            android:scaleType="centerCrop"/>
+
+        <!-- Dark overlay -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#CC0F2337"/>
 
         <!-- Back Button -->
         <ImageButton
             android:id="@+id/btnBack"
             android:layout_width="42dp"
             android:layout_height="42dp"
-            android:background="@drawable/bg_circle_green"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="16dp"
+            android:background="@drawable/bg_circle_dark"
             android:src="@drawable/ic_arrow_back"
             app:tint="#FFFFFF"/>
 
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1"/>
-
-        <!-- Title -->
+        <!-- Title Center -->
         <LinearLayout
-            android:orientation="vertical"
-            android:gravity="end"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="vertical"
+            android:gravity="center">
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="GEOTECHNICAL SYSTEM"
-                android:textColor="#FFFFFF"
-                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="⚙️ GEOTECHNICAL"
+                android:textColor="#E8C97A"
+                android:textSize="18sp"
                 android:textStyle="bold"
-                android:letterSpacing="0.08"/>
+                android:letterSpacing="0.1"/>
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="Engineering Dashboard"
-                android:textColor="#ECF0F4"
-                android:textSize="12sp"/>
+                android:textColor="#CCFFFFFF"
+                android:textSize="12sp"
+                android:layout_marginTop="2dp"/>
+
+            <!-- Gold divider line -->
+            <View
+                android:layout_width="60dp"
+                android:layout_height="2dp"
+                android:background="#E8C97A"
+                android:layout_marginTop="6dp"/>
         </LinearLayout>
 
-    </LinearLayout>
+    </RelativeLayout>
 
-    <!-- 🔵 Tab Layout (Modern Engineering Style) -->
+    <!-- Tab Layout -->
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#77A979"
-        app:tabIndicatorColor="#89CA8B"
+        android:layout_height="52dp"
+        android:background="#FFFFFF"
+        app:tabIndicatorColor="#E8C97A"
         app:tabIndicatorHeight="3dp"
-        app:tabSelectedTextColor="#FFFFFF"
-        app:tabTextColor="#090909"
-        app:tabRippleColor="#787878"
+        app:tabSelectedTextColor="#0F2337"
+        app:tabTextColor="#9E9E9E"
+        app:tabRippleColor="#E8C97A"
         app:tabMode="scrollable"
         app:tabGravity="start"
-        android:elevation="6dp"/>
+        android:elevation="4dp"/>
 
-    <!-- 📄 ViewPager2 -->
+    <!-- ViewPager2 -->
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="#707071"/>
+        android:background="#F4F6F8"/>
 
 </LinearLayout>

@@ -16,7 +16,16 @@
                 <com.google.android.material.textfield.TextInputLayout style="@style/GeoInput" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Fine Content — Sieve #200" app:suffixText="%" android:layout_marginBottom="16dp">
                     <com.google.android.material.textfield.TextInputEditText android:id="@+id/etFine" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="numberDecimal" android:text="60"/>
                 </com.google.android.material.textfield.TextInputLayout>
-                <com.google.android.material.button.MaterialButton android:id="@+id/btnClassify" style="@style/GeoButton" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/calculate"/>
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnClassify"
+                    style="@style/GeoButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:text="@string/calculate"
+                    app:backgroundTint="#E8C97A"
+                    android:textColor="#0F2337"
+                    android:textStyle="bold"
+                    app:cornerRadius="12dp"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
         <!--  Result Card  -->
@@ -52,6 +61,16 @@
             </LinearLayout>
         </LinearLayout>
         <View android:layout_width="match_parent" android:layout_height="32dp"/>
-        <Button android:id="@+id/btnHistory" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="📄 History"/>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnHistory"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="📄 HISTORY"
+            android:textColor="#E8C97A"
+            android:textStyle="bold"
+            android:paddingStart="24dp"
+            android:paddingEnd="24dp"
+            app:backgroundTint="#0F2337"
+            app:cornerRadius="12dp"/>
     </LinearLayout>
 </ScrollView>

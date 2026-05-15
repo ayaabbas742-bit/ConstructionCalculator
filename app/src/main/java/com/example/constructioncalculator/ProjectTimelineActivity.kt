@@ -556,6 +556,9 @@ class ProjectTimelineActivity : AppCompatActivity() {
         }
     }
     private fun getConstructionAdvice(temp: Int, humidity: Int, wind: Int, icon: String): String {
+        val hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
+        val isNight = hour < 6 || hour >= 19
+        if (isNight) return "🌙 Night time - Not suitable for construction"
         return when {
             icon.startsWith("11") -> "⛈ Storm! Stop all outdoor work immediately"
             icon.startsWith("09") || icon.startsWith("10") -> "🌧 Rain expected, delay outdoor work"
