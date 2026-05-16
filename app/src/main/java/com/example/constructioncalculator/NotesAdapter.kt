@@ -32,21 +32,8 @@ class NotesAdapter(
         holder.binding.root.setOnClickListener { onClick(note) }
         holder.binding.btnDelete.setOnClickListener { onDelete(note) }
         // داخل onBindViewHolder
-        when (note.priority) {
-            "high"   -> {
-                holder.binding.tvPriority.text = "🔴 Urgent"
-                holder.binding.tvPriority.visibility = android.view.View.VISIBLE
-            }
-            "medium" -> {
-                holder.binding.tvPriority.text = "🟡 Medium"
-                holder.binding.tvPriority.visibility = android.view.View.VISIBLE
-            }
-            "low"    -> {
-                holder.binding.tvPriority.text = "🟢 Normal"
-                holder.binding.tvPriority.visibility = android.view.View.VISIBLE
-            }
-            else -> holder.binding.tvPriority.visibility = android.view.View.GONE
-        }
+        // ✅ أخفِ Normal ولا تظهرها
+
     }
 
     override fun getItemCount() = notes.size

@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
 class DatabaseHelper(context: Context) :
-    SQLiteOpenHelper(context, "ConstructionDB", null, 23) {
+    SQLiteOpenHelper(context, "ConstructionDB", null, 24) {
 
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL("""
@@ -505,7 +505,14 @@ class DatabaseHelper(context: Context) :
             db.execSQL("ALTER TABLE stair_history ADD COLUMN finishing_price REAL DEFAULT 0")
             db.execSQL("ALTER TABLE stair_history ADD COLUMN total_cost REAL DEFAULT 0")
         }
-
+        if (oldVersion < 24) {
+            try {
+                db.execSQL("ALTER TABLE construction_notes ADD COLUMN priority TEXT DEFAULT 'low'")
+            } catch (_: Exception) {}
+            try {
+                db.execSQL("ALTER TABLE construction_notes ADD COLUMN is_pinned INTEGER DEFAULT 0")
+            } catch (_: Exception) {}
+        }
     }
 
     // ================= USERS =================

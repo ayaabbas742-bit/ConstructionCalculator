@@ -152,9 +152,6 @@ class NoteEditActivity : AppCompatActivity() {
             selectedColor = it.color
             updateSelectedColorUI()
 
-            // تحميل الأولوية
-            selectedPriority = it.priority ?: "low"
-            updatePriorityUI()
 
             // تحميل التثبيت
             isPinned = it.isPinned
@@ -175,47 +172,12 @@ class NoteEditActivity : AppCompatActivity() {
         }
 
         setupColorPicker()
-        setupPriority()
         setupWordCount()
         setupPin()
         setupButtons()
     }
 
-    // ====== Priority Setup ======
-    private fun setupPriority() {
-        binding.btnPriorityLow.setOnClickListener {
-            selectedPriority = "low"
-            updatePriorityUI()
-        }
-        binding.btnPriorityMed.setOnClickListener {
-            selectedPriority = "medium"
-            updatePriorityUI()
-        }
-        binding.btnPriorityHigh.setOnClickListener {
-            selectedPriority = "high"
-            updatePriorityUI()
-        }
-        updatePriorityUI()
-    }
 
-    private fun updatePriorityUI() {
-        // إعادة تعيين كل الأزرار
-        binding.btnPriorityLow.backgroundTintList =
-            android.content.res.ColorStateList.valueOf(Color.parseColor("#E8F5E9"))
-        binding.btnPriorityMed.backgroundTintList =
-            android.content.res.ColorStateList.valueOf(Color.parseColor("#FFF8E1"))
-        binding.btnPriorityHigh.backgroundTintList =
-            android.content.res.ColorStateList.valueOf(Color.parseColor("#FFEBEE"))
-        // تفعيل الزر المحدد
-        when (selectedPriority) {
-            "low" -> binding.btnPriorityLow.backgroundTintList =
-                android.content.res.ColorStateList.valueOf(Color.parseColor("#4CAF50"))
-            "medium" -> binding.btnPriorityMed.backgroundTintList =
-                android.content.res.ColorStateList.valueOf(Color.parseColor("#FFC107"))
-            "high" -> binding.btnPriorityHigh.backgroundTintList =
-                android.content.res.ColorStateList.valueOf(Color.parseColor("#F44336"))
-        }
-    }
 
     // ====== Word Count ======
     private fun setupWordCount() {
