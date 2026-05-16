@@ -17,7 +17,6 @@ class ConstructionNotesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityConstructionNotesBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         supportActionBar?.hide()
 
         setupRecyclerView()
@@ -26,9 +25,15 @@ class ConstructionNotesActivity : AppCompatActivity() {
         setupBack()
     }
 
+    private fun getSortedNotes(): MutableList<Note> {
+        return NoteManager.getAllNotes()
+            .sortedByDescending { it.isPinned }
+            .toMutableList()
+    }
+
     private fun setupRecyclerView() {
         adapter = NotesAdapter(
-            notes = NoteManager.getAllNotes(),
+            notes = getSortedNotes(),
             onClick = { note ->
                 val intent = Intent(this, NoteEditActivity::class.java)
                 intent.putExtra("note_id", note.id)
@@ -36,7 +41,7 @@ class ConstructionNotesActivity : AppCompatActivity() {
             },
             onDelete = { note ->
                 NoteManager.delete(note.id)
-                adapter.updateList(NoteManager.getAllNotes())
+                adapter.updateList(getSortedNotes())
             }
         )
         binding.recyclerNotes.layoutManager = LinearLayoutManager(this)
@@ -48,9 +53,11 @@ class ConstructionNotesActivity : AppCompatActivity() {
             override fun afterTextChanged(s: Editable?) {
                 val query = s.toString().trim()
                 val result = if (query.isEmpty())
-                    NoteManager.getAllNotes()
+                    getSortedNotes()
                 else
                     NoteManager.search(query)
+                        .sortedByDescending { it.isPinned }
+                        .toMutableList()
                 adapter.updateList(result)
             }
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -72,6 +79,6 @@ class ConstructionNotesActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        adapter.updateList(NoteManager.getAllNotes())
+        adapter.updateList(getSortedNotes())
     }
 }

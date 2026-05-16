@@ -48,7 +48,7 @@ class StairActivity : AppCompatActivity() {
         val etD1             = findViewById<EditText>(R.id.etD1)
         val etD2             = findViewById<EditText>(R.id.etD2)
         val etA              = findViewById<EditText>(R.id.etAlpha)
-        val layoutSpiral     = findViewById<LinearLayout>(R.id.layoutSpiral)
+        val layoutSpiral = findViewById<com.google.android.material.card.MaterialCardView>(R.id.layoutSpiral)
         val btnCalc          = findViewById<Button>(R.id.btnCalc)
         val btnHistory       = findViewById<Button>(R.id.btnHistory)
         val tvResult         = findViewById<TextView>(R.id.tvResult)

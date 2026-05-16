@@ -31,6 +31,12 @@ class NotesAdapter(
         holder.binding.colorBar.setBackgroundColor(note.color)
         holder.binding.root.setOnClickListener { onClick(note) }
         holder.binding.btnDelete.setOnClickListener { onDelete(note) }
+        // Pin indicator
+        if (note.isPinned) {
+            holder.binding.tvTitle.text = "📌 ${note.title.ifEmpty { "(no title)" }}"
+        } else {
+            holder.binding.tvTitle.text = note.title.ifEmpty { "(بدون عنوان)" }
+        }
         // داخل onBindViewHolder
         // ✅ أخفِ Normal ولا تظهرها
 

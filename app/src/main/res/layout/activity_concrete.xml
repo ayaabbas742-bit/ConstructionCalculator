@@ -1,124 +1,205 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent" android:layout_height="match_parent" android:background="#EEF3F7">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent" android:layout_height="match_parent" android:background="#ECEFF1">
     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
-        <!--  HEADER                                  -->
-        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:background="#B3B2B1" android:padding="20dp" android:layout_marginBottom="16dp">
-            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="CONCRETE" android:textSize="32sp" android:textStyle="bold" android:textColor="#1F1F1F" android:letterSpacing="0.15" android:gravity="center"/>
-            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="CALCULATOR PRO · 🇩🇿 Algerian Standard" android:textSize="12sp" android:textColor="#000000" android:gravity="center" android:letterSpacing="0.1" android:layout_marginTop="4dp"/>
+        <!--  HEADER  -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:background="#37474F" android:padding="20dp" android:layout_marginBottom="16dp">
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="CONCRETE" android:textSize="32sp" android:textStyle="bold" android:textColor="#CFD8DC" android:letterSpacing="0.15" android:gravity="center"/>
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="CALCULATOR PRO · 🇩🇿 Algerian Standard" android:textSize="12sp" android:textColor="#90A4AE" android:gravity="center" android:letterSpacing="0.1" android:layout_marginTop="4dp"/>
         </LinearLayout>
         <!--  SUBTITLE  -->
         <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="DTR BC 2.41 / CBA93 — Algeria" android:textSize="13sp" android:gravity="center" android:textColor="#6B7280" android:paddingBottom="8dp"/>
-        <!--  IMAGE  -->
-        <com.google.android.material.card.MaterialCardView android:layout_width="220dp" android:layout_height="160dp" android:layout_gravity="center" android:layout_marginTop="8dp" app:cardCornerRadius="20dp" app:cardElevation="10dp" app:strokeWidth="1dp" app:strokeColor="#22000000">
+        <!--  IMAGE CARD  -->
+        <com.google.android.material.card.MaterialCardView android:layout_width="220dp" android:layout_height="160dp" android:layout_gravity="center" android:layout_marginTop="8dp" android:layout_marginBottom="12dp" app:cardCornerRadius="20dp" app:cardElevation="10dp" app:strokeWidth="2dp" app:strokeColor="#CFD8DC">
             <ImageView android:id="@+id/imgElement" android:layout_width="match_parent" android:layout_height="match_parent" android:src="@drawable/slab" android:scaleType="centerCrop"/>
         </com.google.android.material.card.MaterialCardView>
-        <!--  STRUCTURAL ELEMENT  -->
-        <androidx.cardview.widget.CardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" app:cardCornerRadius="12dp" app:cardElevation="4dp">
-            <LinearLayout android:padding="12dp" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content">
-                <TextView android:text="Structural Element" android:textStyle="bold" android:textColor="#1A237E" android:layout_width="match_parent" android:layout_height="wrap_content"/>
-                <Spinner android:id="@+id/spinnerElement" android:layout_width="match_parent" android:layout_height="wrap_content"/>
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-        <!--  CONCRETE GRADE  -->
-        <androidx.cardview.widget.CardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp" app:cardCornerRadius="12dp" app:cardElevation="4dp">
-            <LinearLayout android:padding="12dp" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content">
-                <TextView android:text="Concrete Grade (fc28)" android:textStyle="bold" android:textColor="#1A237E" android:layout_width="match_parent" android:layout_height="wrap_content"/>
-                <Spinner android:id="@+id/spinnerGrade" android:layout_width="match_parent" android:layout_height="wrap_content"/>
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-        <!--  DIMENSIONS  -->
-        <androidx.cardview.widget.CardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp" app:cardCornerRadius="12dp" app:cardElevation="4dp">
-            <LinearLayout android:padding="12dp" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content">
-                <TextView android:text="Dimensions" android:textStyle="bold" android:textColor="#1A237E" android:paddingBottom="6dp" android:layout_width="match_parent" android:layout_height="wrap_content"/>
-                <EditText android:id="@+id/etLength" android:hint="Length (m)" android:inputType="numberDecimal" android:layout_width="match_parent" android:layout_height="wrap_content"/>
-                <EditText android:id="@+id/etWidth" android:hint="Width (m)" android:inputType="numberDecimal" android:layout_width="match_parent" android:layout_height="wrap_content"/>
-                <EditText android:id="@+id/etHeight" android:hint="Thickness / Height (m)" android:inputType="numberDecimal" android:layout_width="match_parent" android:layout_height="wrap_content"/>
-                <EditText android:id="@+id/etOpenings" android:hint="Openings / Voids (m³) — optional" android:inputType="numberDecimal" android:layout_width="match_parent" android:layout_height="wrap_content"/>
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-        <!--  WASTE FACTOR  -->
-        <androidx.cardview.widget.CardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp" app:cardCornerRadius="12dp" app:cardElevation="4dp">
-            <LinearLayout android:padding="12dp" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content">
-                <LinearLayout android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="wrap_content">
-                    <TextView android:text="Waste Factor: " android:textStyle="bold" android:textColor="#1A237E" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
-                    <TextView android:id="@+id/tvWasteValue" android:text="5%" android:textStyle="bold" android:textColor="#D32F2F" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+        <!--  STRUCTURAL ELEMENT CARD  -->
+        <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="12dp" app:cardCornerRadius="12dp" app:cardElevation="6dp" app:cardBackgroundColor="#FAFAFA">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginBottom="12dp">
+                    <View android:layout_width="4dp" android:layout_height="24dp" android:background="#CFD8DC" android:layout_marginEnd="10dp"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="STRUCTURAL ELEMENT" android:textSize="13sp" android:textStyle="bold" android:textColor="#37474F" android:letterSpacing="0.1"/>
                 </LinearLayout>
-                <SeekBar android:id="@+id/wasteBar" android:layout_width="match_parent" android:layout_height="wrap_content" android:max="15" android:progress="5" android:layout_marginTop="6dp"/>
+                <Spinner android:id="@+id/spinnerElement" android:layout_width="match_parent" android:layout_height="50dp" android:background="@drawable/spinner_bg"/>
             </LinearLayout>
-        </androidx.cardview.widget.CardView>
-        <androidx.cardview.widget.CardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp" app:cardCornerRadius="12dp" app:cardElevation="4dp" app:cardBackgroundColor="#FFFDE7">
-            <LinearLayout android:padding="12dp" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content">
-                <TextView android:text="💰 COST ESTIMATION (optional)" android:textStyle="bold" android:textColor="#F57F17" android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingBottom="8dp" android:layout_marginTop="16dp"/>
-                <!--  Row 1: Cement + Sand  -->
-                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:weightSum="2">
-                    <EditText android:id="@+id/etCementPrice" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginEnd="6dp" android:hint="Cement DZD/bag" android:inputType="numberDecimal" android:textSize="13sp"/>
-                    <EditText android:id="@+id/etSandPrice" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="6dp" android:hint="Sand DZD/m³" android:inputType="numberDecimal" android:textSize="13sp"/>
+        </com.google.android.material.card.MaterialCardView>
+        <!--  CONCRETE GRADE CARD  -->
+        <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="12dp" app:cardCornerRadius="12dp" app:cardElevation="6dp" app:cardBackgroundColor="#FAFAFA">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginBottom="12dp">
+                    <View android:layout_width="4dp" android:layout_height="24dp" android:background="#CFD8DC" android:layout_marginEnd="10dp"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="CONCRETE GRADE (fc28)" android:textSize="13sp" android:textStyle="bold" android:textColor="#37474F" android:letterSpacing="0.1"/>
                 </LinearLayout>
-                <!--  Row 2: Gravel + Steel  -->
-                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="6dp" android:weightSum="2">
-                    <EditText android:id="@+id/etGravelPrice" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginEnd="6dp" android:hint="Gravel DZD/m³" android:inputType="numberDecimal" android:textSize="13sp"/>
-                    <EditText android:id="@+id/etSteelPrice" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="6dp" android:hint="Steel DZD/kg" android:inputType="numberDecimal" android:textSize="13sp"/>
-                </LinearLayout>
-                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="ℹ️ All fields optional — fill only what you know" android:textSize="10sp" android:textColor="#8D6E63" android:layout_marginTop="6dp"/>
+                <Spinner android:id="@+id/spinnerGrade" android:layout_width="match_parent" android:layout_height="50dp" android:background="@drawable/spinner_bg"/>
             </LinearLayout>
-        </androidx.cardview.widget.CardView>
-        <!--  BUTTONS  -->
+        </com.google.android.material.card.MaterialCardView>
+    <!-- COST ESTIMATION CARD -->
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="6dp"
+        app:cardBackgroundColor="#FAFAFA">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="14dp">
+            android:gravity="center_vertical"
+            android:layout_marginBottom="12dp">
 
-            <Button
-                android:id="@+id/btnCalc"
-                android:layout_width="0dp"
+            <View
+                android:layout_width="4dp"
+                android:layout_height="24dp"
+                android:background="#CFD8DC"
+                android:layout_marginEnd="10dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="🧮 CALCULATE"
-                android:backgroundTint="#454545"
-                android:textColor="#FFFFFF"
+                android:text="💰 COST ESTIMATION (optional)"
+                android:textSize="13sp"
                 android:textStyle="bold"
-                android:layout_marginEnd="4dp"/>
-
-            <Button
-                android:id="@+id/btnHistory"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="📋 HISTORY"
-                android:backgroundTint="#37474F"
-                android:textColor="#FFFFFF"
-                android:layout_marginStart="4dp"/>
+                android:textColor="#F57F17"/>
 
         </LinearLayout>
-        <LinearLayout
+
+        <!-- Cement Price -->
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:spacing="8dp">
+            android:text="💰 Price per cement bag (DZD)"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:textColor="#455A64"
+            android:paddingBottom="4dp"/>
 
-            <Button
-                android:id="@+id/btnShare"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="📤 Share"
-                android:backgroundTint="#009688"
-                android:textColor="#FFFFFF"
-                android:layout_marginEnd="4dp"/>
+        <EditText
+            android:id="@+id/etCementPrice"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="0.00 DZD"
+            android:inputType="numberDecimal"
+            android:background="@drawable/edittext_bg"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:layout_marginBottom="10dp"/>
 
-            <Button
-                android:id="@+id/btnReset"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="🔄 Reset"
-                android:backgroundTint="#F44336"
-                android:textColor="#FFFFFF"
-                android:layout_marginStart="4dp"/>
+        <!-- Sand Price -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="🪣 Price per m³ sand (DZD)"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:textColor="#455A64"
+            android:paddingBottom="4dp"/>
 
+        <EditText
+            android:id="@+id/etSandPrice"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="0.00 DZD"
+            android:inputType="numberDecimal"
+            android:background="@drawable/edittext_bg"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:layout_marginBottom="10dp"/>
+
+        <!-- Gravel Price -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="🪨 Price per m³ gravel (DZD)"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:textColor="#455A64"
+            android:paddingBottom="4dp"/>
+
+        <EditText
+            android:id="@+id/etGravelPrice"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="0.00 DZD"
+            android:inputType="numberDecimal"
+            android:background="@drawable/edittext_bg"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:layout_marginBottom="10dp"/>
+
+        <!-- Steel Price -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="⚙️ Price per kg steel (DZD)"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:textColor="#455A64"
+            android:paddingBottom="4dp"/>
+        <EditText
+            android:id="@+id/etSteelPrice"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="0.00 DZD"
+            android:inputType="numberDecimal"
+            android:background="@drawable/edittext_bg"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ℹ️ All fields optional — fill only what you know"
+            android:textSize="10sp"
+            android:textColor="#8D6E63"
+            android:layout_marginTop="8dp"/>
+
+    </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+        <!--  DIMENSIONS CARD  -->
+        <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="12dp" app:cardCornerRadius="12dp" app:cardElevation="6dp" app:cardBackgroundColor="#FAFAFA">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginBottom="12dp">
+                    <View android:layout_width="4dp" android:layout_height="24dp" android:background="#CFD8DC" android:layout_marginEnd="10dp"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="DIMENSIONS" android:textSize="13sp" android:textStyle="bold" android:textColor="#37474F" android:letterSpacing="0.1"/>
+                </LinearLayout>
+                <EditText android:id="@+id/etLength" android:layout_width="match_parent" android:layout_height="50dp" android:hint="Length (m)" android:inputType="numberDecimal" android:background="@drawable/edittext_bg" android:paddingStart="12dp" android:paddingEnd="12dp" android:layout_marginBottom="8dp"/>
+                <EditText android:id="@+id/etWidth" android:layout_width="match_parent" android:layout_height="50dp" android:hint="Width (m)" android:inputType="numberDecimal" android:background="@drawable/edittext_bg" android:paddingStart="12dp" android:paddingEnd="12dp" android:layout_marginBottom="8dp"/>
+                <EditText android:id="@+id/etHeight" android:layout_width="match_parent" android:layout_height="50dp" android:hint="Thickness / Height (m)" android:inputType="numberDecimal" android:background="@drawable/edittext_bg" android:paddingStart="12dp" android:paddingEnd="12dp" android:layout_marginBottom="8dp"/>
+                <EditText android:id="@+id/etOpenings" android:layout_width="match_parent" android:layout_height="50dp" android:hint="Openings / Voids (m³) — optional" android:inputType="numberDecimal" android:background="@drawable/edittext_bg" android:paddingStart="12dp" android:paddingEnd="12dp"/>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+        <!--  WASTE FACTOR CARD  -->
+        <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="12dp" app:cardCornerRadius="12dp" app:cardElevation="6dp" app:cardBackgroundColor="#FAFAFA">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginBottom="8dp">
+                    <View android:layout_width="4dp" android:layout_height="24dp" android:background="#CFD8DC" android:layout_marginEnd="10dp"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="WASTE FACTOR: " android:textSize="13sp" android:textStyle="bold" android:textColor="#37474F"/>
+                    <TextView android:id="@+id/tvWasteValue" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="5%" android:textStyle="bold" android:textColor="#D32F2F"/>
+                </LinearLayout>
+                <SeekBar android:id="@+id/wasteBar" android:layout_width="match_parent" android:layout_height="wrap_content" android:max="15" android:progress="5"/>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!--  BUTTONS  -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:weightSum="3" android:layout_marginBottom="12dp">
+            <com.google.android.material.button.MaterialButton android:id="@+id/btnCalc" android:layout_width="0dp" android:layout_weight="1" android:layout_height="56dp" android:layout_marginEnd="4dp" android:text="🧮 CALCULATE" android:textSize="12sp" android:textStyle="bold" android:textColor="#37474F" app:backgroundTint="#CFD8DC" app:cornerRadius="10dp"/>
+            <com.google.android.material.button.MaterialButton android:id="@+id/btnHistory" android:layout_width="0dp" android:layout_weight="1" android:layout_height="56dp" android:layout_marginStart="4dp" android:layout_marginEnd="4dp" android:text="📋 HISTORY" android:textSize="12sp" app:backgroundTint="#455A64" app:cornerRadius="10dp"/>
+            <com.google.android.material.button.MaterialButton android:id="@+id/btnShare" android:layout_width="0dp" android:layout_weight="1" android:layout_height="56dp" android:layout_marginStart="4dp" android:text="📤 SHARE" android:textSize="12sp" app:backgroundTint="#009688" app:cornerRadius="10dp"/>
         </LinearLayout>
-        <!--  RESULT  -->
-        <TextView android:id="@+id/tvResult" android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="14dp" android:text="Result will appear here…" android:textSize="13sp" android:fontFamily="monospace" android:layout_marginTop="14dp" android:background="#FFFFFF" android:textColor="#111827"/>
+        <!--  Reset Button  -->
+        <com.google.android.material.button.MaterialButton android:id="@+id/btnReset" android:layout_width="match_parent" android:layout_height="50dp" android:layout_marginBottom="12dp" android:text="🔄 RESET" android:textSize="14sp" app:backgroundTint="#B71C1C" app:cornerRadius="10dp"/>
+        <!--  RESULTS CARD  -->
+        <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="16dp" app:cardCornerRadius="12dp" app:cardElevation="6dp" app:cardBackgroundColor="#37474F" app:strokeColor="#CFD8DC" app:strokeWidth="1dp">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="RESULTS" android:textSize="11sp" android:textStyle="bold" android:textColor="#CFD8DC" android:letterSpacing="0.15" android:layout_marginBottom="10dp"/>
+                <TextView android:id="@+id/tvResult" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Result will appear here…" android:textSize="13sp" android:fontFamily="monospace" android:textColor="#ECEFF1" android:lineSpacingExtra="4dp"/>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
 </ScrollView>

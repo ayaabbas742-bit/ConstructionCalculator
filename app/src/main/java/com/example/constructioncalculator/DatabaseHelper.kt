@@ -963,6 +963,7 @@ class DatabaseHelper(context: Context) :
             put("images", note.images)
             put("files", note.files)
             put("links", note.links)
+            put("is_pinned", if (note.isPinned) 1 else 0)
         }
         return writableDatabase.insert("construction_notes", null, values)
     }
@@ -977,6 +978,7 @@ class DatabaseHelper(context: Context) :
             put("images", note.images)
             put("files", note.files)
             put("links", note.links)
+            put("is_pinned", if (note.isPinned) 1 else 0)
         }
         return writableDatabase.update(
             "construction_notes", values, "id=?", arrayOf(note.id.toString())
@@ -992,7 +994,7 @@ class DatabaseHelper(context: Context) :
     fun getAllNotes(): MutableList<Note> {
         val notes = mutableListOf<Note>()
         val cursor = readableDatabase.rawQuery(
-            "SELECT * FROM construction_notes ORDER BY id DESC", null
+            "SELECT * FROM construction_notes ORDER BY is_pinned DESC, id DESC", null
         )
         if (cursor.moveToFirst()) {
             do {
@@ -1006,7 +1008,8 @@ class DatabaseHelper(context: Context) :
                         date     = cursor.getString(cursor.getColumnIndexOrThrow("date")),
                         images   = cursor.getString(cursor.getColumnIndexOrThrow("images")) ?: "",
                         files    = cursor.getString(cursor.getColumnIndexOrThrow("files")) ?: "",
-                        links    = cursor.getString(cursor.getColumnIndexOrThrow("links")) ?: ""
+                        links    = cursor.getString(cursor.getColumnIndexOrThrow("links")) ?: "",
+                        isPinned = cursor.getInt(cursor.getColumnIndexOrThrow("is_pinned")) == 1
                     )
                 )
             } while (cursor.moveToNext())
@@ -1035,7 +1038,8 @@ class DatabaseHelper(context: Context) :
                         date     = cursor.getString(cursor.getColumnIndexOrThrow("date")),
                         images   = cursor.getString(cursor.getColumnIndexOrThrow("images")) ?: "",
                         files    = cursor.getString(cursor.getColumnIndexOrThrow("files")) ?: "",
-                        links    = cursor.getString(cursor.getColumnIndexOrThrow("links")) ?: ""
+                        links    = cursor.getString(cursor.getColumnIndexOrThrow("links")) ?: "",
+                        isPinned = cursor.getInt(cursor.getColumnIndexOrThrow("is_pinned")) == 1
                     )
                 )
             } while (cursor.moveToNext())
