@@ -1,29 +1,42 @@
 package com.example.constructioncalculator
 
+import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
-import android.util.Base64
+import android.os.Environment
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.Gravity
 import android.view.View
 import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import com.example.constructioncalculator.databinding.ActivityNoteEditBinding
 import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
+import android.util.Base64
 
 class NoteEditActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityNoteEditBinding
     private var existingNote: Note? = null
     private var selectedColor: Int = Color.BLACK
+    private var selectedPriority = "low"
+    private var isPinned = false
+    private var cameraImageUri: Uri? = null
 
     // قوائم المرفقات في الذاكرة
     private val imagesList = mutableListOf<String>() // Base64
@@ -39,13 +52,13 @@ class NoteEditActivity : AppCompatActivity() {
         Color.BLACK
     )
 
+    // ====== Gallery Launcher ======
     private val pickImage = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
             result.data?.data?.let { uri ->
                 Toast.makeText(this, "Loading image...", Toast.LENGTH_SHORT).show()
-
                 Thread {
                     try {
                         val base64 = uriToBase64(uri)
@@ -66,6 +79,33 @@ class NoteEditActivity : AppCompatActivity() {
         }
     }
 
+    // ====== Camera Launcher ======
+    private val takePicture = registerForActivityResult(
+        ActivityResultContracts.TakePicture()
+    ) { success ->
+        if (success) {
+            cameraImageUri?.let { uri ->
+                Toast.makeText(this, "Loading photo...", Toast.LENGTH_SHORT).show()
+                Thread {
+                    try {
+                        val base64 = uriToBase64(uri)
+                        if (base64 != null) {
+                            runOnUiThread {
+                                imagesList.add(base64)
+                                refreshAttachmentViews()
+                                Toast.makeText(this, "Photo added", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    } catch (e: Exception) {
+                        runOnUiThread {
+                            Toast.makeText(this, "Failed to load photo", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }.start()
+            }
+        }
+    }
+     // ====== File Launcher ======
     private val pickFile = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
@@ -73,8 +113,6 @@ class NoteEditActivity : AppCompatActivity() {
             result.data?.data?.let { uri ->
                 val name = getFileName(uri)
                 Toast.makeText(this, "Loading file...", Toast.LENGTH_SHORT).show()
-
-                // شغّل في background لتجنب الكراش
                 Thread {
                     try {
                         val base64 = uriToBase64(uri)
@@ -114,7 +152,15 @@ class NoteEditActivity : AppCompatActivity() {
             selectedColor = it.color
             updateSelectedColorUI()
 
-            // تحميل المرفقات المحفوظة
+            // تحميل الأولوية
+            selectedPriority = it.priority ?: "low"
+            updatePriorityUI()
+
+            // تحميل التثبيت
+            isPinned = it.isPinned
+            binding.switchPin.isChecked = isPinned
+
+            // تحميل المرفقات
             if (it.images.isNotEmpty())
                 imagesList.addAll(it.images.split("||").filter { s -> s.isNotEmpty() })
             if (it.files.isNotEmpty())
@@ -129,7 +175,93 @@ class NoteEditActivity : AppCompatActivity() {
         }
 
         setupColorPicker()
+        setupPriority()
+        setupWordCount()
+        setupPin()
         setupButtons()
+    }
+
+    // ====== Priority Setup ======
+    private fun setupPriority() {
+        binding.btnPriorityLow.setOnClickListener {
+            selectedPriority = "low"
+            updatePriorityUI()
+        }
+        binding.btnPriorityMed.setOnClickListener {
+            selectedPriority = "medium"
+            updatePriorityUI()
+        }
+        binding.btnPriorityHigh.setOnClickListener {
+            selectedPriority = "high"
+            updatePriorityUI()
+        }
+        updatePriorityUI()
+    }
+
+    private fun updatePriorityUI() {
+        // إعادة تعيين كل الأزرار
+        binding.btnPriorityLow.backgroundTintList =
+            android.content.res.ColorStateList.valueOf(Color.parseColor("#E8F5E9"))
+        binding.btnPriorityMed.backgroundTintList =
+            android.content.res.ColorStateList.valueOf(Color.parseColor("#FFF8E1"))
+        binding.btnPriorityHigh.backgroundTintList =
+            android.content.res.ColorStateList.valueOf(Color.parseColor("#FFEBEE"))
+        // تفعيل الزر المحدد
+        when (selectedPriority) {
+            "low" -> binding.btnPriorityLow.backgroundTintList =
+                android.content.res.ColorStateList.valueOf(Color.parseColor("#4CAF50"))
+            "medium" -> binding.btnPriorityMed.backgroundTintList =
+                android.content.res.ColorStateList.valueOf(Color.parseColor("#FFC107"))
+            "high" -> binding.btnPriorityHigh.backgroundTintList =
+                android.content.res.ColorStateList.valueOf(Color.parseColor("#F44336"))
+        }
+    }
+
+    // ====== Word Count ======
+    private fun setupWordCount() {
+        binding.etBody.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable?) {
+                val words = s?.trim()?.split("\\s+".toRegex())
+                    ?.filter { it.isNotEmpty() }
+                binding.tvWordCount.text = "${words?.size ?: 0} words"
+            }
+        })
+    }
+
+    // ====== Pin ======
+    private fun setupPin() {
+        binding.switchPin.setOnCheckedChangeListener { _, isChecked ->
+            isPinned = isChecked
+        }
+    }
+
+    // ====== Camera ======
+    private fun openCamera() {
+        val imageFile = File(
+            getExternalFilesDir(Environment.DIRECTORY_PICTURES),
+            "note_${System.currentTimeMillis()}.jpg"
+        )
+        cameraImageUri = FileProvider.getUriForFile(
+            this, "${packageName}.provider", imageFile
+        )
+        cameraImageUri?.let { takePicture.launch(it) }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == 100 &&
+            grantResults.isNotEmpty() &&
+            grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            openCamera()
+        } else {
+            Toast.makeText(this, "Camera permission denied", Toast.LENGTH_SHORT).show()
+        }
     }
 
     // ====== تحويل URI إلى Base64 ======
@@ -138,25 +270,21 @@ class NoteEditActivity : AppCompatActivity() {
             val inputStream = contentResolver.openInputStream(uri) ?: return null
             val bytes = inputStream.readBytes()
             inputStream.close()
-
-            // إذا كان صورة، اضغطها أولاً
             val mimeType = contentResolver.getType(uri) ?: ""
             if (mimeType.startsWith("image/")) {
                 val bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
                 val out = ByteArrayOutputStream()
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 60, out) // ضغط 60%
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 60, out)
                 Base64.encodeToString(out.toByteArray(), Base64.DEFAULT)
             } else {
-                // للملفات: تحقق من الحجم (max 5MB)
-                if (bytes.size > 5 * 1024 * 1024) {
-                    throw Exception("File too large")
-                }
+                if (bytes.size > 5 * 1024 * 1024) throw Exception("File too large")
                 Base64.encodeToString(bytes, Base64.DEFAULT)
             }
         } catch (e: Exception) {
             null
         }
     }
+
     // ====== اسم الملف ======
     private fun getFileName(uri: Uri): String {
         var name = "file_${System.currentTimeMillis()}"
@@ -178,20 +306,18 @@ class NoteEditActivity : AppCompatActivity() {
         imagesList.forEachIndexed { index, base64 ->
             val bytes = Base64.decode(base64, Base64.DEFAULT)
             val bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
-
             val row = LinearLayout(this).apply {
-                orientation = LinearLayout.HORIZONTAL
-                gravity = Gravity.CENTER_VERTICAL
-                layoutParams = LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
-                ).apply { setMargins(0, 8.dp, 0, 8.dp) }
-                setPadding(0, 4.dp, 0, 4.dp)
-            }
+            orientation = LinearLayout.HORIZONTAL
+            gravity = Gravity.CENTER_VERTICAL
+            layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            ).apply { setMargins(0, 8.dp, 0, 8.dp) }
+        }
 
-            val size = 100.dp
             val img = ImageView(this).apply {
-                layoutParams = LinearLayout.LayoutParams(size, size).apply { marginEnd = 12.dp }
+                layoutParams = LinearLayout.LayoutParams(100.dp, 100.dp)
+                    .apply { marginEnd = 12.dp }
                 setBackgroundResource(android.R.drawable.picture_frame)
                 setImageBitmap(bitmap)
                 scaleType = ImageView.ScaleType.CENTER_CROP
@@ -219,19 +345,17 @@ class NoteEditActivity : AppCompatActivity() {
                 gravity = Gravity.CENTER_VERTICAL
                 setPadding(12.dp, 8.dp, 12.dp, 8.dp)
                 setBackgroundResource(android.R.drawable.dialog_holo_light_frame)
-                val lp = LinearLayout.LayoutParams(
+                layoutParams = LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.WRAP_CONTENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT
-                )
-                lp.setMargins(0, 4.dp, 0, 4.dp)
-                layoutParams = lp
+                ).apply { setMargins(0, 4.dp, 0, 4.dp) }
             }
             val tv = TextView(this).apply {
                 text = "📄 $name"
                 textSize = 13f
                 setTextColor(Color.parseColor("#333333"))
-                layoutParams = LinearLayout.LayoutParams(0,
-                    LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
+                layoutParams = LinearLayout.LayoutParams(
+                    0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
             }
             val btnDel = ImageButton(this).apply {
                 setImageResource(android.R.drawable.ic_menu_close_clear_cancel)
@@ -257,8 +381,8 @@ class NoteEditActivity : AppCompatActivity() {
                 text = "🔗 $link"
                 textSize = 13f
                 setTextColor(Color.parseColor("#2980b9"))
-                layoutParams = LinearLayout.LayoutParams(0,
-                    LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
+                layoutParams = LinearLayout.LayoutParams(
+                    0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
                 setOnClickListener {
                     startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(link)))
                 }
@@ -276,7 +400,6 @@ class NoteEditActivity : AppCompatActivity() {
             binding.attachmentContainer.addView(chip)
         }
     }
-
     // ====== عرض الصورة كاملة ======
     private fun showImageDialog(bitmap: Bitmap) {
         val iv = ImageView(this).apply {
@@ -291,6 +414,7 @@ class NoteEditActivity : AppCompatActivity() {
 
     private val Int.dp get() = (this * resources.displayMetrics.density).toInt()
 
+    // ====== Color Picker ======
     private fun setupColorPicker() {
         val colorViews = listOf(
             binding.color1, binding.color2, binding.color3,
@@ -309,26 +433,49 @@ class NoteEditActivity : AppCompatActivity() {
         binding.viewSelectedColor.setBackgroundColor(selectedColor)
     }
 
+    // ====== Buttons ======
     private fun setupButtons() {
         binding.btnBack.setOnClickListener { finish() }
         binding.btnSaveTop.setOnClickListener { saveNote() }
         binding.btnSave.setOnClickListener { saveNote() }
 
+        // Attach Panel
         binding.btnAttach.setOnClickListener {
             binding.attachPanel.visibility =
                 if (binding.attachPanel.visibility == View.GONE) View.VISIBLE else View.GONE
         }
 
+        // Camera
+        binding.btnCamera.setOnClickListener {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+                == PackageManager.PERMISSION_GRANTED) {
+                openCamera()
+            } else {
+                ActivityCompat.requestPermissions(
+                    this, arrayOf(Manifest.permission.CAMERA), 100
+                )
+            }
+        }
+
+        // Gallery
+        binding.btnGallery.setOnClickListener {
+            val intent = Intent(Intent.ACTION_PICK).apply { type = "image/*" }
+            pickImage.launch(intent)
+        }
+
+        // Image from attach panel
         binding.btnAddImage.setOnClickListener {
             val intent = Intent(Intent.ACTION_PICK).apply { type = "image/*" }
             pickImage.launch(intent)
         }
 
+        // File
         binding.btnAddFile.setOnClickListener {
             val intent = Intent(Intent.ACTION_GET_CONTENT).apply { type = "*/*" }
             pickFile.launch(intent)
         }
 
+        // Link
         binding.btnAddLink.setOnClickListener {
             val input = EditText(this).apply { hint = "https://..." }
             AlertDialog.Builder(this)
@@ -346,6 +493,7 @@ class NoteEditActivity : AppCompatActivity() {
                 .show()
         }
 
+        // Share
         binding.btnShare.setOnClickListener {
             val shareText = buildString {
                 append(binding.etTitle.text)
@@ -362,40 +510,36 @@ class NoteEditActivity : AppCompatActivity() {
             }
 
             val uris = ArrayList<Uri>()
-
-// أضف النص كملف
             try {
-                val txtFile = java.io.File(cacheDir, "note_text.txt")
-                txtFile.writeText(shareText)
-                val txtUri = androidx.core.content.FileProvider.getUriForFile(
-                    this, "${packageName}.provider", txtFile
-                )
-                uris.add(txtUri)
-            } catch (e: Exception) { }
+            val txtFile = File(cacheDir, "note_text.txt")
+            txtFile.writeText(shareText)
+            val txtUri = FileProvider.getUriForFile(
+                this, "${packageName}.provider", txtFile
+            )
+            uris.add(txtUri)
+        } catch (e: Exception) { }
 
-            // أضف الصور
             imagesList.forEachIndexed { i, base64 ->
                 try {
                     val bytes = Base64.decode(base64, Base64.DEFAULT)
                     val bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
-                    val file = java.io.File(cacheDir, "share_image_$i.jpg")
-                    val out = java.io.FileOutputStream(file)
+                    val file = File(cacheDir, "share_image_$i.jpg")
+                    val out = FileOutputStream(file)
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out)
                     out.close()
-                    val uri = androidx.core.content.FileProvider.getUriForFile(
+                    val uri = FileProvider.getUriForFile(
                         this, "${packageName}.provider", file
                     )
                     uris.add(uri)
                 } catch (e: Exception) { }
             }
 
-            // أضف الملفات
             filesList.forEach { (name, base64) ->
                 try {
                     val bytes = Base64.decode(base64, Base64.DEFAULT)
-                    val file = java.io.File(cacheDir, name)
+                    val file = File(cacheDir, name)
                     file.writeBytes(bytes)
-                    val uri = androidx.core.content.FileProvider.getUriForFile(
+                    val uri = FileProvider.getUriForFile(
                         this, "${packageName}.provider", file
                     )
                     uris.add(uri)
@@ -420,17 +564,18 @@ class NoteEditActivity : AppCompatActivity() {
         }
     }
 
+    // ====== Save ======
     private fun saveNote() {
         val title    = binding.etTitle.text.toString().trim()
         val subtitle = binding.etSubtitle.text.toString().trim()
         val body     = binding.etBody.text.toString().trim()
+
         if (title.isEmpty() && body.isEmpty()) {
             Toast.makeText(this, "Please write a title or note", Toast.LENGTH_SHORT).show()
             return
         }
 
         val date = SimpleDateFormat("EEE, dd MMM yyyy HH:mm", Locale.getDefault()).format(Date())
-
         val imagesStr = imagesList.joinToString("||")
         val filesStr  = filesList.joinToString("||") { "${it.first}::${it.second}" }
         val linksStr  = linksList.joinToString("||")
@@ -439,18 +584,25 @@ class NoteEditActivity : AppCompatActivity() {
             NoteManager.add(Note(
                 title = title, subtitle = subtitle, body = body,
                 color = selectedColor, date = date,
-                images = imagesStr, files = filesStr, links = linksStr
+                images = imagesStr, files = filesStr, links = linksStr,
+                priority = selectedPriority, isPinned = isPinned
             ))
         } else {
             existingNote!!.apply {
-                this.title = title; this.subtitle = subtitle; this.body = body
+                this.title = title
+                this.subtitle = subtitle
+                this.body = body
                 this.color = selectedColor
-                this.images = imagesStr; this.files = filesStr; this.links = linksStr
+                this.images = imagesStr
+                this.files = filesStr
+                this.links = linksStr
+                this.priority = selectedPriority
+                this.isPinned = isPinned
             }
             NoteManager.update(existingNote!!)
         }
 
-        Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "Saved ✅", Toast.LENGTH_SHORT).show()
         finish()
     }
 }

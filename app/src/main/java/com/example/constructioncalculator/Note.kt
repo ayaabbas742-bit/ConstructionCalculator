@@ -11,5 +11,7 @@ data class Note(
     var date: String = "",
     var images: String = "",
     var files: String = "",
-    var links: String = ""
+    var links: String = "",
+    var priority: String = "low",
+    var isPinned: Boolean = false
 ) : Serializable
