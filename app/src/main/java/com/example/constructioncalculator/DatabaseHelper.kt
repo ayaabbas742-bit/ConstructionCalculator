@@ -4,9 +4,10 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import com.google.firebase.auth.FirebaseAuth
 
 class DatabaseHelper(context: Context) :
-    SQLiteOpenHelper(context, "ConstructionDB", null, 24) {
+    SQLiteOpenHelper(context, "ConstructionDB", null, 25) {
 
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL("""
@@ -513,6 +514,21 @@ class DatabaseHelper(context: Context) :
                 db.execSQL("ALTER TABLE construction_notes ADD COLUMN is_pinned INTEGER DEFAULT 0")
             } catch (_: Exception) {}
         }
+        if (oldVersion < 25) {
+            try { db.execSQL("ALTER TABLE construction_notes ADD COLUMN user_id TEXT DEFAULT ''") } catch (_: Exception) {}
+            try { db.execSQL("ALTER TABLE draw_plans ADD COLUMN user_id TEXT DEFAULT ''") } catch (_: Exception) {}
+            try { db.execSQL("ALTER TABLE invoices ADD COLUMN user_id TEXT DEFAULT ''") } catch (_: Exception) {}
+            try { db.execSQL("ALTER TABLE clients ADD COLUMN user_id TEXT DEFAULT ''") } catch (_: Exception) {}
+            try { db.execSQL("ALTER TABLE business ADD COLUMN user_id TEXT DEFAULT ''") } catch (_: Exception) {}
+            try { db.execSQL("ALTER TABLE concrete_history ADD COLUMN user_id TEXT DEFAULT ''") } catch (_: Exception) {}
+            try { db.execSQL("ALTER TABLE tank_history ADD COLUMN user_id TEXT DEFAULT ''") } catch (_: Exception) {}
+            try { db.execSQL("ALTER TABLE plaster_history ADD COLUMN user_id TEXT DEFAULT ''") } catch (_: Exception) {}
+            try { db.execSQL("ALTER TABLE stair_history ADD COLUMN user_id TEXT DEFAULT ''") } catch (_: Exception) {}
+            try { db.execSQL("ALTER TABLE tile_history ADD COLUMN user_id TEXT DEFAULT ''") } catch (_: Exception) {}
+            try { db.execSQL("ALTER TABLE brick_history ADD COLUMN user_id TEXT DEFAULT ''") } catch (_: Exception) {}
+            try { db.execSQL("ALTER TABLE paint_history ADD COLUMN user_id TEXT DEFAULT ''") } catch (_: Exception) {}
+            try { db.execSQL("ALTER TABLE geo_records ADD COLUMN user_id TEXT DEFAULT ''") } catch (_: Exception) {}
+        }
     }
 
     // ================= USERS =================
@@ -596,6 +612,7 @@ class DatabaseHelper(context: Context) :
         }
         return writableDatabase.insert("results", null, v) != -1L
     }
+
     fun insertBrickHistory(
         wallLength: Double, wallHeight: Double, wallThick: Double,
         brickL: Double,     brickH: Double,     brickW: Double,
@@ -603,12 +620,14 @@ class DatabaseHelper(context: Context) :
         bricks: Int,        cementBags: Double, sandM3: Double,
         wallArea: Double,   wallVolume: Double,
         status: String,     date: String,
-        brickPrice: Double  = 0.0,   // ← أضف هذا
-        cementPrice: Double = 0.0,   // ← أضف هذا
-        sandPrice: Double   = 0.0,   // ← أضف هذا
+        brickPrice: Double  = 0.0,
+        cementPrice: Double = 0.0,
+        sandPrice: Double   = 0.0,
         totalCost: Double   = 0.0
     ): Long {
+        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: ""
         val cv = ContentValues().apply {
+            put("user_id",      uid)
             put("wall_length",  wallLength)
             put("wall_height",  wallHeight)
             put("wall_thick",   wallThick)
@@ -630,11 +649,11 @@ class DatabaseHelper(context: Context) :
         }
         return writableDatabase.insert("brick_history", null, cv)
     }
-
     fun getAllBrickHistory(): List<Map<String, String>> {
+        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: ""
         val list = mutableListOf<Map<String, String>>()
         val c = readableDatabase.rawQuery(
-            "SELECT * FROM brick_history ORDER BY id DESC", null)
+            "SELECT * FROM brick_history WHERE user_id=? ORDER BY id DESC", arrayOf(uid))
         c.use {
             while (it.moveToNext()) {
                 val map = mutableMapOf<String, String>()
@@ -669,21 +688,19 @@ class DatabaseHelper(context: Context) :
         writableDatabase.insert("plaster", null, v)
     }
 
-    /**
-     * حفظ حساب اللياسة كاملاً في plaster_history
-     */
     fun insertPlasterHistory(
         surface: String,
         area: Double,     thickness: Double, ratio: String,
         cementBags: Double, sandM3: Double,  waterL: Double,
         volumeM3: Double, coats: Int,        date: String,
-        // أضف هذه الأسطر بعد:  coats: Int, date: String
         cementPrice: Double = 0.0,
         sandPrice: Double   = 0.0,
         laborPrice: Double  = 0.0,
         totalCost: Double   = 0.0
     ): Long {
+        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: ""
         val cv = ContentValues().apply {
+            put("user_id",     uid)
             put("surface",     surface)
             put("area",        area)
             put("thickness",   thickness)
@@ -702,12 +719,9 @@ class DatabaseHelper(context: Context) :
         return writableDatabase.insert("plaster_history", null, cv)
     }
 
-
-
     fun deletePlasterHistory(id: Int) {
         writableDatabase.delete("plaster_history", "id=?", arrayOf(id.toString()))
     }
-
 
     // ================= PAINT =================
     fun insertPaint(type: String, area: Double, coats: Int, paint: Double, date: String) {
@@ -718,16 +732,15 @@ class DatabaseHelper(context: Context) :
         writableDatabase.insert("paint_results", null, v)
     }
 
-    /**
-     * حفظ حساب الطلاء كاملاً في paint_history
-     */
     fun insertPaintHistory(
         paintType: String, surface: String,
         area: Double,      coats: Int,
         paintLiters: Double, cansNeeded: Int,
         primerL: Double,   date: String
-    ): Long {
+        ): Long {
+        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: ""
         val cv = ContentValues().apply {
+            put("user_id",      uid)
             put("paint_type",   paintType)
             put("surface",      surface)
             put("area",         area)
@@ -741,9 +754,10 @@ class DatabaseHelper(context: Context) :
     }
 
     fun getAllPaintHistory(): List<Map<String, String>> {
+        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: ""
         val list = mutableListOf<Map<String, String>>()
         val c = readableDatabase.rawQuery(
-            "SELECT * FROM paint_history ORDER BY id DESC", null)
+            "SELECT * FROM paint_history WHERE user_id=? ORDER BY id DESC", arrayOf(uid))
         c.use {
             while (it.moveToNext()) {
                 list.add(mapOf(
@@ -768,6 +782,7 @@ class DatabaseHelper(context: Context) :
     fun clearPaintHistory() {
         writableDatabase.execSQL("DELETE FROM paint_history")
     }
+
     // ================= TILES =================
     fun insertTile(type: String, area: Double, count: Double, date: String) {
         val v = ContentValues().apply {
@@ -776,9 +791,6 @@ class DatabaseHelper(context: Context) :
         writableDatabase.insert("tiles", null, v)
     }
 
-    /**
-     * حفظ حساب البلاط كاملاً في tile_history
-     */
     fun insertTileHistory(
         tileType: String,  floorArea: Double,
         tileLcm: Double,   tileWcm: Double,
@@ -786,7 +798,9 @@ class DatabaseHelper(context: Context) :
         wastePct: Double,  installType: String,
         date: String
     ): Long {
+        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: ""
         val cv = ContentValues().apply {
+            put("user_id",      uid)
             put("tile_type",    tileType)
             put("floor_area",   floorArea)
             put("tile_l_cm",    tileLcm)
@@ -800,39 +814,41 @@ class DatabaseHelper(context: Context) :
         return writableDatabase.insert("tile_history", null, cv)
     }
 
-
-
     fun deleteTileHistory(id: Int) {
         writableDatabase.delete("tile_history", "id=?", arrayOf(id.toString()))
     }
+
     // ═══════════════════════════════════════════════════════
-    //  STAIR (الدرج) — stair_history
-    // ═══════════════════════════════════════════════════════
+//  STAIR (الدرج) — stair_history
+// ═══════════════════════════════════════════════════════
     fun insertStair(
         type: String,   height: Double, steps: Int,
-        riser: Double,  tread: Double,  blondel: Double,
-        length: Double, area: Double,   status: String, date: String,
-        concretePrice: Double  = 0.0,  // ← جديد
-        finishingPrice: Double = 0.0,  // ← جديد
-        totalCost: Double      = 0.0   // ← جديد
+    riser: Double,  tread: Double,  blondel: Double,
+    length: Double, area: Double,   status: String, date: String,
+    concretePrice: Double  = 0.0,
+    finishingPrice: Double = 0.0,
+    totalCost: Double      = 0.0
     ): Long {
+        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: ""
         val cv = ContentValues().apply {
+            put("user_id", uid)
             put("type",    type);    put("height",  height)
             put("steps",   steps);   put("riser",   riser)
             put("tread",   tread);   put("blondel", blondel)
             put("length",  length);  put("area",    area)
             put("status",  status);  put("date",    date)
-            put("concrete_price",  concretePrice)   // ← جديد
-            put("finishing_price", finishingPrice)  // ← جديد
-            put("total_cost",      totalCost)       // ← جديد
+            put("concrete_price",  concretePrice)
+            put("finishing_price", finishingPrice)
+            put("total_cost",      totalCost)
         }
         return writableDatabase.insert("stair_history", null, cv)
     }
 
     fun getAllStairHistory(): List<Map<String, String>> {
+        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: ""
         val list = mutableListOf<Map<String, String>>()
         val c = readableDatabase.rawQuery(
-            "SELECT * FROM stair_history ORDER BY id DESC", null)
+            "SELECT * FROM stair_history WHERE user_id=? ORDER BY id DESC", arrayOf(uid))
         while (c.moveToNext()) {
             val map = mutableMapOf<String, String>()
             for (i in 0 until c.columnCount)
@@ -850,7 +866,6 @@ class DatabaseHelper(context: Context) :
         writableDatabase.delete("stair_history", "id=?", arrayOf(id.toString()))
     }
 
-
     // ================= OTP =================
     fun generateOtp(email: String): String {
         val otp = (1000..9999).random().toString()
@@ -862,39 +877,36 @@ class DatabaseHelper(context: Context) :
         writableDatabase.insert("otp_table", null, cv)
         return otp
     }
+
     fun checkOtp(email: String, otp: String): Boolean {
         val cursor = readableDatabase.rawQuery(
             """
-        SELECT otp, created_at FROM otp_table 
-        WHERE email=? 
-        ORDER BY created_at DESC 
-        LIMIT 1
-        """,
+    SELECT otp, created_at FROM otp_table 
+    WHERE email=? 
+    ORDER BY created_at DESC 
+    LIMIT 1
+    """,
             arrayOf(email)
         )
-
         var isValid = false
-
         if (cursor.moveToFirst()) {
             val dbOtp = cursor.getString(0)
             val createdAt = cursor.getLong(1)
-
             val currentTime = System.currentTimeMillis()
             val diff = currentTime - createdAt
-
-            // صالح لمدة 5 دقائق فقط
             if (dbOtp == otp && diff <= 300000) {
                 isValid = true
             }
         }
-
         cursor.close()
         return isValid
     }
 
     // ================= FLOOR PLANS =================
     fun insertPlan(name: String, data: String): Long {
+        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: ""
         val values = ContentValues().apply {
+            put("user_id", uid)
             put("name", name)
             put("data", data)
             put("created_at", System.currentTimeMillis())
@@ -930,12 +942,12 @@ class DatabaseHelper(context: Context) :
             null
         }
     }
-
     fun getAllPlans(): List<SavedPlan> {
+        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: ""
         val list = mutableListOf<SavedPlan>()
         val cursor = readableDatabase.rawQuery(
-            "SELECT * FROM draw_plans ORDER BY updated_at DESC",
-            null
+            "SELECT * FROM draw_plans WHERE user_id=? ORDER BY updated_at DESC",
+            arrayOf(uid)
         )
         while (cursor.moveToNext()) {
             list.add(SavedPlan(
@@ -951,10 +963,13 @@ class DatabaseHelper(context: Context) :
     fun deletePlan(id: Long): Boolean {
         return writableDatabase.delete("draw_plans", "id=?", arrayOf(id.toString())) > 0
     }
-    // ================= CONSTRUCTION NOTES =================
+
+// ================= CONSTRUCTION NOTES =================
 
     fun insertNote(note: Note): Long {
+        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: ""
         val values = ContentValues().apply {
+            put("user_id", uid)
             put("title", note.title)
             put("subtitle", note.subtitle)
             put("body", note.body)
@@ -992,9 +1007,11 @@ class DatabaseHelper(context: Context) :
     }
 
     fun getAllNotes(): MutableList<Note> {
+        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: ""
         val notes = mutableListOf<Note>()
         val cursor = readableDatabase.rawQuery(
-            "SELECT * FROM construction_notes ORDER BY is_pinned DESC, id DESC", null
+            "SELECT * FROM construction_notes WHERE user_id=? ORDER BY is_pinned DESC, id DESC",
+            arrayOf(uid)
         )
         if (cursor.moveToFirst()) {
             do {
@@ -1019,12 +1036,13 @@ class DatabaseHelper(context: Context) :
     }
 
     fun searchNotes(query: String): MutableList<Note> {
+        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: ""
         val notes = mutableListOf<Note>()
         val cursor = readableDatabase.rawQuery(
             """SELECT * FROM construction_notes 
-           WHERE title LIKE ? OR subtitle LIKE ? OR body LIKE ?
-           ORDER BY id DESC""",
-            arrayOf("%$query%", "%$query%", "%$query%")
+       WHERE user_id=? AND (title LIKE ? OR subtitle LIKE ? OR body LIKE ?)
+       ORDER BY id DESC""",
+            arrayOf(uid, "%$query%", "%$query%", "%$query%")
         )
         if (cursor.moveToFirst()) {
             do {
@@ -1048,30 +1066,32 @@ class DatabaseHelper(context: Context) :
         return notes
     }
 
-    // ==================== BUSINESS ====================
+// ==================== BUSINESS ====================
 
     fun saveBusiness(name: String, email: String, phone: String,
                      address: String, website: String, logo: String) {
+        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: ""
         val db = writableDatabase
-        val cursor = db.rawQuery("SELECT id FROM business LIMIT 1", null)
+        val cursor = db.rawQuery("SELECT id FROM business WHERE user_id=? LIMIT 1", arrayOf(uid))
         if (cursor.moveToFirst()) {
             db.execSQL("""
-                UPDATE business SET name=?, email=?, phone=?,
-                address=?, website=?, logo=? WHERE id=1
-            """, arrayOf(name, email, phone, address, website, logo))
+            UPDATE business SET name=?, email=?, phone=?,
+            address=?, website=?, logo=? WHERE user_id=?
+        """, arrayOf(name, email, phone, address, website, logo, uid))
         } else {
             db.execSQL("""
-                INSERT INTO business (name,email,phone,address,website,logo)
-                VALUES (?,?,?,?,?,?)
-            """, arrayOf(name, email, phone, address, website, logo))
+            INSERT INTO business (user_id,name,email,phone,address,website,logo)
+            VALUES (?,?,?,?,?,?,?)
+        """, arrayOf(uid, name, email, phone, address, website, logo))
         }
         cursor.close()
     }
 
     fun getBusiness(): Map<String, String> {
+        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: ""
         val result = mutableMapOf<String, String>()
         val cursor = readableDatabase.rawQuery(
-            "SELECT * FROM business LIMIT 1", null)
+            "SELECT * FROM business WHERE user_id=? LIMIT 1", arrayOf(uid))
         if (cursor.moveToFirst()) {
             result["id"]      = cursor.getInt(0).toString()
             result["name"]    = cursor.getString(1) ?: ""
@@ -1085,19 +1105,20 @@ class DatabaseHelper(context: Context) :
         return result
     }
 
-    // ==================== CLIENTS ====================
+// ==================== CLIENTS ====================
 
     fun saveClient(name: String, email: String, phone: String,
                    address1: String, address2: String,
                    shipAddress1: String, shipAddress2: String,
                    notes: String): Long {
+        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: ""
         var id = -1L
         writableDatabase.execSQL("""
-            INSERT INTO clients 
-            (name,email,phone,address1,address2,
-             ship_address1,ship_address2,notes)
-            VALUES (?,?,?,?,?,?,?,?)
-        """, arrayOf(name, email, phone, address1, address2,
+        INSERT INTO clients 
+        (user_id,name,email,phone,address1,address2,
+         ship_address1,ship_address2,notes)
+        VALUES (?,?,?,?,?,?,?,?,?)
+    """, arrayOf(uid, name, email, phone, address1, address2,
             shipAddress1, shipAddress2, notes))
         val cursor = readableDatabase.rawQuery(
             "SELECT last_insert_rowid()", null)
@@ -1107,9 +1128,10 @@ class DatabaseHelper(context: Context) :
     }
 
     fun getAllClients(): List<Map<String, String>> {
+        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: ""
         val list = mutableListOf<Map<String, String>>()
         val cursor = readableDatabase.rawQuery(
-            "SELECT * FROM clients ORDER BY id DESC", null)
+            "SELECT * FROM clients WHERE user_id=? ORDER BY id DESC", arrayOf(uid))
         while (cursor.moveToNext()) {
             list.add(mapOf(
                 "id"           to cursor.getInt(0).toString(),
@@ -1127,7 +1149,7 @@ class DatabaseHelper(context: Context) :
         return list
     }
 
-    // ==================== INVOICES ====================
+// ==================== INVOICES ====================
 
     fun saveInvoice(
         invoiceNumber: String, createdDate: String, dueDate: String,
@@ -1136,13 +1158,14 @@ class DatabaseHelper(context: Context) :
         paymentMethod: String, terms: String, notes: String,
         signature: String
     ): Long {
+        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: ""
         writableDatabase.execSQL("""
-            INSERT INTO invoices 
-            (invoice_number, created_date, due_date, business_id,
-             client_id, discount, tax_name, tax_percent, shipping,
-             payment_method, terms, notes, signature)
-            VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)
-        """, arrayOf(invoiceNumber, createdDate, dueDate, businessId,
+        INSERT INTO invoices 
+        (user_id, invoice_number, created_date, due_date, business_id,
+         client_id, discount, tax_name, tax_percent, shipping,
+         payment_method, terms, notes, signature)
+        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+    """, arrayOf(uid, invoiceNumber, createdDate, dueDate, businessId,
             clientId, discount, taxName, taxPercent, shipping,
             paymentMethod, terms, notes, signature))
         var id = -1L
@@ -1154,13 +1177,15 @@ class DatabaseHelper(context: Context) :
     }
 
     fun getAllInvoices(): List<Map<String, String>> {
+        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: ""
         val list = mutableListOf<Map<String, String>>()
         val cursor = readableDatabase.rawQuery("""
-            SELECT i.*, c.name as client_name 
-            FROM invoices i
-            LEFT JOIN clients c ON i.client_id = c.id
-            ORDER BY i.id DESC
-        """, null)
+        SELECT i.*, c.name as client_name 
+        FROM invoices i
+        LEFT JOIN clients c ON i.client_id = c.id
+        WHERE i.user_id=?
+        ORDER BY i.id DESC
+    """, arrayOf(uid))
         while (cursor.moveToNext()) {
             list.add(mapOf(
                 "id"             to cursor.getInt(0).toString(),
@@ -1185,11 +1210,11 @@ class DatabaseHelper(context: Context) :
     fun getInvoiceById(id: Int): Map<String, String> {
         val result = mutableMapOf<String, String>()
         val cursor = readableDatabase.rawQuery("""
-            SELECT i.*, c.name as client_name 
-            FROM invoices i
-            LEFT JOIN clients c ON i.client_id = c.id
-            WHERE i.id = ?
-        """, arrayOf(id.toString()))
+        SELECT i.*, c.name as client_name 
+        FROM invoices i
+        LEFT JOIN clients c ON i.client_id = c.id
+        WHERE i.id = ?
+    """, arrayOf(id.toString()))
         if (cursor.moveToFirst()) {
             result["id"]             = cursor.getInt(0).toString()
             result["invoice_number"] = cursor.getString(1) ?: ""
@@ -1223,18 +1248,18 @@ class DatabaseHelper(context: Context) :
                  price: Double, discount: Double, tax: Double,
                  description: String) {
         writableDatabase.execSQL("""
-            INSERT INTO invoice_items 
-            (invoice_id, name, quantity, price, discount, tax, description)
-            VALUES (?,?,?,?,?,?,?)
-        """, arrayOf(invoiceId, name, quantity, price,
+        INSERT INTO invoice_items 
+        (invoice_id, name, quantity, price, discount, tax, description)
+        VALUES (?,?,?,?,?,?,?)
+    """, arrayOf(invoiceId, name, quantity, price,
             discount, tax, description))
     }
 
     fun getItemsByInvoice(invoiceId: Int): List<Map<String, String>> {
         val list = mutableListOf<Map<String, String>>()
         val cursor = readableDatabase.rawQuery("""
-            SELECT * FROM invoice_items WHERE invoice_id=?
-        """, arrayOf(invoiceId.toString()))
+        SELECT * FROM invoice_items WHERE invoice_id=?
+    """, arrayOf(invoiceId.toString()))
         while (cursor.moveToNext()) {
             list.add(mapOf(
                 "id"          to cursor.getInt(0).toString(),
@@ -1257,7 +1282,6 @@ class DatabaseHelper(context: Context) :
     }
 
     // ==================== INVOICE NUMBER ====================
-
     fun getNextInvoiceNumber(): String {
         val cursor = readableDatabase.rawQuery(
             "SELECT COUNT(*) FROM invoices", null)
@@ -1266,6 +1290,7 @@ class DatabaseHelper(context: Context) :
         cursor.close()
         return "INV%05d".format(count + 1)
     }
+
     fun getNoteById(id: Long): Note? {
         val cursor = readableDatabase.rawQuery(
             "SELECT * FROM construction_notes WHERE id=?",
@@ -1332,55 +1357,38 @@ class DatabaseHelper(context: Context) :
         cursor.close()
         return list
     }
+
     fun getTotalUsers(): Int {
         val cursor = readableDatabase.rawQuery(
-            "SELECT COUNT(*) FROM users",
-            null
-        )
-
+            "SELECT COUNT(*) FROM users", null)
         var count = 0
-        if (cursor.moveToFirst()) {
-            count = cursor.getInt(0)
-        }
-
+        if (cursor.moveToFirst()) count = cursor.getInt(0)
         cursor.close()
         return count
     }
+
     fun getTotalFeedback(): Int {
         val cursor = readableDatabase.rawQuery(
-            "SELECT COUNT(*) FROM feedback",
-            null
-        )
-
+            "SELECT COUNT(*) FROM feedback", null)
         var count = 0
-        if (cursor.moveToFirst()) {
-            count = cursor.getInt(0)
-        }
-
+        if (cursor.moveToFirst()) count = cursor.getInt(0)
         cursor.close()
         return count
     }
+
     fun getAverageRating(): Double {
         val cursor = readableDatabase.rawQuery(
-            "SELECT AVG(rating) FROM feedback",
-            null
-        )
-
+            "SELECT AVG(rating) FROM feedback", null)
         var avg = 0.0
-        if (cursor.moveToFirst()) {
-            avg = cursor.getDouble(0)
-        }
-
+        if (cursor.moveToFirst()) avg = cursor.getDouble(0)
         cursor.close()
-
-        // حماية من null (إذا ما كاش بيانات)
         return if (avg.isNaN()) 0.0 else avg
     }
+
     fun getAllFeedback(): List<Map<String, String>> {
         val list = mutableListOf<Map<String, String>>()
         val cursor = readableDatabase.rawQuery(
-            "SELECT email, rating, note FROM feedback ORDER BY id DESC", null
-        )
+            "SELECT email, rating, note FROM feedback ORDER BY id DESC", null)
         while (cursor.moveToNext()) {
             list.add(mapOf(
                 "email"  to (cursor.getString(0) ?: ""),
@@ -1392,56 +1400,40 @@ class DatabaseHelper(context: Context) :
         return list
     }
 
-    //  يمنع حذف Admin + يستقبل email بدل id
     fun deleteUser(email: String, currentEmail: String): Boolean {
-
-        // ❌ منع حذف نفسه
-        if (email == currentEmail) {
-            return false
-        }
-
-        // ❌ منع حذف admin
-        if (isAdmin(email)) {
-            return false
-        }
-
-        return writableDatabase.delete(
-            "users",
-            "email=?",
-            arrayOf(email)
-        ) > 0
+        if (email == currentEmail) return false
+        if (isAdmin(email)) return false
+        return writableDatabase.delete("users", "email=?", arrayOf(email)) > 0
     }
+
     fun updateUser(email: String, newFirstName: String, newLastName: String, newRole: String): Boolean {
         val values = ContentValues().apply {
             put("firstName", newFirstName)
             put("lastName", newLastName)
             put("role", newRole)
         }
-
-        return writableDatabase.update(
-            "users",
-            values,
-            "email=?",
-            arrayOf(email)
-        ) > 0
+        return writableDatabase.update("users", values, "email=?", arrayOf(email)) > 0
     }
+
     fun saveGeoRecord(type: String, inputs: String, results: String) {
+        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: ""
         val db = writableDatabase
         val cv = ContentValues().apply {
+            put("user_id", uid)
             put("type",    type)
             put("inputs",  inputs)
             put("results", results)
         }
         db.insert("geo_records", null, cv)
     }
-
     // استرجاع السجلات حسب النوع
     fun getGeoHistory(type: String): List<String> {
+        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: ""
         val list = mutableListOf<String>()
         val db   = readableDatabase
         val c    = db.rawQuery(
-            "SELECT date, inputs, results FROM geo_records WHERE type=? ORDER BY id DESC",
-            arrayOf(type)
+            "SELECT date, inputs, results FROM geo_records WHERE user_id=? AND type=? ORDER BY id DESC",
+            arrayOf(uid, type)
         )
         while (c.moveToNext()) {
             list.add(
@@ -1456,10 +1448,11 @@ class DatabaseHelper(context: Context) :
 
     // عد السجلات حسب النوع
     fun countGeoByType(type: String): Int {
+        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: ""
         val db = readableDatabase
         val c  = db.rawQuery(
-            "SELECT COUNT(*) FROM geo_records WHERE type=?",
-            arrayOf(type)
+            "SELECT COUNT(*) FROM geo_records WHERE user_id=? AND type=?",
+            arrayOf(uid, type)
         )
         val count = if (c.moveToFirst()) c.getInt(0) else 0
         c.close()
@@ -1488,26 +1481,29 @@ class DatabaseHelper(context: Context) :
     fun clearTileHistory() {
         writableDatabase.execSQL("DELETE FROM tile_history")
     }
+
     fun insertConcreteHistory(
         element: String, grade: String, volume: Double,
         cementBags: Int, sandM3: Double, gravelM3: Double,
         steelKg: Double, mixRatio: String, date: String,
         cementPrice: Double = 0.0,
-        sandPrice:   Double = 0.0,  // ← جديد
-        gravelPrice: Double = 0.0,  // ← جديد
-        steelPrice:  Double = 0.0,  // ← جديد
+        sandPrice:   Double = 0.0,
+        gravelPrice: Double = 0.0,
+        steelPrice:  Double = 0.0,
         totalCost:   Double = 0.0
     ) {
+        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: ""
         val cv = ContentValues().apply {
-            put("date",        date)
-            put("element",     element)
-            put("grade",       grade)
-            put("volume",      volume)
-            put("cement_bags", cementBags)
-            put("sand_m3",     sandM3)
-            put("gravel_m3",   gravelM3)
-            put("steel_kg",    steelKg)
-            put("mix_ratio",   mixRatio)
+            put("user_id",       uid)
+            put("date",          date)
+            put("element",       element)
+            put("grade",         grade)
+            put("volume",        volume)
+            put("cement_bags",   cementBags)
+            put("sand_m3",       sandM3)
+            put("gravel_m3",     gravelM3)
+            put("steel_kg",      steelKg)
+            put("mix_ratio",     mixRatio)
             put("cement_price",  cementPrice)
             put("sand_price",    sandPrice)
             put("gravel_price",  gravelPrice)
@@ -1518,9 +1514,10 @@ class DatabaseHelper(context: Context) :
     }
 
     fun getAllConcreteHistory(): List<Map<String, String>> {
+        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: ""
         val list   = mutableListOf<Map<String, String>>()
         val cursor = readableDatabase.rawQuery(
-            "SELECT * FROM concrete_history ORDER BY id DESC", null)
+            "SELECT * FROM concrete_history WHERE user_id=? ORDER BY id DESC", arrayOf(uid))
         while (cursor.moveToNext()) {
             val map = mutableMapOf<String, String>()
             for (i in 0 until cursor.columnCount)
@@ -1539,8 +1536,6 @@ class DatabaseHelper(context: Context) :
     fun clearConcreteHistory() {
         writableDatabase.execSQL("DELETE FROM concrete_history")
     }
-
-    // جلب متوسط تقييم مهندس معين من جدول feedback
     fun getEngineerRating(email: String): Float? {
         val cursor = readableDatabase.rawQuery(
             "SELECT AVG(rating) FROM feedback WHERE email = ?",
@@ -1555,24 +1550,17 @@ class DatabaseHelper(context: Context) :
         return rating
     }
 
-    // جلب عدد تقييمات مهندس معين من جدول feedback
     fun getReviewCount(email: String): Int? {
         val cursor = readableDatabase.rawQuery(
             "SELECT COUNT(*) FROM feedback WHERE email = ?",
             arrayOf(email)
         )
         var count: Int? = null
-        if (cursor.moveToFirst()) {
-            count = cursor.getInt(0)
-        }
+        if (cursor.moveToFirst()) count = cursor.getInt(0)
         cursor.close()
         return count
     }
-    // ═══════════════════════════════════════════════════════
-// أضف هذه الدوال الأربع قبل آخر } في DatabaseHelper.kt
-// ═══════════════════════════════════════════════════════
 
-    // 1. جلب كل المشاريع من Timeline
     fun getAllProjects(): List<Map<String, String>> {
         val list = mutableListOf<Map<String, String>>()
         try {
@@ -1590,15 +1578,15 @@ class DatabaseHelper(context: Context) :
         return list
     }
 
-    // 2. جلب الفواتير المنتهية الصلاحية
     fun getOverdueInvoices(): List<Map<String, String>> {
+        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: ""
         val list = mutableListOf<Map<String, String>>()
         try {
             val today = java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault())
                 .format(java.util.Date())
             val cursor = readableDatabase.rawQuery(
-                "SELECT invoice_number, due_date FROM invoices WHERE due_date < ? ORDER BY due_date ASC",
-                arrayOf(today)
+                "SELECT invoice_number, due_date FROM invoices WHERE user_id=? AND due_date < ? ORDER BY due_date ASC",
+                arrayOf(uid, today)
             )
             while (cursor.moveToNext()) {
                 list.add(mapOf(
@@ -1611,7 +1599,6 @@ class DatabaseHelper(context: Context) :
         return list
     }
 
-    // 3. عدد التقييمات الجديدة للمهندس
     fun getNewFeedbackCount(email: String): Int {
         var count = 0
         try {
@@ -1625,22 +1612,23 @@ class DatabaseHelper(context: Context) :
         return count
     }
 
-    // 4. عدد الملاحظات المضافة في آخر 7 أيام
     fun getRecentNotesCount(): Int {
         var count = 0
         try {
+            val uid = FirebaseAuth.getInstance().currentUser?.uid ?: ""
             val sevenDaysAgo = System.currentTimeMillis() - (7 * 24 * 60 * 60 * 1000L)
             val sdf = java.text.SimpleDateFormat("dd/MM/yyyy", java.util.Locale.getDefault())
             val dateStr = sdf.format(java.util.Date(sevenDaysAgo))
             val cursor = readableDatabase.rawQuery(
-                "SELECT COUNT(*) FROM construction_notes WHERE date >= ?",
-                arrayOf(dateStr)
+                "SELECT COUNT(*) FROM construction_notes WHERE user_id=? AND date >= ?",
+                arrayOf(uid, dateStr)
             )
             if (cursor.moveToFirst()) count = cursor.getInt(0)
             cursor.close()
         } catch (_: Exception) {}
         return count
     }
+
     fun insertTankHistory(
         type: String,
         volumeM3: Double,
@@ -1648,19 +1636,22 @@ class DatabaseHelper(context: Context) :
         safety: String,
         date: String
     ) {
+        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: ""
         val cv = ContentValues().apply {
-            put("type", type)
-            put("volume_m3", volumeM3)
+            put("user_id",       uid)
+            put("type",          type)
+            put("volume_m3",     volumeM3)
             put("volume_liters", volumeLiters)
-            put("safety", safety)
-            put("date", date)
+            put("safety",        safety)
+            put("date",          date)
         }
         writableDatabase.insert("tank_history", null, cv)
     }
     fun getAllTankHistory(): List<Map<String, String>> {
+        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: ""
         val list = mutableListOf<Map<String, String>>()
         val cursor = readableDatabase.rawQuery(
-            "SELECT * FROM tank_history ORDER BY id DESC", null
+            "SELECT * FROM tank_history WHERE user_id=? ORDER BY id DESC", arrayOf(uid)
         )
         while (cursor.moveToNext()) {
             val map = mutableMapOf<String, String>()
@@ -1675,6 +1666,7 @@ class DatabaseHelper(context: Context) :
     fun clearTankHistory() {
         writableDatabase.execSQL("DELETE FROM tank_history")
     }
+
     fun addUser(
         firstName: String,
         lastName: String,
@@ -1697,11 +1689,11 @@ class DatabaseHelper(context: Context) :
         }
     }
 
-
     fun getAllPlasterHistory(): List<Map<String, String>> {
+        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: ""
         val list = mutableListOf<Map<String, String>>()
         val cursor = readableDatabase.rawQuery(
-            "SELECT * FROM plaster_history ORDER BY id DESC", null
+            "SELECT * FROM plaster_history WHERE user_id=? ORDER BY id DESC", arrayOf(uid)
         )
         while (cursor.moveToNext()) {
             val map = mutableMapOf<String, String>()
@@ -1716,10 +1708,12 @@ class DatabaseHelper(context: Context) :
     fun clearPlasterHistory() {
         writableDatabase.execSQL("DELETE FROM plaster_history")
     }
+
     fun getAllTileHistory(): List<Map<String, String>> {
+        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: ""
         val list = mutableListOf<Map<String, String>>()
         val cursor = readableDatabase.rawQuery(
-            "SELECT * FROM tile_history ORDER BY id DESC", null
+            "SELECT * FROM tile_history WHERE user_id=? ORDER BY id DESC", arrayOf(uid)
         )
         while (cursor.moveToNext()) {
             val map = mutableMapOf<String, String>()
@@ -1730,6 +1724,7 @@ class DatabaseHelper(context: Context) :
         cursor.close()
         return list
     }
+
     fun insertTileHistory(
         tileType: String, floorArea: Double, tileLcm: Double,
         tileWcm: Double, baseTiles: Int, totalTiles: Int,
@@ -1738,7 +1733,9 @@ class DatabaseHelper(context: Context) :
         laborPrice: Double = 0.0,
         totalCost: Double = 0.0
     ) {
+        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: ""
         val cv = ContentValues().apply {
+            put("user_id",      uid)
             put("tile_type",    tileType)
             put("floor_area",   floorArea)
             put("tile_l_cm",    tileLcm)
@@ -1756,4 +1753,3 @@ class DatabaseHelper(context: Context) :
     }
 
 }
-

@@ -9,6 +9,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.imageview.ShapeableImageView
+import com.google.firebase.auth.FirebaseAuth
 
 class ProfileActivity : AppCompatActivity() {
 
@@ -113,7 +114,12 @@ class ProfileActivity : AppCompatActivity() {
 
         // ================= LOGOUT =================
         logoutBtn.setOnClickListener {
-            getSharedPreferences("app_prefs", MODE_PRIVATE).edit().clear().apply()
+            FirebaseAuth.getInstance().signOut()
+            getSharedPreferences("app_prefs", MODE_PRIVATE)
+                .edit()
+                .remove("isLogged")
+                .remove("logged_email")
+                .apply()
             Intent(this, LoginActivity::class.java).also {
                 it.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 startActivity(it)

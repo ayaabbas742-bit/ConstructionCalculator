@@ -1,101 +1,122 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent" android:layout_height="match_parent" android:background="#FFFFFF">
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="18dp">
-        <!--   HEADER   -->
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
+        <!--  ══════════════════════════════════════  -->
+        <!--  HEADER                                  -->
+        <!--  ══════════════════════════════════════  -->
         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:background="#E2F4F6" android:padding="20dp" android:layout_marginBottom="16dp">
-            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="PAINT" android:textSize="32sp" android:textStyle="bold" android:textColor="#E8C97A" android:letterSpacing="0.15" android:gravity="center"/>
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="🎨 PAINT" android:textSize="32sp" android:textStyle="bold" android:textColor="#E8C97A" android:letterSpacing="0.15" android:gravity="center"/>
             <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="CALCULATOR PRO · 🇩🇿 Algerian Standard" android:textSize="12sp" android:textColor="#000000" android:gravity="center" android:letterSpacing="0.1" android:layout_marginTop="4dp"/>
         </LinearLayout>
-        <!--   IMAGE CARD   -->
-        <com.google.android.material.card.MaterialCardView android:layout_width="220dp" android:layout_height="180dp" android:layout_gravity="center" app:cardCornerRadius="20dp" app:cardElevation="10dp">
-            <ImageView android:id="@+id/imgPaint" android:layout_width="match_parent" android:layout_height="match_parent" android:src="@drawable/paint_acrylic" android:scaleType="centerCrop"/>
-        </com.google.android.material.card.MaterialCardView>
-        <!--   INPUT CARD   -->
-        <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="18dp" app:cardCornerRadius="16dp" app:cardElevation="8dp" app:cardBackgroundColor="#E2F4F6FF">
+        <!--  ══════════════════════════════════════  -->
+        <!--  PAINT TYPE CARD                         -->
+        <!--  ══════════════════════════════════════  -->
+        <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="12dp" app:cardCornerRadius="12dp" app:cardElevation="6dp" app:cardBackgroundColor="#E2F4F6">
             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
-                <!--   MODE MESSAGE   -->
-                <TextView android:id="@+id/tvModeMsg" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Single Mode: One paint" android:textStyle="bold" android:textSize="14sp" android:textColor="#1565C0" android:padding="8dp" android:background="#E3F2FD" android:layout_marginBottom="10dp"/>
-                <!--   PAINT TYPE 1   -->
-                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="🎨 Paint Type 1" android:textStyle="bold" android:textSize="14sp" android:textColor="#334155" android:paddingBottom="4dp"/>
-                <Spinner android:id="@+id/spPaintType" android:layout_width="match_parent" android:layout_height="50dp"/>
-                <!--   MODE RADIO   -->
-                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="🖌 Paint Mode" android:textStyle="bold" android:textSize="14sp" android:textColor="#334155" android:paddingTop="10dp" android:paddingBottom="4dp"/>
-                <RadioGroup android:id="@+id/rgPaintMode" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
-                    <RadioButton android:id="@+id/rbSingle" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Single Paint" android:checked="true" android:textSize="14sp"/>
-                    <RadioButton android:id="@+id/rbDual" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Dual Paint" android:textSize="14sp"/>
-                </RadioGroup>
-                <!--   PAINT TYPE 2 (hidden by default)   -->
-                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="🎨 Paint Type 2" android:textStyle="bold" android:textSize="14sp" android:textColor="#334155" android:paddingTop="8dp" android:paddingBottom="4dp" android:visibility="gone"/>
-                <Spinner android:id="@+id/spPaintType2" android:layout_width="match_parent" android:layout_height="50dp" android:visibility="gone"/>
-                <!--   PERCENTAGES (hidden by default)   -->
-                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:weightSum="2" android:layout_marginTop="6dp">
-                    <EditText android:id="@+id/etPercent1" android:layout_width="0dp" android:layout_weight="1" android:layout_height="50dp" android:hint="Paint 1 %" android:inputType="numberDecimal" android:layout_marginEnd="4dp" android:visibility="gone"/>
-                    <EditText android:id="@+id/etPercent2" android:layout_width="0dp" android:layout_weight="1" android:layout_height="50dp" android:hint="Paint 2 %" android:inputType="numberDecimal" android:layout_marginStart="4dp" android:visibility="gone"/>
+                <!--  Section header  -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginBottom="12dp">
+                    <View android:layout_width="4dp" android:layout_height="24dp" android:background="#E8C97A" android:layout_marginEnd="10dp"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="PAINT TYPE" android:textSize="13sp" android:textStyle="bold" android:textColor="#000000" android:letterSpacing="0.1"/>
                 </LinearLayout>
-                <!--  Price per liter  -->
+                <!--  Paint image  -->
+                <com.google.android.material.card.MaterialCardView android:layout_width="160dp" android:layout_height="130dp" android:layout_gravity="center" android:layout_marginBottom="12dp" app:cardCornerRadius="10dp" app:cardElevation="4dp" app:strokeColor="#E8C97A" app:strokeWidth="2dp">
+                    <ImageView android:id="@+id/imgPaint" android:layout_width="match_parent" android:layout_height="match_parent" android:src="@drawable/paint_acrylic" android:scaleType="centerCrop"/>
+                </com.google.android.material.card.MaterialCardView>
+                <!--  Paint Type 1  -->
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="🎨 Paint Type 1" android:textSize="13sp" android:textStyle="bold" android:textColor="#334155" android:paddingBottom="4dp"/>
+                <Spinner android:id="@+id/spPaintType" android:layout_width="match_parent" android:layout_height="50dp" android:background="@drawable/spinner_bg" android:layout_marginBottom="10dp"/>
+                <!--  Paint Mode  -->
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="🖌 Paint Mode" android:textSize="13sp" android:textStyle="bold" android:textColor="#334155" android:paddingBottom="4dp"/>
+                <RadioGroup android:id="@+id/rgPaintMode" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginBottom="8dp">
+                    <RadioButton android:id="@+id/rbSingle" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Single Paint" android:checked="true" android:textSize="13sp"/>
+                    <RadioButton android:id="@+id/rbDual" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Dual Paint" android:textSize="13sp"/>
+                </RadioGroup>
+                <!--  Mode message  -->
+                <TextView android:id="@+id/tvModeMsg" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Single Mode: One paint" android:textStyle="bold" android:textSize="13sp" android:textColor="#1565C0" android:padding="8dp" android:background="#E3F2FD" android:layout_marginBottom="8dp"/>
+                <!--  Paint Type 2 (hidden by default)  -->
+                <TextView android:id="@+id/tvPaintType2Label" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="🎨 Paint Type 2" android:textSize="13sp" android:textStyle="bold" android:textColor="#334155" android:paddingBottom="4dp" android:visibility="gone"/>
+                <Spinner android:id="@+id/spPaintType2" android:layout_width="match_parent" android:layout_height="50dp" android:background="@drawable/spinner_bg" android:layout_marginBottom="10dp" android:visibility="gone"/>
+                <!--  Percentages (hidden by default)  -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:weightSum="2" android:layout_marginBottom="8dp">
+                    <EditText android:id="@+id/etPercent1" android:layout_width="0dp" android:layout_weight="1" android:layout_height="50dp" android:hint="Paint 1 %" android:inputType="numberDecimal" android:background="@drawable/edittext_bg" android:paddingStart="12dp" android:paddingEnd="12dp" android:layout_marginEnd="6dp" android:visibility="gone"/>
+                    <EditText android:id="@+id/etPercent2" android:layout_width="0dp" android:layout_weight="1" android:layout_height="50dp" android:hint="Paint 2 %" android:inputType="numberDecimal" android:background="@drawable/edittext_bg" android:paddingStart="12dp" android:paddingEnd="12dp" android:layout_marginStart="6dp" android:visibility="gone"/>
+                </LinearLayout>
+                <!--  ══════════════════════════════  -->
+                <!--  COST ESTIMATION                 -->
+                <!--  ══════════════════════════════  -->
                 <TextView android:text="💰 COST ESTIMATION (optional)" android:textStyle="bold" android:textColor="#F57F17" android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingBottom="8dp" android:layout_marginTop="16dp"/>
-                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="💰 Price per liter (DZD)" android:textSize="13sp" android:textStyle="bold" android:textColor="#5C3D2E" android:paddingTop="10dp" android:paddingBottom="4dp"/>
+                <!--  Price per liter Paint 1  -->
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="💰 Price per liter Paint 1 (DZD)" android:textSize="13sp" android:textStyle="bold" android:textColor="#5C3D2E" android:paddingBottom="4dp"/>
                 <EditText android:id="@+id/etPaintPrice" android:layout_width="match_parent" android:layout_height="50dp" android:hint="0.00 DZD" android:inputType="numberDecimal" android:background="@drawable/edittext_bg" android:paddingStart="12dp" android:paddingEnd="12dp"/>
-                <!--  Price per liter paint 2 (for dual mode)  -->
+                <!--  Price per liter Paint 2 (hidden by default)  -->
                 <TextView android:id="@+id/tvPaintPrice2Label" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="💰 Price per liter Paint 2 (DZD)" android:textSize="13sp" android:textStyle="bold" android:textColor="#5C3D2E" android:paddingTop="10dp" android:paddingBottom="4dp" android:visibility="gone"/>
                 <EditText android:id="@+id/etPaintPrice2" android:layout_width="match_parent" android:layout_height="50dp" android:hint="0.00 DZD" android:inputType="numberDecimal" android:background="@drawable/edittext_bg" android:paddingStart="12dp" android:paddingEnd="12dp" android:visibility="gone"/>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
-        <!--   WALL CARD   -->
-        <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="18dp" app:cardCornerRadius="16dp" app:cardElevation="8dp" app:cardBackgroundColor="#E2F4F6FF">
+        <!--  ══════════════════════════════════════  -->
+        <!--  WALL DIMENSIONS CARD                    -->
+        <!--  ══════════════════════════════════════  -->
+        <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="12dp" app:cardCornerRadius="12dp" app:cardElevation="6dp" app:cardBackgroundColor="#E2F4F6">
             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
-                <View android:layout_width="match_parent" android:layout_height="1dp" android:layout_marginVertical="12dp" android:background="#B0BEC5"/>
-                <!--   WALL DIMENSIONS   -->
-                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="🧱 Wall Dimensions" android:textStyle="bold" android:textSize="15sp" android:textColor="#334155" android:paddingBottom="6dp"/>
-                <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="140dp" android:layout_gravity="center" android:layout_marginBottom="12dp" app:cardCornerRadius="10dp" app:cardElevation="4dp">
-                    <ImageView android:id="@+id/wallimage" android:layout_width="match_parent" android:layout_height="match_parent" android:src="@drawable/wall" android:scaleType="centerCrop"/>
-                </com.google.android.material.card.MaterialCardView>
-                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:weightSum="2">
-                    <EditText android:id="@+id/etLength" android:layout_width="0dp" android:layout_weight="1" android:layout_height="50dp" android:hint="Length (m)" android:inputType="numberDecimal" android:layout_marginEnd="4dp"/>
-                    <EditText android:id="@+id/etHeight" android:layout_width="0dp" android:layout_weight="1" android:layout_height="50dp" android:hint="Height (m)" android:inputType="numberDecimal" android:layout_marginStart="4dp"/>
-                </LinearLayout>
-                <View android:layout_width="match_parent" android:layout_height="1dp" android:layout_marginVertical="12dp" android:background="#B0BEC5"/>
-                <!--   DOOR DIMENSIONS   -->
-                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="🚪 Door Dimensions (multiple allowed)" android:textStyle="bold" android:textSize="15sp" android:textColor="#334155" android:paddingBottom="6dp"/>
-                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:weightSum="2">
-                    <EditText android:id="@+id/etDoorL" android:layout_width="0dp" android:layout_weight="1" android:layout_height="50dp" android:hint="Length (m)" android:inputType="numberDecimal" android:layout_marginEnd="4dp"/>
-                    <EditText android:id="@+id/etDoorW" android:layout_width="0dp" android:layout_weight="1" android:layout_height="50dp" android:hint="Width (m)" android:inputType="numberDecimal" android:layout_marginStart="4dp"/>
-                </LinearLayout>
-                <com.google.android.material.button.MaterialButton android:id="@+id/btnAddDoor" android:layout_width="match_parent" android:layout_height="44dp" android:layout_marginTop="6dp" android:text="➕ ADD DOOR" app:backgroundTint="#546E7A"/>
-                <TextView android:id="@+id/tvDoors" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Doors: none" android:textSize="13sp" android:fontFamily="monospace" android:padding="6dp" android:background="#F0F9FF" android:textColor="#1E293B" android:layout_marginTop="4dp"/>
-                <View android:layout_width="match_parent" android:layout_height="1dp" android:layout_marginVertical="12dp" android:background="#B0BEC5"/>
-                <!--   WINDOW DIMENSIONS   -->
-                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="🪟 Window Dimensions (multiple allowed)" android:textStyle="bold" android:textSize="15sp" android:textColor="#334155" android:paddingBottom="6dp"/>
-                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:weightSum="2">
-                    <EditText android:id="@+id/etWindowL" android:layout_width="0dp" android:layout_weight="1" android:layout_height="50dp" android:hint="Length (m)" android:inputType="numberDecimal" android:layout_marginEnd="4dp"/>
-                    <EditText android:id="@+id/etWindowW" android:layout_width="0dp" android:layout_weight="1" android:layout_height="50dp" android:hint="Width (m)" android:inputType="numberDecimal" android:layout_marginStart="4dp"/>
-                </LinearLayout>
-                <com.google.android.material.button.MaterialButton android:id="@+id/btnAddWindow" android:layout_width="match_parent" android:layout_height="44dp" android:layout_marginTop="6dp" android:text="➕ ADD WINDOW" app:backgroundTint="#546E7A"/>
-                <TextView android:id="@+id/tvWindows" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Windows: none" android:textSize="13sp" android:fontFamily="monospace" android:padding="6dp" android:background="#F0F9FF" android:textColor="#1E293B" android:layout_marginTop="4dp"/>
-                <View android:layout_width="match_parent" android:layout_height="1dp" android:layout_marginVertical="12dp" android:background="#B0BEC5"/>
-                <!--   WALL ACTION BUTTONS   -->
-                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:weightSum="2" android:layout_marginBottom="6dp">
-                    <com.google.android.material.button.MaterialButton android:id="@+id/btnAddWall" android:layout_width="0dp" android:layout_weight="1" android:layout_height="50dp" android:layout_marginEnd="4dp" android:text="ADD WALL" app:backgroundTint="#455A64"/>
-                    <com.google.android.material.button.MaterialButton android:id="@+id/btnModifyWall" android:layout_width="0dp" android:layout_weight="1" android:layout_height="50dp" android:layout_marginStart="4dp" android:text="✏️ MODIFY" app:backgroundTint="#1565C0"/>
-                </LinearLayout>
-                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:weightSum="2">
-                    <com.google.android.material.button.MaterialButton android:id="@+id/btnDeleteWall" android:layout_width="0dp" android:layout_weight="1" android:layout_height="50dp" android:layout_marginEnd="4dp" android:text="🗑 DELETE" app:backgroundTint="#C62828"/>
-                    <com.google.android.material.button.MaterialButton android:id="@+id/btnReset" android:layout_width="0dp" android:layout_weight="1" android:layout_height="50dp" android:layout_marginStart="4dp" android:text="🔄 RESET" app:backgroundTint="#263238"/>
-                </LinearLayout>
-                <View android:layout_width="match_parent" android:layout_height="1dp" android:layout_marginVertical="12dp" android:background="#B0BEC5"/>
-                <!--   WALLS LIST   -->
-                <TextView android:id="@+id/tvWalls" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Walls: none" android:textSize="13sp" android:fontFamily="monospace" android:padding="8dp" android:background="#F0F9FF" android:textColor="#1E293B"/>
+            <!--  Section header  -->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginBottom="12dp">
+                <View android:layout_width="4dp" android:layout_height="24dp" android:background="#E8C97A" android:layout_marginEnd="10dp"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="WALL DIMENSIONS" android:textSize="13sp" android:textStyle="bold" android:textColor="#000000" android:letterSpacing="0.1"/>
             </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-        <!--   CALCULATE + HISTORY BUTTONS   -->
-        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:weightSum="3" android:layout_marginTop="14dp">
-            <com.google.android.material.button.MaterialButton android:id="@+id/btnCalc" android:layout_width="0dp" android:layout_weight="1" android:layout_height="55dp" android:layout_marginEnd="5dp" android:text="📊 CALCULATE" app:backgroundTint="#A0B7BA" android:textSize="12sp"/>
-            <com.google.android.material.button.MaterialButton android:id="@+id/btnHistory" android:layout_width="0dp" android:layout_weight="1" android:layout_height="55dp" android:layout_marginStart="5dp" android:text="📜 HISTORY" app:backgroundTint="#52400B"/>
-            <com.google.android.material.button.MaterialButton android:id="@+id/btnShare" android:layout_width="0dp" android:layout_weight="1" android:layout_height="55dp" android:text="📤 SHARE" android:backgroundTint="#1FA7A5" android:textColor="#FFFFFF" android:layout_marginStart="5dp"/>
+            <!--  Wall image  -->
+            <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="140dp" android:layout_gravity="center" android:layout_marginBottom="12dp" app:cardCornerRadius="10dp" app:cardElevation="4dp">
+                <ImageView android:id="@+id/wallimage" android:layout_width="match_parent" android:layout_height="match_parent" android:src="@drawable/wall" android:scaleType="centerCrop"/>
+            </com.google.android.material.card.MaterialCardView>
+            <!--  Length / Height  -->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:weightSum="2">
+                <EditText android:id="@+id/etLength" android:layout_width="0dp" android:layout_weight="1" android:layout_height="50dp" android:hint="Length (m)" android:inputType="numberDecimal" android:background="@drawable/edittext_bg" android:paddingStart="12dp" android:layout_marginEnd="6dp"/>
+                <EditText android:id="@+id/etHeight" android:layout_width="0dp" android:layout_weight="1" android:layout_height="50dp" android:hint="Height (m)" android:inputType="numberDecimal" android:background="@drawable/edittext_bg" android:paddingStart="12dp" android:layout_marginStart="6dp"/>
+            </LinearLayout>
+            <!--  DOOR  -->
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#B0BEC5" android:layout_marginVertical="12dp"/>
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="🚪 Door Dimensions" android:textSize="13sp" android:textStyle="bold" android:textColor="#334155" android:paddingBottom="6dp"/>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:weightSum="2">
+                <EditText android:id="@+id/etDoorL" android:layout_width="0dp" android:layout_weight="1" android:layout_height="50dp" android:hint="Length (m)" android:inputType="numberDecimal" android:background="@drawable/edittext_bg" android:paddingStart="12dp" android:layout_marginEnd="6dp"/>
+                <EditText android:id="@+id/etDoorW" android:layout_width="0dp" android:layout_weight="1" android:layout_height="50dp" android:hint="Width (m)" android:inputType="numberDecimal" android:background="@drawable/edittext_bg" android:paddingStart="12dp" android:layout_marginStart="6dp"/>
+            </LinearLayout>
+            <com.google.android.material.button.MaterialButton android:id="@+id/btnAddDoor" android:layout_width="match_parent" android:layout_height="44dp" android:layout_marginTop="8dp" android:text="➕ ADD DOOR" android:textSize="13sp" app:backgroundTint="#546E7A" app:cornerRadius="8dp"/>
+            <TextView android:id="@+id/tvDoors" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Doors: none" android:textSize="12sp" android:fontFamily="monospace" android:padding="8dp" android:background="#F0F9FF" android:textColor="#1E293B" android:layout_marginTop="6dp"/>
+            <!--  WINDOW  -->
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#B0BEC5" android:layout_marginVertical="12dp"/>
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="🪟 Window Dimensions" android:textSize="13sp" android:textStyle="bold" android:textColor="#334155" android:paddingBottom="6dp"/>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:weightSum="2">
+                <EditText android:id="@+id/etWindowL" android:layout_width="0dp" android:layout_weight="1" android:layout_height="50dp" android:hint="Length (m)" android:inputType="numberDecimal" android:background="@drawable/edittext_bg" android:paddingStart="12dp" android:layout_marginEnd="6dp"/>
+                <EditText android:id="@+id/etWindowW" android:layout_width="0dp" android:layout_weight="1" android:layout_height="50dp" android:hint="Width (m)" android:inputType="numberDecimal" android:background="@drawable/edittext_bg" android:paddingStart="12dp" android:layout_marginStart="6dp"/>
+            </LinearLayout>
+            <com.google.android.material.button.MaterialButton android:id="@+id/btnAddWindow" android:layout_width="match_parent" android:layout_height="44dp" android:layout_marginTop="8dp" android:text="➕ ADD WINDOW" android:textSize="13sp" app:backgroundTint="#546E7A" app:cornerRadius="8dp"/>
+            <TextView android:id="@+id/tvWindows" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Windows: none" android:textSize="12sp" android:fontFamily="monospace" android:padding="8dp" android:background="#F0F9FF" android:textColor="#1E293B" android:layout_marginTop="6dp"/>
+            <!--  WALL ACTION BUTTONS  -->
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#B0BEC5" android:layout_marginVertical="12dp"/>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:weightSum="2" android:layout_marginBottom="8dp">
+                <com.google.android.material.button.MaterialButton android:id="@+id/btnAddWall" android:layout_width="0dp" android:layout_weight="1" android:layout_height="50dp" android:layout_marginEnd="4dp" android:text="ADD WALL" android:textSize="13sp" app:backgroundTint="#455A64" app:cornerRadius="8dp"/>
+                <com.google.android.material.button.MaterialButton android:id="@+id/btnModifyWall" android:layout_width="0dp" android:layout_weight="1" android:layout_height="50dp" android:layout_marginStart="4dp" android:text="✏️ MODIFY" android:textSize="13sp" app:backgroundTint="#1565C0" app:cornerRadius="8dp"/>
+            </LinearLayout>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:weightSum="2">
+                <com.google.android.material.button.MaterialButton android:id="@+id/btnDeleteWall" android:layout_width="0dp" android:layout_weight="1" android:layout_height="50dp" android:layout_marginEnd="4dp" android:text="🗑 DELETE" android:textSize="13sp" app:backgroundTint="#C62828" app:cornerRadius="8dp"/>
+                <com.google.android.material.button.MaterialButton android:id="@+id/btnReset" android:layout_width="0dp" android:layout_weight="1" android:layout_height="50dp" android:layout_marginStart="4dp" android:text="🔄 RESET" android:textSize="13sp" app:backgroundTint="#263238" app:cornerRadius="8dp"/>
+            </LinearLayout>
+            <TextView android:id="@+id/tvWalls" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Walls: none" android:textSize="12sp" android:fontFamily="monospace" android:padding="8dp" android:background="#F0F9FF" android:textColor="#1E293B" android:layout_marginTop="10dp"/>
         </LinearLayout>
-        <!--   RESULTS CARD   -->
-        <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="14dp" app:cardCornerRadius="16dp" app:cardElevation="8dp" app:cardBackgroundColor="#E2F4F6">
+        </com.google.android.material.card.MaterialCardView>
+        <!--  ══════════════════════════════════════  -->
+        <!--  CALCULATE + HISTORY + SHARE             -->
+        <!--  ══════════════════════════════════════  -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:weightSum="3" android:layout_marginBottom="12dp">
+            <com.google.android.material.button.MaterialButton android:id="@+id/btnCalc" android:layout_width="0dp" android:layout_weight="1" android:layout_height="56dp" android:layout_marginEnd="6dp" android:text="📊 CALCULATE" android:textSize="12sp" android:textStyle="bold" app:backgroundTint="#A0B7BA" android:textColor="#000000" app:cornerRadius="10dp"/>
+            <com.google.android.material.button.MaterialButton android:id="@+id/btnHistory" android:layout_width="0dp" android:layout_weight="1" android:layout_height="56dp" android:layout_marginStart="6dp" android:text="📜 HISTORY" android:textSize="14sp" app:backgroundTint="#52400B" app:cornerRadius="10dp"/>
+            <com.google.android.material.button.MaterialButton android:id="@+id/btnShare" android:layout_width="0dp" android:layout_height="56dp" android:layout_weight="1" android:text="📤 SHARE" android:textSize="14sp" android:backgroundTint="#1FA7A5" android:textColor="#FFFFFF" android:layout_marginStart="6dp" app:cornerRadius="10dp"/>
+        </LinearLayout>
+        <!--  ══════════════════════════════════════  -->
+        <!--  RESULTS CARD                            -->
+        <!--  ══════════════════════════════════════  -->
+        <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="16dp" app:cardCornerRadius="12dp" app:cardElevation="6dp" app:cardBackgroundColor="#1FA7A5" app:strokeColor="#E8C97A" app:strokeWidth="1dp">
             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
-                <TextView android:id="@+id/tvResult" android:layout_width="match_parent" android:layout_height="wrap_content" android:textSize="14sp" android:fontFamily="monospace" android:textColor="#1B5E20" android:lineSpacingExtra="4dp"/>
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="RESULTS" android:textSize="11sp" android:textStyle="bold" android:textColor="#E8C97A" android:letterSpacing="0.15" android:layout_marginBottom="10dp"/>
+                <TextView android:id="@+id/tvResult" android:layout_width="match_parent" android:layout_height="wrap_content" android:textSize="13sp" android:fontFamily="monospace" android:textColor="#FFFFFF" android:lineSpacingExtra="4dp"/>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
